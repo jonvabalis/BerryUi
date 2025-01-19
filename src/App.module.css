@@ -3,10 +3,11 @@ body {
   padding: 0;
 }
 
-.App {
+.main {
   display: flex;
 }
 
-main {
-  padding: 10px;
+.content {
+  padding: 20px;
+  flex: 1;
 }

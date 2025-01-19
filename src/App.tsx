@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import "./App.css";
+import styles from "./App.module.css";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Explore from "./pages/explore.tsx";
 import Home from "./pages/home.tsx";
@@ -8,12 +8,9 @@ import Statistics from "./pages/statistics.tsx";
 
 function App() {
   return (
-    <div id="main" style={{ display: "flex" }}>
-      {/* Sidebar */}
+    <div className={styles.main}>
       <Sidebar />
-
-      {/* Main content area */}
-      <div style={{ flex: 1, padding: "20px" }}>
+      <div className={styles.content}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Explore />} />

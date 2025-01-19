@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { SIDEBAR_DATA } from "./SidebarData";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
