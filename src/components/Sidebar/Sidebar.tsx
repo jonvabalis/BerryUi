@@ -5,11 +5,7 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import styles from "./Sidebar.module.css";
 import { NavLink } from "react-router-dom";
 
-interface SidebarProps {
-  children: React.ReactNode;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+function Sidebar() {
   const [open, setOpen] = useState(true);
 
   const toggleOpen = () => {
@@ -17,7 +13,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   };
 
   return (
-    <div className={open ? styles.sidenav : styles.sidenavClosed}>
+    <div className={open ? styles.sidebar : styles.sidebarClosed}>
       <button className={styles.menuBtn} onClick={toggleOpen}>
         {open ? (
           <KeyboardDoubleArrowLeftIcon />
@@ -25,7 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           <KeyboardDoubleArrowRightIcon />
         )}
       </button>
-      aa
+
       {SIDEBAR_DATA.map((item) => (
         <NavLink key={item.id} className={styles.sideitem} to={item.link}>
           {item.icon}
@@ -34,7 +30,6 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           </span>
         </NavLink>
       ))}
-      <div className={styles.content}>{children}</div>
     </div>
   );
 };
