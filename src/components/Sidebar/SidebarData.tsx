@@ -1,7 +1,8 @@
 import HomeIcon from "@mui/icons-material/Home";
-import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import SettingsIcon from "@mui/icons-material/Settings";
+import HistoryIcon from "@mui/icons-material/History";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 interface SidebarItem {
   id: number;
@@ -19,18 +20,24 @@ export const SIDEBAR_DATA: SidebarItem[] = [
   },
   {
     id: 1,
-    icon: <TravelExploreIcon />,
-    text: "Explore",
-    link: "explore",
-  },
-  {
-    id: 2,
     icon: <BarChartIcon />,
     text: "Statistics",
     link: "statistics",
   },
   {
+    id: 2,
+    icon: <HistoryIcon />,
+    text: "Historical Data",
+    link: "historicalData",
+  },
+  {
     id: 3,
+    icon: <AccountCircleIcon />,
+    text: "Account",
+    link: "account",
+  },
+  {
+    id: 4,
     icon: <SettingsIcon />,
     text: "Settings",
     link: "settings",
