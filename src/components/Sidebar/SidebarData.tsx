@@ -28,13 +28,13 @@ export const SIDEBAR_DATA: SidebarItem[] = [
     id: 2,
     icon: <HistoryIcon />,
     text: "Historical Data",
-    link: "historicalData",
+    link: "historyData",
   },
   {
     id: 3,
     icon: <AccountCircleIcon />,
-    text: "Account",
-    link: "account",
+    text: "User",
+    link: "user",
   },
   {
     id: 4,
