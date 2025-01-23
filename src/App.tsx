@@ -1,5 +1,5 @@
-import { Box, Typography } from "@mui/material";
-import Sidebar from "./components/SidebarNew/Sidebar.tsx";
+import { Box } from "@mui/material";
+import Sidebar from "./components/Sidebar/Sidebar.tsx";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/home.tsx";
 import Statistics from "./pages/statistics.tsx";

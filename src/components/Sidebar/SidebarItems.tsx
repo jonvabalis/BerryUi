@@ -1,41 +1,53 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import {
-  ItemsList,
-  ItemContainer,
-  ItemWrapper,
-  ItemName,
-} from "./SidebarStyles";
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  SxProps,
+  Theme,
+} from "@mui/material";
+import { SidebarItem } from "./SidebarData";
+import { NavLink } from "react-router-dom";
 
-import { SIDEBAR_DATA } from "./SidebarData";
-
-interface SidebarItemsProps {
-  displaySidebar: boolean;
-}
-
-const SidebarItems = ({ displaySidebar }: SidebarItemsProps) => {
-  const [activeItem, setActiveItem] = useState(0);
-
+export default function SidebarItems(
+  SIDEBAR_DATA: SidebarItem[],
+  open: boolean,
+  sx: SxProps<Theme>
+) {
   return (
-    <ItemsList>
-      {SIDEBAR_DATA.map((itemData, index) => (
-        <ItemContainer
-          key={index}
-          onClick={() => setActiveItem(itemData.id)}
-          className={itemData.id === activeItem ? "active" : ""}
-        >
-          <Link to={itemData.link}>
-            <ItemWrapper>
-              {itemData.icon}
-              <ItemName displaySidebar={displaySidebar}>
-                {itemData.text}
-              </ItemName>
-            </ItemWrapper>
-          </Link>
-        </ItemContainer>
+    <List sx={sx}>
+      <Divider />
+      {SIDEBAR_DATA.map((item) => (
+        <NavLink key={item.id} to={item.link}>
+          <ListItem key={item.id} disablePadding sx={{ display: "block" }}>
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                px: 2.5,
+                justifyContent: open ? "initial" : "center",
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  mr: open ? 3 : "auto",
+                }}
+              >
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={item.text}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </ListItem>
+        </NavLink>
       ))}
-    </ItemsList>
+      <Divider />
+    </List>
   );
-};
-
-export default SidebarItems;
+}

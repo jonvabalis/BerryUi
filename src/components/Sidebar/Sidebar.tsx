@@ -1,37 +1,42 @@
-import { useState } from "react";
-import { SIDEBAR_DATA } from "./SidebarData";
+import CssBaseline from "@mui/material/CssBaseline";
+import IconButton from "@mui/material/IconButton";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import styles from "./Sidebar.module.css";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { Drawer, DrawerHeader } from "./SidebarHelpers";
+import SidebarItems from "./SidebarItems";
+import { LOWER_SIDEBAR_DATA, UPPER_SIDEBAR_DATA } from "./SidebarData";
 
-function Sidebar() {
-  const [open, setOpen] = useState(true);
+export default function Sidebar() {
+  const [open, setOpen] = useState(false);
 
-  const toggleOpen = () => {
+  const handleDrawer = () => {
     setOpen(!open);
   };
 
   return (
-    <div className={open ? styles.sidebar : styles.sidebarClosed}>
-      <button className={styles.menuBtn} onClick={toggleOpen}>
-        {open ? (
-          <KeyboardDoubleArrowLeftIcon />
-        ) : (
-          <KeyboardDoubleArrowRightIcon />
-        )}
-      </button>
-
-      {SIDEBAR_DATA.map((item) => (
-        <NavLink key={item.id} className={styles.sideitem} to={item.link}>
-          {item.icon}
-          <span className={open ? styles.linkText : styles.linkTextClosed}>
-            {item.text}
-          </span>
-        </NavLink>
-      ))}
-    </div>
+    <>
+      <CssBaseline />
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
+          <IconButton
+            onClick={handleDrawer}
+            sx={{
+              minWidth: 0,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {open ? (
+              <KeyboardDoubleArrowLeftIcon />
+            ) : (
+              <KeyboardDoubleArrowRightIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        {SidebarItems(UPPER_SIDEBAR_DATA, open, { marginBottom: "auto" })}
+        {SidebarItems(LOWER_SIDEBAR_DATA, open, { marginTop: "auto" })}
+      </Drawer>
+    </>
   );
 }
-
-export default Sidebar;
