@@ -9,6 +9,7 @@ import {
   Theme,
 } from "@mui/material";
 import { SidebarItem } from "../Sidebar/SidebarData";
+import { NavLink } from "react-router-dom";
 
 export default function SidebarItems(
   SIDEBAR_DATA: SidebarItem[],
@@ -19,27 +20,32 @@ export default function SidebarItems(
     <List sx={sx}>
       <Divider />
       {SIDEBAR_DATA.map((item) => (
-        <ListItem key={item.id} disablePadding sx={{ display: "block" }}>
-          <ListItemButton
-            sx={{
-              minHeight: 48,
-              px: 2.5,
-              justifyContent: open ? "initial" : "center",
-            }}
-          >
-            <ListItemIcon
+        <NavLink key={item.id} to={item.link}>
+          <ListItem key={item.id} disablePadding sx={{ display: "block" }}>
+            <ListItemButton
               sx={{
-                minWidth: 0,
-                justifyContent: "center",
-                alignItems: "center",
-                mr: open ? 3 : "auto",
+                minHeight: 48,
+                px: 2.5,
+                justifyContent: open ? "initial" : "center",
               }}
             >
-              {item.icon}
-            </ListItemIcon>
-            <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
-          </ListItemButton>
-        </ListItem>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  mr: open ? 3 : "auto",
+                }}
+              >
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={item.text}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </ListItem>
+        </NavLink>
       ))}
       <Divider />
     </List>
