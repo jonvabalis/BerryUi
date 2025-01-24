@@ -7,6 +7,8 @@ import HistoryData from "./pages/historyData.tsx";
 import User from "./pages/user.tsx";
 import Settings from "./pages/settings.tsx";
 import About from "./pages/about.tsx";
+import Sale from "./pages/sale.tsx";
+import Collection from "./pages/collection.tsx";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
       <Sidebar />
       <Routes>
         <Route path="/" element={<QuickSummary />} />
+        <Route path="/sale" element={<Sale />} />
+        <Route path="/collection" element={<Collection />} />
         <Route path="/statistics" element={<Statistics />} />
         <Route path="/historyData" element={<HistoryData />} />
         <Route path="/user" element={<User />} />
