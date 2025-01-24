@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { useGetByIdEmployee } from "../api/employees/useGetByIdEmployee";
 import EmployeeData from "../components/Employee/EmployeeData";
 
@@ -7,7 +8,11 @@ export default function user() {
   );
 
   if (!data) {
-    return <div>No employee data is available</div>;
+    return (
+      <Box sx={{ color: "primary.contrastText" }}>
+        No employee data is available
+      </Box>
+    );
   }
 
   return (

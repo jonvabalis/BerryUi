@@ -17,7 +17,12 @@ export default function SidebarItems(
   sx: SxProps<Theme>
 ) {
   return (
-    <List sx={sx}>
+    <List
+      sx={{
+        ...sx,
+        backgroundColor: "secondary.light",
+      }}
+    >
       <Divider />
       {SIDEBAR_DATA.map((item) => (
         <NavLink key={item.id} to={item.link}>
@@ -41,7 +46,7 @@ export default function SidebarItems(
               </ListItemIcon>
               <ListItemText
                 primary={item.text}
-                sx={{ opacity: open ? 1 : 0 }}
+                sx={{ opacity: open ? 1 : 0, color: "secondary.dark" }}
               />
             </ListItemButton>
           </ListItem>

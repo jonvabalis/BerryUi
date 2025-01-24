@@ -18,7 +18,7 @@ export default function Sidebar() {
     <>
       <CssBaseline />
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
+        <DrawerHeader sx={{ backgroundColor: "secondary.light" }}>
           <IconButton
             onClick={handleDrawer}
             sx={{
@@ -34,8 +34,12 @@ export default function Sidebar() {
             )}
           </IconButton>
         </DrawerHeader>
-        {SidebarItems(UPPER_SIDEBAR_DATA, open, { marginBottom: "auto" })}
-        {SidebarItems(LOWER_SIDEBAR_DATA, open, { marginTop: "auto" })}
+        {SidebarItems(UPPER_SIDEBAR_DATA, open, {
+          marginBottom: "auto",
+        })}
+        {SidebarItems(LOWER_SIDEBAR_DATA, open, {
+          marginTop: "auto",
+        })}
       </Drawer>
     </>
   );

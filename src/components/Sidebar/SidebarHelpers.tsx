@@ -43,14 +43,20 @@ export const Drawer = styled(MuiDrawer, {
       props: ({ open }) => open,
       style: {
         ...openedMixin(theme),
-        "& .MuiDrawer-paper": openedMixin(theme),
+        "& .MuiDrawer-paper": {
+          ...openedMixin(theme),
+          backgroundColor: theme.palette.secondary.light,
+        },
       },
     },
     {
       props: ({ open }) => !open,
       style: {
         ...closedMixin(theme),
-        "& .MuiDrawer-paper": closedMixin(theme),
+        "& .MuiDrawer-paper": {
+          ...closedMixin(theme),
+          backgroundColor: theme.palette.secondary.light,
+        },
       },
     },
   ],
