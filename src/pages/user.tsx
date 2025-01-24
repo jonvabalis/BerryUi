@@ -1,8 +1,9 @@
 import { useGetByIdEmployee } from "../api/employees/useGetByIdEmployee";
+import EmployeeData from "../components/Employee/EmployeeData";
 
 export default function user() {
   const { data, isLoading } = useGetByIdEmployee(
-    "D7F36CEF-860F-4533-A3FA-057AB79F7354"
+    "3fa85f64-5717-4562-b3fc-2c963f66afa6"
   );
 
   if (!data) {
@@ -11,25 +12,7 @@ export default function user() {
 
   return (
     <>
-      <h1>Employee</h1>
-
-      {isLoading
-        ? "Data is being fetched"
-        : !isLoading && (
-            <div>
-              <h2>
-                {data.firstName} {data.lastName}
-              </h2>
-              <p>Email: {data.email}</p>
-              <p>Phone: {data.phoneNumber}</p>
-              <p>Birthday: {new Date(data.birthday).toLocaleDateString()}</p>
-              <p>Created At: {new Date(data.createdAt).toLocaleString()}</p>
-              <p>
-                Last Modified At:{" "}
-                {new Date(data.lastModifiedAt).toLocaleString()}
-              </p>
-            </div>
-          )}
+      {isLoading ? "Data is being fetched" : !isLoading && EmployeeData(data)}
     </>
   );
 }

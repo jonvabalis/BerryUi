@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-interface Data {
+export interface EmployeeData {
   firstName: string;
   lastName: string;
   email: string;
@@ -13,10 +13,10 @@ interface Data {
 }
 
 export const useGetByIdEmployee = (employeeId: string) => {
-  return useQuery<Data, Error>({
+  return useQuery<EmployeeData, Error>({
     queryKey: ["getByIdEmployee", employeeId],
     queryFn: async () => {
-      const { data } = await axios.get<Data>(
+      const { data } = await axios.get<EmployeeData>(
         `${import.meta.env.VITE_BASE_URL}/Employee/Get`,
         {
           params: { EmployeeId: employeeId },
