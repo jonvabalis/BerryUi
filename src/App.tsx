@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import Sidebar from "./components/Sidebar/Sidebar.tsx";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/home.tsx";
+import QuickSummary from "./pages/quickSummary.tsx";
 import Statistics from "./pages/statistics.tsx";
 import HistoryData from "./pages/historyData.tsx";
 import User from "./pages/user.tsx";
@@ -26,7 +26,7 @@ function App() {
     >
       <Sidebar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<QuickSummary />} />
         <Route path="/statistics" element={<Statistics />} />
         <Route path="/historyData" element={<HistoryData />} />
         <Route path="/user" element={<User />} />

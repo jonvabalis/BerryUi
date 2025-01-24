@@ -1,4 +1,4 @@
-import HomeIcon from "@mui/icons-material/Home";
+import SummarizeIcon from "@mui/icons-material/Summarize";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import SettingsIcon from "@mui/icons-material/Settings";
 import HistoryIcon from "@mui/icons-material/History";
@@ -15,8 +15,8 @@ export interface SidebarItem {
 export const UPPER_SIDEBAR_DATA: SidebarItem[] = [
   {
     id: 0,
-    icon: <HomeIcon />,
-    text: "Home",
+    icon: <SummarizeIcon />,
+    text: "Quick overview",
     link: "/",
   },
   {
