@@ -9,7 +9,6 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { ThemeProvider } from "@mui/material";
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
@@ -19,40 +18,15 @@ const queryClient = new QueryClient({
   }),
 });
 
-import { createTheme } from "@mui/material/styles";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#013e87",
-    },
-    secondary: {
-      main: "#2e74c9",
-    },
-  },
-  typography: {
-    h1: {
-      fontSize: "3rem",
-      fontWeight: 600,
-    },
-    h2: {
-      fontSize: "1.75rem",
-      fontWeight: 600,
-    },
-    h3: {
-      fontSize: "1.5rem",
-      fontWeight: 600,
-    },
-  },
-});
+import { BerryProvider } from "./components/Themes/BerryContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <ThemeProvider theme={theme}>
+        <BerryProvider>
           <App />
-        </ThemeProvider>
+        </BerryProvider>
       </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>
