@@ -1,20 +1,21 @@
+import { Button } from "@mui/material";
 import { useBerryContext } from "../components/Themes/BerryContext";
 import { BERRY_TYPE } from "../components/Themes/BerryData";
 
 export default function settings() {
-  const { berryType, setBerryType } = useBerryContext();
+  const { berryTheme, setBerryTheme } = useBerryContext();
 
   return (
     <div>
-      <p>Selected Berry: {berryType.type}</p>
+      <p>Current berry type: {BERRY_TYPE[berryTheme.id].type}</p>
       {BERRY_TYPE.map((berry) => (
-        <button
+        <Button
           key={berry.id}
-          onClick={() => setBerryType(berry)}
-          style={{ margin: "5px" }}
+          onClick={() => setBerryTheme(berry)}
+          sx={{ margin: "5px", border: "1px solid black", cursor: "pointer" }}
         >
           {berry.type}
-        </button>
+        </Button>
       ))}
     </div>
   );

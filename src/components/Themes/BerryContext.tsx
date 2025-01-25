@@ -1,41 +1,37 @@
 import React, { createContext, useContext, useState } from "react";
-import { BERRY_TYPE, BerryType } from "./BerryData";
+import { BERRY_THEME, BerryTheme, BerryType } from "./BerryData";
 import { toast } from "react-toastify";
 import { ThemeProvider } from "@mui/material/styles";
 
-interface BerryContextType {
-  berryType: BerryType;
-  setBerryType: (type: BerryType) => void;
+interface BerryContextTheme {
+  berryTheme: BerryTheme;
+  setBerryTheme: (type: BerryType) => void;
 }
 
-const BerryContext = createContext<BerryContextType>({
-  berryType: BERRY_TYPE[0],
-  setBerryType: () => {},
+const BerryContext = createContext<BerryContextTheme>({
+  berryTheme: BERRY_THEME[0],
+  setBerryTheme: () => {},
 });
 
 export const BerryProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [berryType, setBerryTypeState] = useState<BerryType>(() => {
+  const [berryTheme, setBerryTypeState] = useState<BerryTheme>(() => {
     const savedBerryType = localStorage.getItem("berryType");
     if (savedBerryType) {
-      return JSON.parse(savedBerryType) as BerryType;
+      return BERRY_THEME[(JSON.parse(savedBerryType) as BerryType).id];
     }
-    return BERRY_TYPE[0];
+    return BERRY_THEME[0];
   });
 
-  const setBerryType = (type: BerryType) => {
+  const setBerryTheme = (type: BerryType) => {
     localStorage.setItem("berryType", JSON.stringify(type));
-    console.log(JSON.stringify(type));
-    console.log(type);
-    setBerryTypeState(type);
+    setBerryTypeState(BERRY_THEME[type.id]);
   };
 
-  //const [berryType, setBerryType] = useState(() => BERRY_TYPE[0]);
-
   return (
-    <BerryContext.Provider value={{ berryType, setBerryType }}>
-      <ThemeProvider theme={berryType.theme}>{children}</ThemeProvider>
+    <BerryContext.Provider value={{ berryTheme, setBerryTheme }}>
+      <ThemeProvider theme={berryTheme.theme}>{children}</ThemeProvider>
     </BerryContext.Provider>
   );
 };
