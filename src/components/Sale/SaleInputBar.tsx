@@ -4,12 +4,13 @@ import { Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { NumberField } from "./NumberField";
 import PageHeader from "../Employee/PageHeader";
+import { BerryKindSelect } from "./BerryKindSelect";
 
 interface SaleInputBarProps {
   data: BerryType;
 }
 
-export default function SaleInputBar({ data: BerryType }: SaleInputBarProps) {
+export default function SaleInputBar({ data }: SaleInputBarProps) {
   const defaultBerryCost = "6";
   const [amount, setAmount] = useState<string>("0");
   const [cost, setCost] = useState<string>(defaultBerryCost);
@@ -80,6 +81,23 @@ export default function SaleInputBar({ data: BerryType }: SaleInputBarProps) {
           adornment="€"
         />
       </Box>
+      <Box
+        display="flex"
+        alignItems="center"
+        gap={2}
+        justifyContent="flex-start"
+        gridColumn="span 6"
+      >
+        <Typography color="primary.contrastText">Select berry kind:</Typography>
+        <BerryKindSelect typeId={data.id} />
+      </Box>
+      <Box
+        display="flex"
+        alignItems="center"
+        gap={2}
+        justifyContent="flex-start"
+        gridColumn="span 6"
+      ></Box>
     </Box>
   );
 }
