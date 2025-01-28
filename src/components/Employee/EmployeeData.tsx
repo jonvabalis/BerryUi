@@ -1,16 +1,15 @@
 import {
   Box,
-  Container,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
-  Typography,
 } from "@mui/material";
 import type { EmployeeData } from "../../api/employees/useGetByIdEmployee";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import PageHeader from "./PageHeader";
 
 export default function EmployeeData(data: EmployeeData) {
   return (
@@ -26,12 +25,7 @@ export default function EmployeeData(data: EmployeeData) {
         alignItems="center"
         justifyContent="flex-start"
       >
-        <Typography
-          variant="h1"
-          sx={{ my: 4, textAlign: "center", color: "primary.contrastText" }}
-        >
-          Employee overview
-        </Typography>
+        <PageHeader text="Employee overview" />
       </Box>
       <Box
         gridColumn="span 4"

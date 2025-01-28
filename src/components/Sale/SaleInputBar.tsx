@@ -1,22 +1,15 @@
 import Box from "@mui/material/Box";
 import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
-import {
-  FormControl,
-  FormHelperText,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  styled,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { ChangeEvent, useEffect, useState } from "react";
+import { Typography } from "@mui/material";
+import { ChangeEvent, useState } from "react";
+import { NumberField } from "./NumberField";
+import PageHeader from "../Employee/PageHeader";
 
 interface SaleInputBarProps {
   data: BerryType;
 }
 
-export default function SaleInputBar({ data }: SaleInputBarProps) {
+export default function SaleInputBar({ data: BerryType }: SaleInputBarProps) {
   const defaultBerryCost = "6";
   const [amount, setAmount] = useState<string>("0");
   const [cost, setCost] = useState<string>(defaultBerryCost);
@@ -57,16 +50,7 @@ export default function SaleInputBar({ data }: SaleInputBarProps) {
         justifyContent="flex-start"
         gridColumn="span 12"
       >
-        <Typography
-          variant="h1"
-          sx={{
-            my: 4,
-            textAlign: "center",
-            color: "primary.contrastText",
-          }}
-        >
-          Sale input
-        </Typography>
+        <PageHeader text="Sale input" />
       </Box>
       <Box
         display="flex"
@@ -75,68 +59,26 @@ export default function SaleInputBar({ data }: SaleInputBarProps) {
         justifyContent="flex-start"
         gridColumn="span 12"
       >
-        {/* First Number Input */}
-        <FormControl
-          sx={{ m: 1, width: "25ch" }}
-          variant="outlined"
-          color="primary"
-        >
-          <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-amount"
-            endAdornment={<InputAdornment position="end">kg</InputAdornment>}
-            label="Amount"
-            type="tel"
-            value={amount}
-            onChange={handleAmountChange}
-          />
-        </FormControl>
-
-        {/* Static Text "x" */}
+        <NumberField
+          number={amount}
+          handleChange={handleAmountChange}
+          label="Amount"
+          adornment="kg"
+        />
         <Typography color="primary.contrastText">x</Typography>
-
-        {/* Second Number Input */}
-        <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-cost">Cost</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-cost"
-            endAdornment={<InputAdornment position="end">€</InputAdornment>}
-            label="Cost"
-            value={cost}
-            type="tel"
-            onChange={handleCostChange}
-          />
-        </FormControl>
-
-        {/* Static Text "=" */}
+        <NumberField
+          number={cost}
+          handleChange={handleCostChange}
+          label="Cost"
+          adornment="€"
+        />
         <Typography color="primary.contrastText">=</Typography>
-
-        {/* Result Field (Read-only) */}
-        <FormControl
-          sx={{
-            m: 1,
-            width: "25ch",
-            "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-              {
-                display: "none",
-              },
-            "& input[type=number]": {
-              MozAppearance: "textfield",
-            },
-          }}
-          variant="outlined"
-          color="primary"
-        >
-          <InputLabel htmlFor="outlined-adornment-sum">Sum</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-sum"
-            endAdornment={<InputAdornment position="end">€</InputAdornment>}
-            label="Sum"
-            type="tel"
-            value={price}
-            onChange={handlePriceChange}
-          />
-        </FormControl>
+        <NumberField
+          number={price}
+          handleChange={handlePriceChange}
+          label="Sum"
+          adornment="€"
+        />
       </Box>
     </Box>
   );
