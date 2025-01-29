@@ -6,19 +6,23 @@ import {
   SelectChangeEvent,
   Box,
 } from "@mui/material";
-import { useState } from "react";
 import { useGetAllByTypeBerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 
 interface BerryKindSelectProps {
   typeId: string;
+  value: string;
+  setState: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export function BerryKindSelect({ typeId }: BerryKindSelectProps) {
+export function BerryKindSelect({
+  typeId,
+  value,
+  setState,
+}: BerryKindSelectProps) {
   const { data, isLoading } = useGetAllByTypeBerryKind(typeId);
-  const [kind, setKind] = useState<string>("Mixed");
 
   const handleChange = (event: SelectChangeEvent) => {
-    setKind(event.target.value);
+    setState(event.target.value);
   };
 
   if (isLoading) {
@@ -39,7 +43,7 @@ export function BerryKindSelect({ typeId }: BerryKindSelectProps) {
       <Select
         labelId="demo-simple-select-standard-label"
         id="demo-simple-select-standard"
-        value={kind}
+        value={value}
         onChange={handleChange}
         label="BerryKind"
       >
