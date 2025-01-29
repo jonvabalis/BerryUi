@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import { NumberField } from "./NumberField";
 
 interface SaleInputBarProps {

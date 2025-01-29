@@ -10,7 +10,10 @@ export interface BerryKind {
   lastModifiedAt: Date;
 }
 
-export const useGetAllByTypeBerryKind = (berryTypeId: string) => {
+export const useGetAllByTypeBerryKind = (
+  berryTypeId: string | undefined,
+  options: { enabled: boolean }
+) => {
   return useQuery<BerryKind[], Error>({
     queryKey: ["getAllBerryKind", berryTypeId],
     queryFn: async () => {
@@ -22,5 +25,6 @@ export const useGetAllByTypeBerryKind = (berryTypeId: string) => {
       );
       return data;
     },
+    enabled: options.enabled,
   });
 };

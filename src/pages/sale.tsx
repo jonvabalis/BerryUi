@@ -1,13 +1,11 @@
 import Box from "@mui/material/Box";
 import { useGetByNameBerryType } from "../api/berryTypes/useGetByNameBerryType";
 import { BerryType } from "../components/Themes/BerryData";
-import SaleInputBar from "../components/Sale/SaleInputBar";
 import PageHeader from "../components/Employee/PageHeader";
 import SaleInputBox from "../components/Sale/SaleInputBox";
+import { useGetAllByTypeBerryKind } from "../api/berryKinds/useGetAllByTypeBerryKind";
 
 export default function sale() {
-  const defaultBerryCost = "6";
-  const employeeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
   const savedBerryType = localStorage.getItem("berryType");
   const berryTypeName = savedBerryType
     ? (JSON.parse(savedBerryType) as BerryType).type
@@ -15,16 +13,18 @@ export default function sale() {
   const { data: berryTypeData, isLoading } =
     useGetByNameBerryType(berryTypeName);
 
+  const { data: berryKindsData } = useGetAllByTypeBerryKind(berryTypeData?.id, {
+    enabled: !!berryTypeData,
+  });
+  const defaultBerryCost = "6";
+  const employeeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
+
   if (isLoading) {
-    return (
-      <Box sx={{ color: "primary.contrastText" }}>Data is being fetched</Box>
-    );
+    return <PageHeader text="Data is being fetched" />;
   }
 
   if (!berryTypeData) {
-    return (
-      <Box sx={{ color: "primary.contrastText" }}>No data is available</Box>
-    );
+    return <PageHeader text="No data is available" />;
   }
 
   return (
@@ -45,6 +45,7 @@ export default function sale() {
       </Box>
       <SaleInputBox
         berryTypeData={berryTypeData}
+        berryKindsData={berryKindsData}
         defaultBerryCost={defaultBerryCost}
         employeeId={employeeId}
       />

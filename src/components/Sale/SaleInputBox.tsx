@@ -1,23 +1,23 @@
 import Box from "@mui/material/Box";
 import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
 import { Typography } from "@mui/material";
-import { ChangeEvent, useState } from "react";
-import { NumberField } from "./NumberField";
-import PageHeader from "../Employee/PageHeader";
+import { useState } from "react";
 import { BerryKindSelect } from "./BerryKindSelect";
 import { SaleTypeSelect } from "./SaleTypeSelect";
-import sale from "../../pages/sale";
 import { CreateSaleButton } from "./SaleCreateButton";
 import SaleInputBar from "./SaleInputBar";
+import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 
 interface SaleInputBoxProps {
   berryTypeData: BerryType;
+  berryKindsData: BerryKind[] | undefined;
   employeeId: string;
   defaultBerryCost: string;
 }
 
 export default function SaleInputBox({
   berryTypeData,
+  berryKindsData,
   defaultBerryCost,
   employeeId,
 }: SaleInputBoxProps) {
@@ -55,7 +55,7 @@ export default function SaleInputBox({
       >
         <Typography color="primary.contrastText">Select berry kind:</Typography>
         <BerryKindSelect
-          typeId={berryTypeData.id}
+          berryKindsData={berryKindsData}
           setState={setKind}
           value={kind}
         />
