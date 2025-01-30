@@ -1,38 +1,43 @@
 import Box from "@mui/material/Box";
 import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
 import { Typography } from "@mui/material";
-import { useState } from "react";
-import { BerryKindSelect } from "./BerryKindSelectField";
-import { SaleTypeSelect } from "./SaleTypeSelectField";
-import { CreateButton } from "./CreateButton";
-import SaleInputBar from "./SaleInputBar";
+import { ChangeEvent, useState } from "react";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 import { useToast } from "../../hooks/useToast";
-import { SALETYPE_DATA } from "./SaleTypeData";
-import { SaleCreate, useCreateSale } from "../../api/sales/useCreateSale";
+import {
+  HarvestCreate,
+  useCreateHarvest,
+} from "../../api/harvests/useCreateHarvest";
+import { NumberField } from "../Sale/NumberField";
+import { EmployeeData } from "../../api/employees/useGetByIdEmployee";
+import { EmployeeSelectField } from "./EmployeeSelectField";
+import { BerryKindSelect } from "../Sale/BerryKindSelectField";
+import { CreateButton } from "../Sale/CreateButton";
 
-interface SaleInputBoxProps {
+interface HarvestInputBoxProps {
   berryTypeData: BerryType;
   berryKindsData: BerryKind[] | undefined;
-  employeeId: string;
-  defaultBerryCost: string;
+  employeesData: EmployeeData[] | undefined;
+  defaultEmployeeId: string;
 }
 
-export default function SaleInputBox({
+export default function HarvestInputBox({
   berryTypeData,
   berryKindsData,
-  defaultBerryCost,
-  employeeId,
-}: SaleInputBoxProps) {
+  employeesData,
+  defaultEmployeeId,
+}: HarvestInputBoxProps) {
   const toast = useToast();
-  const createSaleMutation = useCreateSale();
+  const createSaleMutation = useCreateHarvest();
 
   const [amount, setAmount] = useState<string>("0");
-  const [price, setPrice] = useState<string>(defaultBerryCost);
-  const [totalPrice, setTotalPrice] = useState<string>("0");
-
   const [kind, setKind] = useState<string>("Mixed");
-  const [saleType, setSaleType] = useState<number>(0);
+  const [selectedEmployeeId, setEmployee] = useState<string>(defaultEmployeeId);
+
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setAmount(value);
+  };
 
   return (
     <>
@@ -43,13 +48,11 @@ export default function SaleInputBox({
         justifyContent="flex-start"
         gridColumn="span 12"
       >
-        <SaleInputBar
-          amount={amount}
-          setAmount={setAmount}
-          price={price}
-          setPrice={setPrice}
-          totalPrice={totalPrice}
-          setTotalPrice={setTotalPrice}
+        <NumberField
+          number={amount}
+          handleChange={handleAmountChange}
+          label="Amount"
+          adornment="kg"
         />
       </Box>
       <Box
@@ -73,11 +76,11 @@ export default function SaleInputBox({
         justifyContent="flex-start"
         gridColumn="span 6"
       >
-        <Typography color="primary.contrastText">Select sale type:</Typography>
-        <SaleTypeSelect
-          saleTypeData={SALETYPE_DATA}
-          setState={setSaleType}
-          value={saleType}
+        <Typography color="primary.contrastText">Select employee:</Typography>
+        <EmployeeSelectField
+          employeesData={employeesData}
+          setState={setEmployee}
+          value={selectedEmployeeId}
         />
       </Box>
       <Box
@@ -87,24 +90,20 @@ export default function SaleInputBox({
         justifyContent="flex-start"
         gridColumn="span 12"
       >
-        <CreateButton<SaleCreate>
+        <CreateButton<HarvestCreate>
           data={{
             kilograms: Number(amount),
-            pricePerKilo: Number(price),
-            totalPrice: Number(totalPrice),
-            employeeId: employeeId,
-            saleType: Number(saleType),
-            eventTime: new Date(),
+            employeeId: selectedEmployeeId,
             berryTypeId: berryTypeData.id,
             berryKindId: kind == "Mixed" ? null : kind,
           }}
           onSuccess={() => {
-            toast.success("Sale created successfully!");
+            toast.success("Harvest created successfully!");
           }}
           onError={(error) => {
             toast.error(error.message);
           }}
-          text={"Sale"}
+          text={"Harvest"}
           createMutation={createSaleMutation}
         ></CreateButton>
       </Box>

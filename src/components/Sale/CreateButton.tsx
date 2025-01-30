@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import { UseMutationResult } from "@tanstack/react-query";
 
 interface CreateButtonProps<T> {
-  saleData: T;
+  data: T;
   onSuccess: () => void;
   onError: (error: Error) => void;
   createMutation: UseMutationResult<string, Error, T, unknown>;
@@ -10,14 +10,14 @@ interface CreateButtonProps<T> {
 }
 
 export const CreateButton = <T,>({
-  saleData,
+  data,
   onSuccess,
   onError,
   createMutation,
   text,
 }: CreateButtonProps<T>) => {
   const handleClick = () => {
-    createMutation.mutate(saleData, {
+    createMutation.mutate(data, {
       onSuccess: () => {
         onSuccess();
       },
