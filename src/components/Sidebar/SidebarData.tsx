@@ -6,6 +6,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import InfoIcon from "@mui/icons-material/Info";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
+import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 
 export interface SidebarItem {
   id: number;
@@ -35,18 +36,24 @@ export const UPPER_SIDEBAR_DATA: SidebarItem[] = [
   },
   {
     id: 3,
+    icon: <BusinessCenterIcon />,
+    text: "Costs",
+    link: "costs",
+  },
+  {
+    id: 4,
     icon: <BarChartIcon />,
     text: "Statistics",
     link: "statistics",
   },
   {
-    id: 4,
+    id: 5,
     icon: <HistoryIcon />,
     text: "Historical Data",
     link: "historyData",
   },
   {
-    id: 5,
+    id: 6,
     icon: <AccountCircleIcon />,
     text: "User",
     link: "user",
