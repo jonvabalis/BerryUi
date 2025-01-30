@@ -4,11 +4,12 @@ import { Typography } from "@mui/material";
 import { useState } from "react";
 import { BerryKindSelect } from "./BerryKindSelectField";
 import { SaleTypeSelect } from "./SaleTypeSelectField";
-import { CreateSaleButton } from "./SaleCreateButton";
+import { CreateButton } from "./CreateButton";
 import SaleInputBar from "./SaleInputBar";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 import { useToast } from "../../hooks/useToast";
 import { SALETYPE_DATA } from "./SaleTypeData";
+import { useCreateSale } from "../../api/sales/useCreateSale";
 
 interface SaleInputBoxProps {
   berryTypeData: BerryType;
@@ -24,6 +25,7 @@ export default function SaleInputBox({
   employeeId,
 }: SaleInputBoxProps) {
   const toast = useToast();
+  const createSaleMutation = useCreateSale();
 
   const [amount, setAmount] = useState<string>("0");
   const [price, setPrice] = useState<string>(defaultBerryCost);
@@ -85,7 +87,7 @@ export default function SaleInputBox({
         justifyContent="flex-start"
         gridColumn="span 12"
       >
-        <CreateSaleButton
+        <CreateButton
           saleData={{
             kilograms: Number(amount),
             pricePerKilo: Number(price),
@@ -102,7 +104,9 @@ export default function SaleInputBox({
           onError={(error) => {
             toast.error(error.message);
           }}
-        ></CreateSaleButton>
+          text={"Sale"}
+          createMutation={createSaleMutation}
+        ></CreateButton>
       </Box>
     </>
   );
