@@ -5,24 +5,22 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from "@mui/material";
+import { SaleType } from "./SaleTypeData";
 
-interface SaleTypeSelectProps {
+interface SaleTypeSelectFieldProps {
+  saleTypeData: SaleType[];
   value: number;
   setState: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export function SaleTypeSelect({ value, setState }: SaleTypeSelectProps) {
+export function SaleTypeSelect({
+  saleTypeData,
+  value,
+  setState,
+}: SaleTypeSelectFieldProps) {
   const handleChange = (event: SelectChangeEvent) => {
     setState(Number(event.target.value));
   };
-
-  const saleTypes = [
-    {
-      label: "Local",
-      value: 0,
-    },
-    { label: "Order", value: 1 },
-  ];
 
   return (
     <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
@@ -34,9 +32,9 @@ export function SaleTypeSelect({ value, setState }: SaleTypeSelectProps) {
         onChange={handleChange}
         label="Sale"
       >
-        {saleTypes.map((data) => (
+        {saleTypeData.map((data) => (
           <MenuItem key={data.value} value={data.value}>
-            {data.label}
+            {data.text}
           </MenuItem>
         ))}
       </Select>

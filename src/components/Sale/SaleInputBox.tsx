@@ -2,12 +2,13 @@ import Box from "@mui/material/Box";
 import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
 import { Typography } from "@mui/material";
 import { useState } from "react";
-import { BerryKindSelect } from "./BerryKindSelect";
-import { SaleTypeSelect } from "./SaleTypeSelect";
+import { BerryKindSelect } from "./BerryKindSelectField";
+import { SaleTypeSelect } from "./SaleTypeSelectField";
 import { CreateSaleButton } from "./SaleCreateButton";
 import SaleInputBar from "./SaleInputBar";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 import { useToast } from "../../hooks/useToast";
+import { SALETYPE_DATA } from "./SaleTypeData";
 
 interface SaleInputBoxProps {
   berryTypeData: BerryType;
@@ -71,7 +72,11 @@ export default function SaleInputBox({
         gridColumn="span 6"
       >
         <Typography color="primary.contrastText">Select sale type:</Typography>
-        <SaleTypeSelect setState={setSaleType} value={saleType} />
+        <SaleTypeSelect
+          saleTypeData={SALETYPE_DATA}
+          setState={setSaleType}
+          value={saleType}
+        />
       </Box>
       <Box
         display="flex"

@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 
-interface BerryKindSelectProps {
+interface BerryKindSelectFieldProps {
   berryKindsData: BerryKind[] | undefined;
   value: string;
   setState: React.Dispatch<React.SetStateAction<string>>;
@@ -17,7 +17,7 @@ export function BerryKindSelect({
   berryKindsData,
   value,
   setState,
-}: BerryKindSelectProps) {
+}: BerryKindSelectFieldProps) {
   const handleChange = (event: SelectChangeEvent) => {
     setState(event.target.value);
   };
