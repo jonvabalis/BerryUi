@@ -3,8 +3,8 @@ import { SaleCreate, useCreateSale } from "../../api/sales/useCreateSale";
 
 interface SaleButtonProps {
   saleData: SaleCreate;
-  onSuccess?: () => void;
-  onError?: (error: Error) => void;
+  onSuccess: () => void;
+  onError: (error: Error) => void;
 }
 
 export const CreateSaleButton = ({
@@ -17,12 +17,10 @@ export const CreateSaleButton = ({
   const handleClick = () => {
     createSaleMutation.mutate(saleData, {
       onSuccess: () => {
-        console.log("Sale created successfully");
-        onSuccess?.();
+        onSuccess();
       },
       onError: (error) => {
-        console.error("Error creating sale:", error);
-        onError?.(error);
+        onError(error);
       },
     });
   };

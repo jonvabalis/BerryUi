@@ -7,6 +7,7 @@ import { SaleTypeSelect } from "./SaleTypeSelect";
 import { CreateSaleButton } from "./SaleCreateButton";
 import SaleInputBar from "./SaleInputBar";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
+import { useToast } from "../../hooks/useToast";
 
 interface SaleInputBoxProps {
   berryTypeData: BerryType;
@@ -21,6 +22,8 @@ export default function SaleInputBox({
   defaultBerryCost,
   employeeId,
 }: SaleInputBoxProps) {
+  const toast = useToast();
+
   const [amount, setAmount] = useState<string>("0");
   const [price, setPrice] = useState<string>(defaultBerryCost);
   const [totalPrice, setTotalPrice] = useState<string>("0");
@@ -87,6 +90,12 @@ export default function SaleInputBox({
             eventTime: new Date(),
             berryTypeId: berryTypeData.id,
             berryKindId: kind == "Mixed" ? null : kind,
+          }}
+          onSuccess={() => {
+            toast.success("Sale created successfully!");
+          }}
+          onError={(error) => {
+            toast.error(error.message);
           }}
         ></CreateSaleButton>
       </Box>

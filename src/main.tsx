@@ -19,13 +19,16 @@ const queryClient = new QueryClient({
 });
 
 import { BerryProvider } from "./components/Themes/BerryContext.tsx";
+import { ToastProvider } from "./providers/ToastProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <BerryProvider>
-          <App />
+          <ToastProvider>
+            <App />
+          </ToastProvider>
         </BerryProvider>
       </BrowserRouter>
     </QueryClientProvider>
