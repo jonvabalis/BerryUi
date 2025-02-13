@@ -39,7 +39,7 @@ export default function statistics() {
       >
         <PageHeader text="Statistics" />
       </Box>
-      <StatisticsBox />
+      <StatisticsBox berryTypeData={berryTypeData} />
     </Box>
   );
 }

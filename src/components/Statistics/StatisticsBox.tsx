@@ -13,21 +13,26 @@ import { CostStatisticsDto } from "../../apiInterfaces/statistics/CostStatistics
 import { CollectionStatisticsDto } from "../../apiInterfaces/statistics/CollectionStatisticsDto";
 import StatisticsTable from "./StatisticsTable";
 import { useGetCostsStatisticsFiltered } from "../../api/statistics/useGetCostsStatisticsFiltered";
+import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
 
-interface StatisticsBoxProps {}
+interface StatisticsBoxProps {
+  berryTypeData: BerryType;
+}
 
-export default function StatisticsBox({}: StatisticsBoxProps) {
+export default function StatisticsBox({
+  berryTypeData: berryTypeData,
+}: StatisticsBoxProps) {
   const toast = useToast();
 
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
 
   const useGetCollectionStatisticsAllTimeQuery =
-    useGetCollectionStatisticsAllTime("67cc8b9d-0376-4726-b69d-01eb869bba2c");
+    useGetCollectionStatisticsAllTime(berryTypeData.id);
   const useGetCostsStatisticsAllTimeQuery = useGetCostsStatisticsAllTime();
   const useGetCollectionStatisticsFilteredQuery =
     useGetCollectionStatisticsFiltered(
-      "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+      berryTypeData.id,
       year == 0 ? undefined : year,
       month == 0 ? undefined : month
     );
