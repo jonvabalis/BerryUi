@@ -4,6 +4,7 @@ import { BerryType } from "../components/Themes/BerryData";
 import PageHeader from "../components/Employee/PageHeader";
 import SaleInputBox from "../components/Sale/SaleInputBox";
 import { useGetAllByTypeBerryKind } from "../api/berryKinds/useGetAllByTypeBerryKind";
+import { GridContainer } from "../components/Reusable/GridContainer";
 
 export default function sale() {
   const savedBerryType = localStorage.getItem("berryType");
@@ -34,15 +35,9 @@ export default function sale() {
       gridAutoRows="100px"
       gap={2}
     >
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        justifyContent="flex-start"
-        gridColumn="span 12"
-      >
+      <GridContainer span={12}>
         <PageHeader text="Sale input" />
-      </Box>
+      </GridContainer>
       <SaleInputBox
         berryTypeData={berryTypeData}
         berryKindsData={berryKindsData}

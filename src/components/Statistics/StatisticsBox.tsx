@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import { Radio, RadioGroup, Typography } from "@mui/material";
 import { useState } from "react";
 import { useToast } from "../../hooks/useToast";
@@ -14,6 +13,7 @@ import { CollectionStatisticsDto } from "../../apiInterfaces/statistics/Collecti
 import StatisticsTable from "./StatisticsTable";
 import { useGetCostsStatisticsFiltered } from "../../api/statistics/useGetCostsStatisticsFiltered";
 import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
+import { GridContainer } from "../Reusable/GridContainer";
 
 interface StatisticsBoxProps {
   berryTypeData: BerryType;
@@ -67,13 +67,7 @@ export default function StatisticsBox({
 
   return (
     <>
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        justifyContent="flex-start"
-        gridColumn="span 3"
-      >
+      <GridContainer span={3}>
         <RadioGroup
           value={radioValue}
           onChange={handleRadioChange}
@@ -91,14 +85,8 @@ export default function StatisticsBox({
             control={<Radio />}
           />
         </RadioGroup>
-      </Box>
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        justifyContent="flex-start"
-        gridColumn="span 3"
-      >
+      </GridContainer>
+      <GridContainer span={3}>
         <Typography color="primary.contrastText">Select year:</Typography>
         <StatisticsSelectField
           data={YEAR_SELECT_DATA}
@@ -107,14 +95,8 @@ export default function StatisticsBox({
           label={"Year"}
           radioValue={radioValue}
         />
-      </Box>
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        justifyContent="flex-start"
-        gridColumn="span 3"
-      >
+      </GridContainer>
+      <GridContainer span={3}>
         <Typography color="primary.contrastText">Select month:</Typography>
         <StatisticsSelectField
           data={MONTH_SELECT_DATA}
@@ -123,14 +105,8 @@ export default function StatisticsBox({
           label={"Month"}
           radioValue={radioValue}
         />
-      </Box>
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        justifyContent="flex-start"
-        gridColumn="span 3"
-      >
+      </GridContainer>
+      <GridContainer span={3}>
         <GetButton
           firstQuery={
             radioValue == "alltime"
@@ -151,14 +127,8 @@ export default function StatisticsBox({
             toast.error(error.message);
           }}
         />
-      </Box>
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        justifyContent="flex-start"
-        gridColumn="span 6"
-      >
+      </GridContainer>
+      <GridContainer span={6}>
         <StatisticsTable
           data={collectionTableData}
           header={[
@@ -168,17 +138,10 @@ export default function StatisticsBox({
             "Sold for",
           ]}
         />
-      </Box>
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        justifyContent="flex-start"
-        flexDirection="row"
-        gridColumn="span 6"
-      >
+      </GridContainer>
+      <GridContainer span={6}>
         <StatisticsTable data={costTableData} header={[headerType, "Costs"]} />
-      </Box>
+      </GridContainer>
     </>
   );
 }

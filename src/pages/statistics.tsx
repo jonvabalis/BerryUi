@@ -5,6 +5,7 @@ import {
   useGetByNameBerryType,
 } from "../api/berryTypes/useGetByNameBerryType";
 import StatisticsBox from "../components/Statistics/StatisticsBox";
+import { GridContainer } from "../components/Reusable/GridContainer";
 
 export default function statistics() {
   const savedBerryType = localStorage.getItem("berryType");
@@ -30,15 +31,9 @@ export default function statistics() {
       gap={2}
       width="100vw"
     >
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        justifyContent="flex-start"
-        gridColumn="span 12"
-      >
+      <GridContainer span={12}>
         <PageHeader text="Statistics" />
-      </Box>
+      </GridContainer>
       <StatisticsBox berryTypeData={berryTypeData} />
     </Box>
   );

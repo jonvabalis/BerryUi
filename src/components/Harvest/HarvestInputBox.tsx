@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
 import { Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
@@ -13,6 +12,7 @@ import { EmployeeData } from "../../api/employees/useGetByIdEmployee";
 import { EmployeeSelectField } from "./EmployeeSelectField";
 import { BerryKindSelect } from "../Sale/BerryKindSelectField";
 import { CreateButton } from "../Sale/CreateButton";
+import { GridContainer } from "../Reusable/GridContainer";
 
 interface HarvestInputBoxProps {
   berryTypeData: BerryType;
@@ -41,55 +41,31 @@ export default function HarvestInputBox({
 
   return (
     <>
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        justifyContent="flex-start"
-        gridColumn="span 12"
-      >
+      <GridContainer span={12}>
         <NumberField
           number={amount}
           handleChange={handleAmountChange}
           label="Amount"
           adornment="kg"
         />
-      </Box>
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        justifyContent="flex-start"
-        gridColumn="span 6"
-      >
+      </GridContainer>
+      <GridContainer span={6}>
         <Typography color="primary.contrastText">Select berry kind:</Typography>
         <BerryKindSelect
           berryKindsData={berryKindsData}
           setState={setKind}
           value={kind}
         />
-      </Box>
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        justifyContent="flex-start"
-        gridColumn="span 6"
-      >
+      </GridContainer>
+      <GridContainer span={6}>
         <Typography color="primary.contrastText">Select employee:</Typography>
         <EmployeeSelectField
           employeesData={employeesData}
           setState={setEmployee}
           value={selectedEmployeeId}
         />
-      </Box>
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        justifyContent="flex-start"
-        gridColumn="span 12"
-      >
+      </GridContainer>
+      <GridContainer span={12}>
         <CreateButton<HarvestCreate>
           data={{
             kilograms: Number(amount),
@@ -106,7 +82,7 @@ export default function HarvestInputBox({
           text={"Harvest"}
           createMutation={createSaleMutation}
         ></CreateButton>
-      </Box>
+      </GridContainer>
     </>
   );
 }

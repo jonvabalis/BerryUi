@@ -10,6 +10,7 @@ import {
 import type { EmployeeData } from "../../api/employees/useGetByIdEmployee";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PageHeader from "./PageHeader";
+import { GridContainer } from "../Reusable/GridContainer";
 
 export default function EmployeeData(data: EmployeeData) {
   return (
@@ -19,14 +20,9 @@ export default function EmployeeData(data: EmployeeData) {
       gridAutoRows="100px"
       gap="10px"
     >
-      <Box
-        gridColumn="span 12"
-        display="flex"
-        alignItems="center"
-        justifyContent="flex-start"
-      >
+      <GridContainer span={12}>
         <PageHeader text="Employee overview" />
-      </Box>
+      </GridContainer>
       <Box
         gridColumn="span 4"
         gridRow="span 2"

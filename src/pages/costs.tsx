@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import PageHeader from "../components/Employee/PageHeader";
 import CostInputBox from "../components/Cost/CostInputBox";
+import { GridContainer } from "../components/Reusable/GridContainer";
 
 export default function costs() {
   return (
@@ -10,15 +11,9 @@ export default function costs() {
       gridAutoRows="100px"
       gap={2}
     >
-      <Box
-        display="flex"
-        alignItems="center"
-        gap={2}
-        justifyContent="flex-start"
-        gridColumn="span 12"
-      >
+      <GridContainer span={12}>
         <PageHeader text="Costs input" />
-      </Box>
+      </GridContainer>
       <CostInputBox />
     </Box>
   );
