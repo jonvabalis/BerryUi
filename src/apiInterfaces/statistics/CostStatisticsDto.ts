@@ -1,4 +1,4 @@
 export interface CostStatisticsDto {
-  data: Record<string, number>;
+  data: Record<string, { costs: number }>;
   sum: number;
 }

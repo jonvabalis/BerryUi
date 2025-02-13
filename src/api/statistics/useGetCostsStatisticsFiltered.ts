@@ -9,6 +9,11 @@ export const useGetCostsStatisticsFiltered = (
   return useQuery<CostStatisticsDto, Error>({
     queryKey: ["getCostsStatisticsFiltered", year, month],
     queryFn: async () => {
+      if (!year && !month) {
+        throw new Error(
+          "At least one of either year or month has to be provided"
+        );
+      }
       const { data } = await axios.get<CostStatisticsDto>(
         `${
           import.meta.env.VITE_BASE_URL
@@ -19,6 +24,6 @@ export const useGetCostsStatisticsFiltered = (
       );
       return data;
     },
-    enabled: !!year || !!month,
+    enabled: false,
   });
 };

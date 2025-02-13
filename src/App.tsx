@@ -25,6 +25,7 @@ function App() {
         flexDirection: "row",
         justifyContent: "flex-start",
         alignItems: "stretch",
+        overflowY: "scroll",
       }}
     >
       <Sidebar />

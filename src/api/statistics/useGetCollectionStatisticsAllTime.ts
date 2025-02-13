@@ -16,5 +16,6 @@ export const useGetCollectionStatisticsAllTime = (berryTypeId: string) => {
       );
       return data;
     },
+    enabled: false,
   });
 };

@@ -11,5 +11,6 @@ export const useGetCostsStatisticsAllTime = () => {
       );
       return data;
     },
+    enabled: false,
   });
 };

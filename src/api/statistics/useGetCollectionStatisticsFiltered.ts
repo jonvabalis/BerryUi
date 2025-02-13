@@ -4,12 +4,17 @@ import { CollectionStatisticsDto } from "../../apiInterfaces/statistics/Collecti
 
 export const useGetCollectionStatisticsFiltered = (
   berryTypeId: string,
-  year?: string,
-  month?: string
+  year?: number,
+  month?: number
 ) => {
   return useQuery<CollectionStatisticsDto, Error>({
     queryKey: ["getCollectionStatisticsFiltered", berryTypeId, year, month],
     queryFn: async () => {
+      if (!year && !month) {
+        throw new Error(
+          "At least one of either year or month has to be provided"
+        );
+      }
       const { data } = await axios.get<CollectionStatisticsDto>(
         `${
           import.meta.env.VITE_BASE_URL
@@ -20,6 +25,6 @@ export const useGetCollectionStatisticsFiltered = (
       );
       return data;
     },
-    enabled: (!!year || !!month) && !!berryTypeId,
+    enabled: false,
   });
 };

@@ -28,6 +28,7 @@ export default function statistics() {
       gridTemplateColumns="repeat(12, 1fr)"
       gridAutoRows="100px"
       gap={2}
+      width="100vw"
     >
       <Box
         display="flex"

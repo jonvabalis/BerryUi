@@ -1,51 +1,63 @@
 import Box from "@mui/material/Box";
 import { Radio, RadioGroup, Typography } from "@mui/material";
-import { ChangeEvent, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useToast } from "../../hooks/useToast";
-import {
-  HarvestCreate,
-  useCreateHarvest,
-} from "../../api/harvests/useCreateHarvest";
-import { NumberField } from "../Sale/NumberField";
-import { BerryKindSelect } from "../Sale/BerryKindSelectField";
-import { CreateButton } from "../Sale/CreateButton";
 import StatisticsControlLabel from "./StatisticsControlLabel";
 import { StatisticsSelectField } from "./StatisticsSelectField";
-import {
-  YearSelect,
-  MonthSelect,
-  YEAR_SELECT_DATA,
-  MONTH_SELECT_DATA,
-} from "./StatisticsData";
-import MuiTableComponent from "./CollectionStatisticsTable";
-import { useGetCollectionStatisticsAllTime } from "../../api/statistics/useGetCollectionStatisticsAllTime";
+import { YEAR_SELECT_DATA, MONTH_SELECT_DATA } from "./StatisticsData";
+import { GetButton } from "./GetButton";
 import { useGetCollectionStatisticsFiltered } from "../../api/statistics/useGetCollectionStatisticsFiltered";
+import { useGetCollectionStatisticsAllTime } from "../../api/statistics/useGetCollectionStatisticsAllTime";
+import { useGetCostsStatisticsAllTime } from "../../api/statistics/useGetCostsStatisticsAllTime";
+import { CostStatisticsDto } from "../../apiInterfaces/statistics/CostStatisticsDto";
+import { CollectionStatisticsDto } from "../../apiInterfaces/statistics/CollectionStatisticsDto";
+import StatisticsTable from "./StatisticsTable";
+import { useGetCostsStatisticsFiltered } from "../../api/statistics/useGetCostsStatisticsFiltered";
 
 interface StatisticsBoxProps {}
 
 export default function StatisticsBox({}: StatisticsBoxProps) {
   const toast = useToast();
 
-  // const { data, isLoading } = useGetCollectionStatisticsAllTime(
-  //   "67cc8b9d-0376-4726-b69d-01eb869bba2c"
-  // );
-  const { data, isLoading } = useGetCollectionStatisticsFiltered(
-    "67cc8b9d-0376-4726-b69d-01eb869bba2c",
-    "2025",
-    "01"
-  );
-
-  // if (!data) {
-  //   return <h1>aaaa</h1>;
-  // }
-
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
 
+  const useGetCollectionStatisticsAllTimeQuery =
+    useGetCollectionStatisticsAllTime("67cc8b9d-0376-4726-b69d-01eb869bba2c");
+  const useGetCostsStatisticsAllTimeQuery = useGetCostsStatisticsAllTime();
+  const useGetCollectionStatisticsFilteredQuery =
+    useGetCollectionStatisticsFiltered(
+      "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+      year == 0 ? undefined : year,
+      month == 0 ? undefined : month
+    );
+  const useGetCostsStatisticsFilteredQuery = useGetCostsStatisticsFiltered(
+    year == 0 ? undefined : year,
+    month == 0 ? undefined : month
+  );
+
+  const [collectionTableData, setCollectionTableData] = useState<
+    CollectionStatisticsDto | undefined
+  >();
+  const [costTableData, setCostTableData] = useState<
+    CostStatisticsDto | undefined
+  >();
+
   const [radioValue, setRadioValue] = useState<string>("alltime");
+  const [headerType, setHeaderType] = useState<string>("");
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRadioValue(event.target.value);
+  };
+
+  const handleHeaderTypeChange = () => {
+    setHeaderType(
+      radioValue == "alltime" || (year == 0 && month != 0)
+        ? "Year"
+        : radioValue != "alltime" && year != 0 && month != 0
+        ? "Day"
+        : "Month"
+    );
   };
 
   return (
@@ -55,7 +67,7 @@ export default function StatisticsBox({}: StatisticsBoxProps) {
         alignItems="center"
         gap={2}
         justifyContent="flex-start"
-        gridColumn="span 4"
+        gridColumn="span 3"
       >
         <RadioGroup
           value={radioValue}
@@ -80,7 +92,7 @@ export default function StatisticsBox({}: StatisticsBoxProps) {
         alignItems="center"
         gap={2}
         justifyContent="flex-start"
-        gridColumn="span 4"
+        gridColumn="span 3"
       >
         <Typography color="primary.contrastText">Select year:</Typography>
         <StatisticsSelectField
@@ -96,7 +108,7 @@ export default function StatisticsBox({}: StatisticsBoxProps) {
         alignItems="center"
         gap={2}
         justifyContent="flex-start"
-        gridColumn="span 4"
+        gridColumn="span 3"
       >
         <Typography color="primary.contrastText">Select month:</Typography>
         <StatisticsSelectField
@@ -112,25 +124,55 @@ export default function StatisticsBox({}: StatisticsBoxProps) {
         alignItems="center"
         gap={2}
         justifyContent="flex-start"
-        gridColumn="span 12"
+        gridColumn="span 3"
       >
-        <MuiTableComponent data={data} />
-        {/* <CreateButton<HarvestCreate>
-          data={{
-            kilograms: Number(amount),
-            employeeId: selectedEmployeeId,
-            berryTypeId: berryTypeData.id,
-            berryKindId: kind == "Mixed" ? null : kind,
-          }}
-          onSuccess={() => {
-            toast.success("Harvest created successfully!");
+        <GetButton
+          firstQuery={
+            radioValue == "alltime"
+              ? useGetCollectionStatisticsAllTimeQuery
+              : useGetCollectionStatisticsFilteredQuery
+          }
+          secondQuery={
+            radioValue == "alltime"
+              ? useGetCostsStatisticsAllTimeQuery
+              : useGetCostsStatisticsFilteredQuery
+          }
+          handleHeaderTypeChange={handleHeaderTypeChange}
+          onSuccess={(data) => {
+            setCollectionTableData(data.firstResultData);
+            setCostTableData(data.secondResultData);
           }}
           onError={(error) => {
             toast.error(error.message);
           }}
-          text={"Harvest"}
-          createMutation={createSaleMutation}
-        ></CreateButton> */}
+        />
+      </Box>
+      <Box
+        display="flex"
+        alignItems="center"
+        gap={2}
+        justifyContent="flex-start"
+        gridColumn="span 6"
+      >
+        <StatisticsTable
+          data={collectionTableData}
+          header={[
+            headerType,
+            "Kilograms harvested",
+            "Kilograms sold",
+            "Sold for",
+          ]}
+        />
+      </Box>
+      <Box
+        display="flex"
+        alignItems="center"
+        gap={2}
+        justifyContent="flex-start"
+        flexDirection="row"
+        gridColumn="span 6"
+      >
+        <StatisticsTable data={costTableData} header={[headerType, "Costs"]} />
       </Box>
     </>
   );
