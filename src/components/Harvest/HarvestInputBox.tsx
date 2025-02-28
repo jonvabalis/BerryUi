@@ -1,5 +1,5 @@
 import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 import { useToast } from "../../hooks/useToast";
@@ -13,6 +13,7 @@ import { EmployeeSelectField } from "./EmployeeSelectField";
 import { BerryKindSelect } from "../Sale/BerryKindSelectField";
 import { CreateButton } from "../Sale/CreateButton";
 import { GridContainer } from "../Reusable/GridContainer";
+import BulkInputDialog from "../Reusable/BulkInputDialog";
 
 interface HarvestInputBoxProps {
   berryTypeData: BerryType;
@@ -37,6 +38,19 @@ export default function HarvestInputBox({
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setAmount(value);
+  };
+
+  const [bulkDialogOpen, setBulkDialogOpen] = useState(false);
+
+  const handleBulkDialogOpen = () => {
+    setBulkDialogOpen(true);
+  };
+
+  const handleBulkDialogClose = (
+    event: {},
+    reason: "backdropClick" | "escapeKeyDown"
+  ) => {
+    setBulkDialogOpen(false);
   };
 
   return (
@@ -65,7 +79,7 @@ export default function HarvestInputBox({
           value={selectedEmployeeId}
         />
       </GridContainer>
-      <GridContainer span={12}>
+      <GridContainer span={6}>
         <CreateButton<HarvestCreate>
           data={{
             kilograms: Number(amount),
@@ -82,6 +96,15 @@ export default function HarvestInputBox({
           text={"Harvest"}
           createMutation={createSaleMutation}
         ></CreateButton>
+      </GridContainer>
+      <GridContainer span={6}>
+        <Button variant="contained" onClick={handleBulkDialogOpen}>
+          Input bulk
+        </Button>
+        <BulkInputDialog
+          open={bulkDialogOpen}
+          onClose={handleBulkDialogClose}
+        />
       </GridContainer>
     </>
   );
