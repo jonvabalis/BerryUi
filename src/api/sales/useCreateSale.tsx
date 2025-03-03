@@ -7,7 +7,6 @@ export interface SaleCreate {
   totalPrice: number;
   employeeId: string;
   saleType: number;
-  eventTime: Date;
   berryTypeId: string;
   berryKindId: string | null;
 }
