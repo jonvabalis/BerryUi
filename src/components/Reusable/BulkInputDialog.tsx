@@ -1,105 +1,203 @@
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  ReactElement,
+  ReactNode,
+} from "react";
 import {
-  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Grid,
+  Box,
+  StandardTextFieldProps,
+  Stack,
+  Divider,
   IconButton,
-  TextField,
+  Typography,
 } from "@mui/material";
-import { ChangeEvent, SetStateAction, useState } from "react";
-import { text } from "stream/consumers";
-import AgricultureIcon from "@mui/icons-material/Agriculture";
-
-interface BulkInputDialogProps {
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
+interface BulkInputDialogProps<T extends Record<string, any>> {
   open: boolean;
-  onClose: (event: {}, reason: "backdropClick" | "escapeKeyDown") => void;
+  onClose: () => void;
+  onSubmit: (values: T[]) => void;
+  title: string;
+  defaultItem: T;
+  children: ReactElement | ReactElement[];
+  addButtonText: string;
+  itemLabel: string;
+}
+interface FormFieldProps extends StandardTextFieldProps {
+  name: string;
 }
 
-export default function BulkInputDialog({
+export default function BulkInputDialog<T extends Record<string, any>>({
   open,
   onClose,
-}: BulkInputDialogProps) {
-  const [values, setValues] = useState<string[]>([]);
-  const [text, setText] = useState("");
+  onSubmit,
+  title,
+  defaultItem,
+  children,
+  addButtonText,
+  itemLabel,
+}: BulkInputDialogProps<T>): JSX.Element {
+  const [items, setItems] = useState<T[]>([{ ...defaultItem }]);
+  const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
+  const [confirmWindowOpen, setConfirmWindowOpen] = useState<boolean>(false);
 
-  const handleClose = () => {
-    onClose;
-    setValues([]);
+  useEffect(() => {
+    if (open) {
+      setItems([{ ...defaultItem }]);
+      setUnsavedChanges(false);
+    }
+  }, [open, defaultItem]);
+
+  const handleChange =
+    (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      const newItems = [...items];
+      newItems[index] = { ...newItems[index], [name]: value };
+      setItems(newItems);
+      setUnsavedChanges(true);
+    };
+
+  const handleAddItem = () => {
+    setItems([...items, { ...defaultItem }]);
+    setUnsavedChanges(true);
   };
 
-  const handleChangeText = (e: {
-    target: { value: SetStateAction<string> };
-  }) => {
-    setText(e.target.value);
+  const handleRemoveItem = (index: number) => {
+    const newItems = [...items];
+    newItems.splice(index, 1);
+    setItems(newItems.length > 0 ? newItems : [{ ...defaultItem }]);
+    setUnsavedChanges(true);
   };
-  const addValue = () => {
-    setValues([...values, ""]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(items);
+    setUnsavedChanges(false);
+    onClose();
   };
-  const handleValueChange = (
-    index: number,
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    values[index] = e.target.value;
-    console.log(values);
-    setValues(values);
+
+  const handleClose = useCallback(() => {
+    if (unsavedChanges) {
+      setConfirmWindowOpen(true);
+    } else {
+      onClose();
+    }
+  }, [unsavedChanges, onClose]);
+
+  const handleDiscardChanges = () => {
+    setConfirmWindowOpen(false);
+    setUnsavedChanges(false);
+    onClose();
   };
-  const deleteValue = (jump: string) => {
-    setValues(values.filter((j) => j !== jump));
+
+  const handleConfirmWindowClose = () => {
+    setConfirmWindowOpen(false);
   };
+
+  const isFormField = (
+    element: React.ReactElement
+  ): element is React.ReactElement<FormFieldProps> => {
+    return element.props !== undefined;
+  };
+
+  const renderItemFields = (itemIndex: number): ReactNode => {
+    return React.Children.map(children, (child) => {
+      if (React.isValidElement(child) && isFormField(child)) {
+        const fieldName = child.props.name;
+        return React.cloneElement(child, {
+          onChange: handleChange(itemIndex),
+          value: items[itemIndex][fieldName] || "",
+          fullWidth: true,
+          margin: "normal",
+          ...child.props,
+        });
+      }
+      return child;
+    });
+  };
+
   return (
     <>
-      <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">New Dialog</DialogTitle>
+      <Dialog
+        open={open}
+        onSubmit={handleSubmit}
+        onClose={handleClose}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle>{title}</DialogTitle>
         <DialogContent>
-          <DialogContentText>Sample Text.</DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            value={text}
-            onChange={handleChangeText}
-            label="Text"
-            fullWidth
-          />
-          {values.map((jump, index) => (
-            <Box key={"jump" + index}>
-              <Grid container spacing={1} alignItems="flex-end">
-                <Grid item xs={10}>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    label="Value"
-                    value={jump || ""}
-                    onChange={(e) => handleValueChange(index, e)}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={2}>
-                  <Box
-                    className="font-icon-wrapper"
-                    onClick={() => deleteValue(jump)}
+          {items.map((_item, index) => (
+            <Box key={index} sx={{ mb: 3 }}>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{ mb: 1 }}
+              >
+                <Typography variant="subtitle1">
+                  {itemLabel} #{index + 1}
+                </Typography>
+
+                {items.length > 1 && (
+                  <IconButton
+                    onClick={() => handleRemoveItem(index)}
+                    color="error"
+                    size="small"
                   >
-                    <IconButton aria-label="delete">
-                      <AgricultureIcon />
-                    </IconButton>
-                  </Box>
-                </Grid>
-              </Grid>
+                    <DeleteIcon />
+                  </IconButton>
+                )}
+              </Stack>
+
+              <Box sx={{ pl: 1 }}>{renderItemFields(index)}</Box>
+
+              {index < items.length - 1 && <Divider sx={{ my: 2 }} />}
             </Box>
           ))}
+
+          <Button
+            startIcon={<AddIcon />}
+            onClick={handleAddItem}
+            variant="outlined"
+            sx={{ mt: 2 }}
+          >
+            {addButtonText}
+          </Button>
         </DialogContent>
-        <Button onClick={addValue} color="primary">
-          Add
-        </Button>
+
         <DialogActions>
-          <Button onClick={handleClose} variant="contained" color="secondary">
+          <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} variant="contained" color="primary">
-            Create
+          <Button type="submit" color="primary" variant="contained">
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={confirmWindowOpen} onClose={handleConfirmWindowClose}>
+        <DialogTitle>Unsaved Changes</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            You have unsaved changes. Are you sure you want to close this bulk
+            input form? All your changes will be lost.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConfirmWindowClose} color="primary">
+            Continue Editing
+          </Button>
+          <Button onClick={handleDiscardChanges} color="error">
+            Discard Changes
           </Button>
         </DialogActions>
       </Dialog>

@@ -1,5 +1,5 @@
 import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
-import { Button, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 import { useToast } from "../../hooks/useToast";
@@ -14,6 +14,8 @@ import { BerryKindSelect } from "../Sale/BerryKindSelectField";
 import { CreateButton } from "../Sale/CreateButton";
 import { GridContainer } from "../Reusable/GridContainer";
 import BulkInputDialog from "../Reusable/BulkInputDialog";
+import HarvestInputLine from "./HarvestInputLine";
+import { BulkHarvestCreate } from "../../api/harvests/useCreateBulkHarvest";
 
 interface HarvestInputBoxProps {
   berryTypeData: BerryType;
@@ -29,7 +31,7 @@ export default function HarvestInputBox({
   defaultEmployeeId,
 }: HarvestInputBoxProps) {
   const toast = useToast();
-  const createSaleMutation = useCreateHarvest();
+  const createHarvestMutation = useCreateHarvest();
 
   const [amount, setAmount] = useState<string>("0");
   const [kind, setKind] = useState<string>("Mixed");
@@ -40,19 +42,23 @@ export default function HarvestInputBox({
     setAmount(value);
   };
 
-  const [bulkDialogOpen, setBulkDialogOpen] = useState(false);
+  const [bulkDialogOpen, setBulkDialogOpen] = useState<boolean>(false);
+  const [bulkHarvest, setBulkHarvest] = useState<BulkHarvestCreate[]>([]);
 
-  const handleBulkDialogOpen = () => {
-    setBulkDialogOpen(true);
+  const handleBulkDialogOpen = () => setBulkDialogOpen(true);
+  const handleBulkDialogClose = () => setBulkDialogOpen(false);
+
+  const handleBulkDialogSubmit = (items: BulkHarvestCreate[]) => {
+    //TODO call mutation
   };
 
-  const handleBulkDialogClose = (
-    event: {},
-    reason: "backdropClick" | "escapeKeyDown"
-  ) => {
-    setBulkDialogOpen(false);
+  const emptyProduct: BulkHarvestCreate = {
+    kilograms: 0,
+    employeeId: "",
+    berryTypeId: "",
+    berryKindId: "",
+    eventTime: new Date(),
   };
-
   return (
     <>
       <GridContainer span={12}>
@@ -94,17 +100,29 @@ export default function HarvestInputBox({
             toast.error(error.message);
           }}
           text={"Harvest"}
-          createMutation={createSaleMutation}
+          createMutation={createHarvestMutation}
         ></CreateButton>
       </GridContainer>
       <GridContainer span={6}>
         <Button variant="contained" onClick={handleBulkDialogOpen}>
           Input bulk
         </Button>
-        <BulkInputDialog
+        <BulkInputDialog<BulkHarvestCreate>
           open={bulkDialogOpen}
           onClose={handleBulkDialogClose}
-        />
+          onSubmit={handleBulkDialogSubmit}
+          title="Bulk harvest input"
+          defaultItem={emptyProduct}
+          addButtonText="Add another harvest"
+          itemLabel="Harvest"
+        >
+          <HarvestInputLine
+            berryKindsData={berryKindsData}
+            employeesData={employeesData}
+            defaultEmployeeId={defaultEmployeeId}
+            currentDate={new Date()}
+          />
+        </BulkInputDialog>
       </GridContainer>
     </>
   );
