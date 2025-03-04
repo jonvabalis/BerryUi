@@ -8,7 +8,7 @@ import { EmployeeSelectField } from "./EmployeeSelectField";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 interface HarvestInputLineProps {
   berryKindsData: BerryKind[] | undefined;
@@ -25,11 +25,15 @@ export default function HarvestInputLine({
   const [amount, setAmount] = useState<string>("0");
   const [kind, setKind] = useState<string>("Mixed");
   const [selectedEmployeeId, setEmployee] = useState<string>(defaultEmployeeId);
-  const [selectedTime, setSelectedTime] = useState(dayjs("00:00", "HH:mm"));
+  const [selectedTime, setSelectedTime] = useState(dayjs().hour(0).minute(0));
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setAmount(value);
+  };
+
+  const handleTimeChange = (newTime: Dayjs | null) => {
+    setSelectedTime(newTime ?? dayjs().hour(0).minute(0));
   };
 
   return (
@@ -61,10 +65,8 @@ export default function HarvestInputLine({
           <TimePicker
             label="Select Time"
             value={selectedTime}
-            onChange={(newValue) =>
-              setSelectedTime(newValue ?? dayjs("00:00", "HH:mm"))
-            }
-            format="HH:mm"
+            onChange={handleTimeChange}
+            ampm={false}
           />
         </LocalizationProvider>
       </GridContainer>

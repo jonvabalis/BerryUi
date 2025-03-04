@@ -46,15 +46,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
   itemLabel,
 }: BulkInputDialogProps<T>): JSX.Element {
   const [items, setItems] = useState<T[]>([{ ...defaultItem }]);
-  const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
   const [confirmWindowOpen, setConfirmWindowOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (open) {
-      setItems([{ ...defaultItem }]);
-      setUnsavedChanges(false);
-    }
-  }, [open, defaultItem]);
 
   const handleChange =
     (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,39 +54,30 @@ export default function BulkInputDialog<T extends Record<string, any>>({
       const newItems = [...items];
       newItems[index] = { ...newItems[index], [name]: value };
       setItems(newItems);
-      setUnsavedChanges(true);
     };
 
   const handleAddItem = () => {
     setItems([...items, { ...defaultItem }]);
-    setUnsavedChanges(true);
   };
 
   const handleRemoveItem = (index: number) => {
     const newItems = [...items];
     newItems.splice(index, 1);
     setItems(newItems.length > 0 ? newItems : [{ ...defaultItem }]);
-    setUnsavedChanges(true);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(items);
-    setUnsavedChanges(false);
     onClose();
   };
 
   const handleClose = useCallback(() => {
-    if (unsavedChanges) {
-      setConfirmWindowOpen(true);
-    } else {
-      onClose();
-    }
-  }, [unsavedChanges, onClose]);
+    setConfirmWindowOpen(true);
+  }, [onClose]);
 
   const handleDiscardChanges = () => {
     setConfirmWindowOpen(false);
-    setUnsavedChanges(false);
     onClose();
   };
 
@@ -150,7 +133,6 @@ export default function BulkInputDialog<T extends Record<string, any>>({
                 {items.length > 1 && (
                   <IconButton
                     onClick={() => handleRemoveItem(index)}
-                    color="error"
                     size="small"
                   >
                     <DeleteIcon />
