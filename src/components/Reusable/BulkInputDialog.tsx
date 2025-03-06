@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  ReactElement,
-  ReactNode,
-} from "react";
+import React, { useState, useCallback, ReactElement, ReactNode } from "react";
 import {
   Button,
   Dialog,
@@ -13,7 +7,6 @@ import {
   DialogContentText,
   DialogTitle,
   Box,
-  StandardTextFieldProps,
   Stack,
   Divider,
   IconButton,
@@ -21,40 +14,40 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import { useToast } from "../../hooks/useToast";
+import { CreateButton } from "../Sale/CreateButton";
+import { UseMutationResult } from "@tanstack/react-query";
 interface BulkInputDialogProps<T extends Record<string, any>> {
   open: boolean;
   onClose: () => void;
-  onSubmit: (values: T[]) => void;
   title: string;
   defaultItem: T;
   children: ReactElement | ReactElement[];
   addButtonText: string;
   itemLabel: string;
-}
-interface FormFieldProps extends StandardTextFieldProps {
-  name: string;
+  createMutation: UseMutationResult<string, Error, T[], unknown>;
 }
 
 export default function BulkInputDialog<T extends Record<string, any>>({
   open,
   onClose,
-  onSubmit,
   title,
   defaultItem,
   children,
   addButtonText,
   itemLabel,
+  createMutation,
 }: BulkInputDialogProps<T>): JSX.Element {
+  const toast = useToast();
   const [items, setItems] = useState<T[]>([{ ...defaultItem }]);
   const [confirmWindowOpen, setConfirmWindowOpen] = useState<boolean>(false);
 
-  const handleChange =
-    (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      const newItems = [...items];
-      newItems[index] = { ...newItems[index], [name]: value };
-      setItems(newItems);
-    };
+  const handleChange = (index: number) => (data: any) => {
+    const newItems = [...items];
+    newItems[index] = data;
+    setItems(newItems);
+    console.log("Data updated:", newItems);
+  };
 
   const handleAddItem = () => {
     setItems([...items, { ...defaultItem }]);
@@ -66,9 +59,8 @@ export default function BulkInputDialog<T extends Record<string, any>>({
     setItems(newItems.length > 0 ? newItems : [{ ...defaultItem }]);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    onSubmit(items);
     onClose();
   };
 
@@ -85,23 +77,17 @@ export default function BulkInputDialog<T extends Record<string, any>>({
     setConfirmWindowOpen(false);
   };
 
-  const isFormField = (
-    element: React.ReactElement
-  ): element is React.ReactElement<FormFieldProps> => {
-    return element.props !== undefined;
-  };
-
   const renderItemFields = (itemIndex: number): ReactNode => {
     return React.Children.map(children, (child) => {
-      if (React.isValidElement(child) && isFormField(child)) {
-        const fieldName = child.props.name;
-        return React.cloneElement(child, {
+      if (React.isValidElement(child)) {
+        const newProps = {
+          ...(child.props as Record<string, any>),
           onChange: handleChange(itemIndex),
-          value: items[itemIndex][fieldName] || "",
+          data: items[itemIndex],
           fullWidth: true,
           margin: "normal",
-          ...child.props,
-        });
+        };
+        return React.cloneElement(child, newProps as any);
       }
       return child;
     });
@@ -109,13 +95,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
 
   return (
     <>
-      <Dialog
-        open={open}
-        onSubmit={handleSubmit}
-        onClose={handleClose}
-        fullWidth
-        maxWidth="md"
-      >
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           {items.map((_item, index) => (
@@ -160,9 +140,18 @@ export default function BulkInputDialog<T extends Record<string, any>>({
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button type="submit" color="primary" variant="contained">
-            Submit
-          </Button>
+          <CreateButton<T[]>
+            data={items}
+            onSuccess={() => {
+              toast.success("Harvest created successfully!");
+            }}
+            onError={(error) => {
+              toast.error(error.message);
+            }}
+            text={"Harvest"}
+            createMutation={createMutation}
+            handleSubmit={handleSubmit}
+          />
         </DialogActions>
       </Dialog>
 

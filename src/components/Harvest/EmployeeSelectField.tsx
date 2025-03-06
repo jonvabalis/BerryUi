@@ -11,15 +11,18 @@ interface EmployeeSelectFieldProps {
   employeesData: EmployeeData[] | undefined;
   value: string;
   setState: React.Dispatch<React.SetStateAction<string>>;
+  onChange?: (e: string) => void;
 }
 
 export function EmployeeSelectField({
   employeesData,
   value,
   setState,
+  onChange,
 }: EmployeeSelectFieldProps) {
   const handleChange = (event: SelectChangeEvent) => {
     setState(event.target.value);
+    onChange?.(event.target.value);
   };
 
   return (

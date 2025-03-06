@@ -15,7 +15,10 @@ import { CreateButton } from "../Sale/CreateButton";
 import { GridContainer } from "../Reusable/GridContainer";
 import BulkInputDialog from "../Reusable/BulkInputDialog";
 import HarvestInputLine from "./HarvestInputLine";
-import { BulkHarvestCreate } from "../../api/harvests/useCreateBulkHarvest";
+import {
+  BulkHarvestCreate,
+  useCreateBulkHarvest,
+} from "../../api/harvests/useCreateBulkHarvest";
 
 interface HarvestInputBoxProps {
   berryTypeData: BerryType;
@@ -32,6 +35,7 @@ export default function HarvestInputBox({
 }: HarvestInputBoxProps) {
   const toast = useToast();
   const createHarvestMutation = useCreateHarvest();
+  const createBulkHarvestMutation = useCreateBulkHarvest();
 
   const [amount, setAmount] = useState<string>("0");
   const [kind, setKind] = useState<string>("Mixed");
@@ -110,11 +114,11 @@ export default function HarvestInputBox({
         <BulkInputDialog<BulkHarvestCreate>
           open={bulkDialogOpen}
           onClose={handleBulkDialogClose}
-          onSubmit={handleBulkDialogSubmit}
           title="Bulk harvest input"
           defaultItem={emptyProduct}
           addButtonText="Add another harvest"
           itemLabel="Harvest"
+          createMutation={createBulkHarvestMutation}
         >
           <HarvestInputLine
             berryKindsData={berryKindsData}

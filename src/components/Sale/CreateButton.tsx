@@ -5,6 +5,7 @@ interface CreateButtonProps<T> {
   data: T;
   onSuccess: () => void;
   onError: (error: Error) => void;
+  handleSubmit?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   createMutation: UseMutationResult<string, Error, T, unknown>;
   text: string;
 }
@@ -13,6 +14,7 @@ export const CreateButton = <T,>({
   data,
   onSuccess,
   onError,
+  handleSubmit,
   createMutation,
   text,
 }: CreateButtonProps<T>) => {
@@ -30,7 +32,10 @@ export const CreateButton = <T,>({
   return (
     <Button
       variant="contained"
-      onClick={handleClick}
+      onClick={(e) => {
+        handleClick();
+        handleSubmit?.(e);
+      }}
       disabled={createMutation.isPending}
     >
       {createMutation.isPending ? `Creating ${text}...` : `Create ${text}`}
