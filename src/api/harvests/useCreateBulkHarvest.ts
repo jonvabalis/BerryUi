@@ -14,7 +14,7 @@ export const useCreateBulkHarvest = () => {
     mutationFn: async (harvests: BulkHarvestCreate[]) => {
       const { data } = await axios.post<string>(
         `${import.meta.env.VITE_BASE_URL}/Harvest/CreateBulk`,
-        harvests
+        { harvests: harvests }
       );
       return data;
     },

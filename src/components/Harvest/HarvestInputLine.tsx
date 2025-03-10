@@ -10,6 +10,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/L
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { BulkHarvestCreate } from "../../api/harvests/useCreateBulkHarvest";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 interface HarvestInputLineProps {
   berryKindsData: BerryKind[] | undefined;
@@ -28,10 +33,13 @@ export default function HarvestInputLine({
   data,
   onChange,
 }: HarvestInputLineProps) {
+  const hour = 2;
   const [amount, setAmount] = useState<string>("0");
   const [kind, setKind] = useState<string>("Mixed");
   const [selectedEmployeeId, setEmployee] = useState<string>(defaultEmployeeId);
-  const [selectedTime, setSelectedTime] = useState(dayjs().hour(0).minute(0));
+  const [selectedTime, setSelectedTime] = useState(
+    dayjs().hour(hour).minute(0)
+  );
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -40,7 +48,7 @@ export default function HarvestInputLine({
     if (onChange) {
       onChange({
         kilograms: Number(value),
-        berryKindId: kind,
+        berryKindId: kind == "Mixed" ? null : kind,
         berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
         employeeId: selectedEmployeeId,
         eventTime: selectedTime.toDate(),
@@ -49,15 +57,15 @@ export default function HarvestInputLine({
   };
 
   const handleTimeChange = (newTime: Dayjs | null) => {
-    setSelectedTime(newTime ?? dayjs().hour(0).minute(0));
+    setSelectedTime(newTime ?? dayjs().hour(hour).minute(0));
 
     if (onChange) {
       onChange({
         kilograms: Number(amount),
-        berryKindId: kind,
+        berryKindId: kind == "Mixed" ? null : kind,
         berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
         employeeId: selectedEmployeeId,
-        eventTime: (newTime ?? dayjs().hour(0).minute(0)).toDate(),
+        eventTime: (newTime ?? dayjs().hour(hour).minute(0)).toDate(),
       });
     }
   };
@@ -65,7 +73,7 @@ export default function HarvestInputLine({
   const handleKindChange = (berryKindId: string) => {
     onChange?.({
       kilograms: Number(amount),
-      berryKindId: berryKindId,
+      berryKindId: berryKindId == "Mixed" ? null : kind,
       berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
       employeeId: selectedEmployeeId,
       eventTime: selectedTime.toDate(),
@@ -75,7 +83,7 @@ export default function HarvestInputLine({
   const handleEmployeeChange = (employeeId: string) => {
     onChange?.({
       kilograms: Number(amount),
-      berryKindId: kind,
+      berryKindId: kind == "Mixed" ? null : kind,
       berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
       employeeId: employeeId,
       eventTime: selectedTime.toDate(),
@@ -115,6 +123,7 @@ export default function HarvestInputLine({
             value={selectedTime}
             onChange={handleTimeChange}
             ampm={false}
+            timezone="Etc/UTC"
           />
         </LocalizationProvider>
       </GridContainer>
