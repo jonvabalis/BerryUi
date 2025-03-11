@@ -70,7 +70,6 @@ export default function SaleInputBox({
             totalPrice: Number(totalPrice),
             employeeId: employeeId,
             saleType: Number(saleType),
-            eventTime: new Date(),
             berryTypeId: berryTypeData.id,
             berryKindId: kind == "Mixed" ? null : kind,
           }}
