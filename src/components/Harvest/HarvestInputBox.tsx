@@ -47,14 +47,9 @@ export default function HarvestInputBox({
   };
 
   const [bulkDialogOpen, setBulkDialogOpen] = useState<boolean>(false);
-  const [bulkHarvest, setBulkHarvest] = useState<BulkHarvestCreate[]>([]);
 
   const handleBulkDialogOpen = () => setBulkDialogOpen(true);
   const handleBulkDialogClose = () => setBulkDialogOpen(false);
-
-  const handleBulkDialogSubmit = (items: BulkHarvestCreate[]) => {
-    //TODO call mutation
-  };
 
   const emptyProduct: BulkHarvestCreate = {
     kilograms: 0,
@@ -119,6 +114,7 @@ export default function HarvestInputBox({
           addButtonText="Add another harvest"
           itemLabel="Harvest"
           createMutation={createBulkHarvestMutation}
+          toastSuccess={"Harvests created successfully!"}
         >
           <HarvestInputLine
             berryKindsData={berryKindsData}

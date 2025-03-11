@@ -26,6 +26,7 @@ interface BulkInputDialogProps<T extends Record<string, any>> {
   addButtonText: string;
   itemLabel: string;
   createMutation: UseMutationResult<string, Error, T[], unknown>;
+  toastSuccess: string;
 }
 
 export default function BulkInputDialog<T extends Record<string, any>>({
@@ -37,6 +38,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
   addButtonText,
   itemLabel,
   createMutation,
+  toastSuccess,
 }: BulkInputDialogProps<T>): JSX.Element {
   const toast = useToast();
   const [items, setItems] = useState<T[]>([{ ...defaultItem }]);
@@ -46,7 +48,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
     const newItems = [...items];
     newItems[index] = data;
     setItems(newItems);
-    console.log("Data updated:", newItems);
+    // console.log("Data updated:", newItems);
   };
 
   const handleAddItem = () => {
@@ -59,39 +61,41 @@ export default function BulkInputDialog<T extends Record<string, any>>({
     setItems(newItems.length > 0 ? newItems : [{ ...defaultItem }]);
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     onClose();
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setConfirmWindowOpen(true);
-  };
+  }, []);
 
-  const handleDiscardChanges = () => {
+  const handleDiscardChanges = useCallback(() => {
     setConfirmWindowOpen(false);
+    setItems([{ ...defaultItem }]);
     onClose();
-  };
+  }, []);
 
-  const handleConfirmWindowClose = () => {
+  const handleConfirmWindowClose = useCallback(() => {
     setConfirmWindowOpen(false);
-  };
+  }, []);
 
-  const renderItemFields = (itemIndex: number): ReactNode => {
-    return React.Children.map(children, (child) => {
-      if (React.isValidElement(child)) {
-        const newProps = {
-          ...(child.props as Record<string, any>),
-          onChange: handleChange(itemIndex),
-          data: items[itemIndex],
-          fullWidth: true,
-          margin: "normal",
-        };
-        return React.cloneElement(child, newProps as any);
-      }
-      return child;
-    });
-  };
+  const renderItemFields = useCallback(
+    (itemIndex: number): ReactNode => {
+      return React.Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+          const newProps = {
+            ...(child.props as Record<string, any>),
+            onChange: handleChange(itemIndex),
+            data: items[itemIndex],
+          };
+          return React.cloneElement(child, newProps as any);
+        }
+        return child;
+      });
+    },
+    [handleAddItem]
+  );
 
   return (
     <>
@@ -143,7 +147,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
           <CreateButton<T[]>
             data={items}
             onSuccess={() => {
-              toast.success("Harvest created successfully!");
+              toast.success(toastSuccess);
             }}
             onError={(error) => {
               toast.error(error.message);
