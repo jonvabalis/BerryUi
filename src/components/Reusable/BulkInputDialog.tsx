@@ -64,9 +64,9 @@ export default function BulkInputDialog<T extends Record<string, any>>({
     onClose();
   };
 
-  const handleClose = useCallback(() => {
+  const handleClose = () => {
     setConfirmWindowOpen(true);
-  }, [onClose]);
+  };
 
   const handleDiscardChanges = () => {
     setConfirmWindowOpen(false);
