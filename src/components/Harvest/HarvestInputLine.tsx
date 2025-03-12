@@ -35,7 +35,7 @@ export default function HarvestInputLine({
 }: HarvestInputLineProps) {
   const hour = 2;
   const [amount, setAmount] = useState<string>("0");
-  const [kind, setKind] = useState<string>("Mixed");
+  const [kind, setKind] = useState<string | null>(null);
   const [selectedEmployeeId, setEmployee] = useState<string>(defaultEmployeeId);
   const [selectedTime, setSelectedTime] = useState(
     dayjs().hour(hour).minute(0)
@@ -43,7 +43,7 @@ export default function HarvestInputLine({
 
   useEffect(() => {
     setAmount(data?.kilograms.toString() || "0");
-    setKind(data?.berryKindId || "");
+    setKind(data?.berryKindId || null);
     setEmployee(data?.employeeId || defaultEmployeeId);
     setSelectedTime(
       data
@@ -61,7 +61,7 @@ export default function HarvestInputLine({
     if (onChange) {
       onChange({
         kilograms: Number(value),
-        berryKindId: kind == "Mixed" ? null : kind,
+        berryKindId: kind,
         berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
         employeeId: selectedEmployeeId,
         eventTime: selectedTime.toDate(),
@@ -75,7 +75,7 @@ export default function HarvestInputLine({
     if (onChange) {
       onChange({
         kilograms: Number(amount),
-        berryKindId: kind == "Mixed" ? null : kind,
+        berryKindId: kind,
         berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
         employeeId: selectedEmployeeId,
         eventTime: (newTime ?? dayjs().hour(hour).minute(0)).toDate(),
@@ -84,11 +84,11 @@ export default function HarvestInputLine({
   };
 
   const handleKindChange = (berryKindId: string) => {
-    setKind(berryKindId);
+    setKind(berryKindId === "null" ? null : berryKindId);
 
     onChange?.({
       kilograms: Number(amount),
-      berryKindId: berryKindId == "Mixed" ? null : kind,
+      berryKindId: berryKindId === "null" ? null : berryKindId,
       berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
       employeeId: selectedEmployeeId,
       eventTime: selectedTime.toDate(),
@@ -98,7 +98,7 @@ export default function HarvestInputLine({
   const handleEmployeeChange = (employeeId: string) => {
     onChange?.({
       kilograms: Number(amount),
-      berryKindId: kind == "Mixed" ? null : kind,
+      berryKindId: kind,
       berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
       employeeId: employeeId,
       eventTime: selectedTime.toDate(),

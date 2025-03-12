@@ -10,8 +10,8 @@ import { ChangeEvent } from "react";
 
 interface BerryKindSelectFieldProps {
   berryKindsData: BerryKind[] | undefined;
-  value: string;
-  setState: React.Dispatch<React.SetStateAction<string>>;
+  value: string | null;
+  setState: React.Dispatch<React.SetStateAction<string | null>>;
   onChange?: (e: string) => void;
 }
 
@@ -32,11 +32,11 @@ export function BerryKindSelect({
       <Select
         labelId="demo-simple-select-standard-label"
         id="demo-simple-select-standard"
-        value={value}
+        value={value === null ? "null" : value}
         onChange={handleChange}
         label="BerryKind"
       >
-        <MenuItem key={0} value={"Mixed"}>
+        <MenuItem key={0} value={"null"}>
           Mixed
         </MenuItem>
         {berryKindsData?.map((berryKind) => (

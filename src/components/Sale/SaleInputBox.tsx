@@ -31,7 +31,7 @@ export default function SaleInputBox({
   const [price, setPrice] = useState<string>(defaultBerryCost);
   const [totalPrice, setTotalPrice] = useState<string>("0");
 
-  const [kind, setKind] = useState<string>("Mixed");
+  const [kind, setKind] = useState<string | null>(null);
   const [saleType, setSaleType] = useState<number>(0);
 
   return (
@@ -71,7 +71,7 @@ export default function SaleInputBox({
             employeeId: employeeId,
             saleType: Number(saleType),
             berryTypeId: berryTypeData.id,
-            berryKindId: kind == "Mixed" ? null : kind,
+            berryKindId: kind,
           }}
           onSuccess={() => {
             toast.success("Sale created successfully!");

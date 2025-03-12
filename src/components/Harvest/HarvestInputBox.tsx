@@ -38,7 +38,7 @@ export default function HarvestInputBox({
   const createBulkHarvestMutation = useCreateBulkHarvest();
 
   const [amount, setAmount] = useState<string>("0");
-  const [kind, setKind] = useState<string>("Mixed");
+  const [kind, setKind] = useState<string | null>(null);
   const [selectedEmployeeId, setEmployee] = useState<string>(defaultEmployeeId);
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -90,7 +90,7 @@ export default function HarvestInputBox({
             kilograms: Number(amount),
             employeeId: selectedEmployeeId,
             berryTypeId: berryTypeData.id,
-            berryKindId: kind == "Mixed" ? null : kind,
+            berryKindId: kind,
           }}
           onSuccess={() => {
             toast.success("Harvest created successfully!");
