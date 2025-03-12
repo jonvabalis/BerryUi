@@ -70,8 +70,8 @@ export default function BulkInputDialog<T extends Record<string, any>>({
   }, []);
 
   const handleDiscardChanges = useCallback(() => {
-    setConfirmWindowOpen(false);
     setItems([{ ...defaultItem }]);
+    setConfirmWindowOpen(false);
     onClose();
   }, []);
 

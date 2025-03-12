@@ -20,7 +20,6 @@ interface HarvestInputLineProps {
   berryKindsData: BerryKind[] | undefined;
   employeesData: EmployeeData[] | undefined;
   defaultEmployeeId: string;
-  currentDate: Date;
   data?: BulkHarvestCreate;
   onChange?: (data: BulkHarvestCreate) => void;
 }
@@ -29,17 +28,13 @@ export default function HarvestInputLine({
   berryKindsData,
   employeesData,
   defaultEmployeeId,
-  currentDate,
   data,
   onChange,
 }: HarvestInputLineProps) {
-  const hour = 2;
   const [amount, setAmount] = useState<string>("0");
   const [kind, setKind] = useState<string | null>(null);
   const [selectedEmployeeId, setEmployee] = useState<string>(defaultEmployeeId);
-  const [selectedTime, setSelectedTime] = useState(
-    dayjs().hour(hour).minute(0)
-  );
+  const [selectedTime, setSelectedTime] = useState(dayjs().hour(0).minute(0));
 
   useEffect(() => {
     setAmount(data?.kilograms.toString() || "0");
@@ -48,9 +43,9 @@ export default function HarvestInputLine({
     setSelectedTime(
       data
         ? dayjs()
-            .hour(data.eventTime.getHours() + hour)
+            .hour(data.eventTime.getHours())
             .minute(data.eventTime.getMinutes())
-        : dayjs().hour(hour).minute(0)
+        : dayjs().hour(0).minute(0)
     );
   }, [data]);
 
@@ -70,7 +65,7 @@ export default function HarvestInputLine({
   };
 
   const handleTimeChange = (newTime: Dayjs | null) => {
-    setSelectedTime(newTime ?? dayjs().hour(hour).minute(0));
+    setSelectedTime(newTime ?? dayjs().hour(0).minute(0));
 
     if (onChange) {
       onChange({
@@ -78,7 +73,7 @@ export default function HarvestInputLine({
         berryKindId: kind,
         berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
         employeeId: selectedEmployeeId,
-        eventTime: (newTime ?? dayjs().hour(hour).minute(0)).toDate(),
+        eventTime: (newTime ?? dayjs().hour(0).minute(0)).toDate(),
       });
     }
   };
@@ -138,7 +133,7 @@ export default function HarvestInputLine({
             value={selectedTime}
             onChange={handleTimeChange}
             ampm={false}
-            timezone="Etc/UTC"
+            timezone="Europe/Vilnius"
           />
         </LocalizationProvider>
       </GridContainer>

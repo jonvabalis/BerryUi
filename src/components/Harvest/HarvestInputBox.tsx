@@ -1,5 +1,5 @@
 import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 import { useToast } from "../../hooks/useToast";
@@ -51,12 +51,23 @@ export default function HarvestInputBox({
   const handleBulkDialogOpen = () => setBulkDialogOpen(true);
   const handleBulkDialogClose = () => setBulkDialogOpen(false);
 
+  const today = new Date();
+  const todayFormatted = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+    2,
+    0,
+    0,
+    0
+  );
+
   const emptyProduct: BulkHarvestCreate = {
     kilograms: 0,
     employeeId: "",
     berryTypeId: "",
     berryKindId: "",
-    eventTime: new Date(),
+    eventTime: todayFormatted,
   };
   return (
     <>
@@ -120,7 +131,6 @@ export default function HarvestInputBox({
             berryKindsData={berryKindsData}
             employeesData={employeesData}
             defaultEmployeeId={defaultEmployeeId}
-            currentDate={new Date()}
           />
         </BulkInputDialog>
       </GridContainer>
