@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 import { EmployeeData } from "../../api/employees/useGetByIdEmployee";
 import { GridContainer } from "../Reusable/GridContainer";
@@ -41,6 +41,19 @@ export default function HarvestInputLine({
     dayjs().hour(hour).minute(0)
   );
 
+  useEffect(() => {
+    setAmount(data?.kilograms.toString() || "0");
+    setKind(data?.berryKindId || "");
+    setEmployee(data?.employeeId || defaultEmployeeId);
+    setSelectedTime(
+      data
+        ? dayjs()
+            .hour(data.eventTime.getHours() + hour)
+            .minute(data.eventTime.getMinutes())
+        : dayjs().hour(hour).minute(0)
+    );
+  }, [data]);
+
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setAmount(value);
@@ -71,6 +84,8 @@ export default function HarvestInputLine({
   };
 
   const handleKindChange = (berryKindId: string) => {
+    setKind(berryKindId);
+
     onChange?.({
       kilograms: Number(amount),
       berryKindId: berryKindId == "Mixed" ? null : kind,

@@ -48,7 +48,6 @@ export default function BulkInputDialog<T extends Record<string, any>>({
     const newItems = [...items];
     newItems[index] = data;
     setItems(newItems);
-    // console.log("Data updated:", newItems);
   };
 
   const handleAddItem = () => {
@@ -94,7 +93,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
         return child;
       });
     },
-    [handleAddItem]
+    [handleAddItem, handleRemoveItem]
   );
 
   return (
