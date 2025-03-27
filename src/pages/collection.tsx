@@ -31,15 +31,10 @@ export default function collection() {
   }
 
   return (
-    <Box
-      display="grid"
-      gridTemplateColumns="repeat(12, 1fr)"
-      gridAutoRows="100px"
-      gap={2}
-    >
-      <GridContainer span={12}>
+    <Box width="100vw">
+      <Box>
         <PageHeader text="Harvest input" />
-      </GridContainer>
+      </Box>
       <HarvestInputBox
         berryTypeData={berryTypeData}
         berryKindsData={berryKindsData}

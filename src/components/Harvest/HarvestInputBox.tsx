@@ -1,5 +1,14 @@
 import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
-import { Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Fade,
+  Grid,
+  Grid2,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 import { useToast } from "../../hooks/useToast";
@@ -70,70 +79,100 @@ export default function HarvestInputBox({
     eventTime: todayFormatted,
   };
   return (
-    <>
-      <GridContainer span={12}>
-        <NumberField
-          number={amount}
-          handleChange={handleAmountChange}
-          label="Amount"
-          adornment="kg"
-        />
-      </GridContainer>
-      <GridContainer span={6}>
-        <Typography color="primary.contrastText">Select berry kind:</Typography>
-        <BerryKindSelect
-          berryKindsData={berryKindsData}
-          setState={setKind}
-          value={kind}
-        />
-      </GridContainer>
-      <GridContainer span={6}>
-        <Typography color="primary.contrastText">Select employee:</Typography>
-        <EmployeeSelectField
-          employeesData={employeesData}
-          setState={setEmployee}
-          value={selectedEmployeeId}
-        />
-      </GridContainer>
-      <GridContainer span={6}>
-        <CreateButton<HarvestCreate>
-          data={{
-            kilograms: Number(amount),
-            employeeId: selectedEmployeeId,
-            berryTypeId: berryTypeData.id,
-            berryKindId: kind,
+    <Box sx={{ width: "100%" }}>
+      <Fade in={true} timeout={500}>
+        <Paper
+          elevation={5}
+          sx={{
+            p: 4,
+            borderRadius: 4,
+            background: "rgba(44, 150, 221, 0.8)",
+            backdropFilter: "blur(10px)",
           }}
-          onSuccess={() => {
-            toast.success("Harvest created successfully!");
-          }}
-          onError={(error) => {
-            toast.error(error.message);
-          }}
-          text={"Harvest"}
-          createMutation={createHarvestMutation}
-        ></CreateButton>
-      </GridContainer>
-      <GridContainer span={6}>
-        <Button variant="contained" onClick={handleBulkDialogOpen}>
-          Input bulk
-        </Button>
-        <BulkInputDialog<BulkHarvestCreate>
-          open={bulkDialogOpen}
-          onClose={handleBulkDialogClose}
-          title="Bulk harvest input"
-          defaultItem={emptyProduct}
-          addButtonText="Add another harvest"
-          itemLabel="Harvest"
-          createMutation={createBulkHarvestMutation}
-          toastSuccess={"Harvests created successfully!"}
         >
-          <HarvestInputLine
-            berryKindsData={berryKindsData}
-            employeesData={employeesData}
-            defaultEmployeeId={defaultEmployeeId}
-          />
-        </BulkInputDialog>
-      </GridContainer>
-    </>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={6}>
+              <Stack spacing={3}>
+                <Box>
+                  <NumberField
+                    number={amount}
+                    handleChange={handleAmountChange}
+                    label="Amount"
+                    adornment="kg"
+                  />
+                </Box>
+              </Stack>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Stack spacing={3}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Typography color="primary.contrastText">
+                    Select berry kind:
+                  </Typography>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <BerryKindSelect
+                      berryKindsData={berryKindsData}
+                      setState={setKind}
+                      value={kind}
+                    />
+                  </Box>
+                </Box>
+                <Box>
+                  <Typography color="primary.contrastText">
+                    Select employee:
+                  </Typography>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <EmployeeSelectField
+                      employeesData={employeesData}
+                      setState={setEmployee}
+                      value={selectedEmployeeId}
+                    />
+                  </Box>
+                </Box>
+              </Stack>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Stack spacing={3}>
+                <CreateButton<HarvestCreate>
+                  data={{
+                    kilograms: Number(amount),
+                    employeeId: selectedEmployeeId,
+                    berryTypeId: berryTypeData.id,
+                    berryKindId: kind,
+                  }}
+                  onSuccess={() => {
+                    toast.success("Harvest created successfully!");
+                  }}
+                  onError={(error) => {
+                    toast.error(error.message);
+                  }}
+                  text={"Harvest"}
+                  createMutation={createHarvestMutation}
+                ></CreateButton>
+                <Button variant="contained" onClick={handleBulkDialogOpen}>
+                  Input bulk
+                </Button>
+                <BulkInputDialog<BulkHarvestCreate>
+                  open={bulkDialogOpen}
+                  onClose={handleBulkDialogClose}
+                  title="Bulk harvest input"
+                  defaultItem={emptyProduct}
+                  addButtonText="Add another harvest"
+                  itemLabel="Harvest"
+                  createMutation={createBulkHarvestMutation}
+                  toastSuccess={"Harvests created successfully!"}
+                >
+                  <HarvestInputLine
+                    berryKindsData={berryKindsData}
+                    employeesData={employeesData}
+                    defaultEmployeeId={defaultEmployeeId}
+                  />
+                </BulkInputDialog>
+              </Stack>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Fade>
+    </Box>
   );
 }
