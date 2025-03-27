@@ -98,7 +98,17 @@ export default function BulkInputDialog<T extends Record<string, any>>({
 
   return (
     <>
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
+      <Dialog
+        open={open}
+        onClose={(_event, reason) => {
+          if (reason !== "backdropClick") {
+            handleClose();
+          }
+        }}
+        disableEscapeKeyDown
+        fullWidth
+        maxWidth="md"
+      >
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           {items.map((_item, index) => (
