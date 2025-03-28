@@ -4,6 +4,7 @@ import {
   Divider,
   Fade,
   Grid2,
+  IconButton,
   Link,
   Paper,
   Stack,
@@ -27,6 +28,7 @@ import {
   BulkHarvestCreate,
   useCreateBulkHarvest,
 } from "../../api/harvests/useCreateBulkHarvest";
+import { Add as PlusIcon, Remove as MinusIcon } from "@mui/icons-material";
 
 interface HarvestInputBoxProps {
   berryTypeData: BerryType;
@@ -51,7 +53,15 @@ export default function HarvestInputBox({
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setAmount(value);
+    setAmount(Math.max(0, Number(value) + 1).toString());
+  };
+
+  const handleAmountIncrease = () => {
+    setAmount((prev) => (Number(prev) + 1).toString());
+  };
+
+  const handleAmountDecrease = () => {
+    setAmount((prev) => Math.max(0, Number(prev) - 1).toString());
   };
 
   const [bulkDialogOpen, setBulkDialogOpen] = useState<boolean>(false);
@@ -94,19 +104,62 @@ export default function HarvestInputBox({
                 spacing={3}
                 sx={{
                   width: "100%",
-                  alignItems: {
-                    md: "center",
-                  },
+                  alignItems: "center",
                 }}
               >
-                <Box>
-                  <Typography>Select amount (kg)</Typography>
-                  <NumberField
-                    number={amount}
-                    handleChange={handleAmountChange}
-                    label="Amount"
-                    adornment="kg"
-                  />
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+
+                    width: {
+                      xs: "100%",
+                      md: "auto",
+                    },
+                  }}
+                >
+                  <IconButton
+                    onClick={handleAmountDecrease}
+                    disabled={amount == "0"}
+                    color="primary"
+                    size="small"
+                    sx={{
+                      mr: 1,
+                      mt: 3,
+                      border: "1px solid",
+                      borderColor: "divider",
+                    }}
+                  >
+                    <MinusIcon fontSize="small" />
+                  </IconButton>
+                  <Box
+                    sx={{
+                      width: {
+                        xs: "100%",
+                      },
+                    }}
+                  >
+                    <Typography>Select amount (kg)</Typography>
+                    <NumberField
+                      number={amount}
+                      handleChange={handleAmountChange}
+                      label="Amount"
+                      adornment="kg"
+                    />
+                  </Box>
+                  <IconButton
+                    onClick={handleAmountIncrease}
+                    color="primary"
+                    size="small"
+                    sx={{
+                      ml: 1,
+                      mt: 3,
+                      border: "1px solid",
+                      borderColor: "divider",
+                    }}
+                  >
+                    <PlusIcon fontSize="small" />
+                  </IconButton>
                 </Box>
               </Stack>
             </Grid2>
