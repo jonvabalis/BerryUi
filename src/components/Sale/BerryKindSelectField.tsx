@@ -6,7 +6,6 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
-import { ChangeEvent } from "react";
 
 interface BerryKindSelectFieldProps {
   berryKindsData: BerryKind[] | undefined;
@@ -27,14 +26,35 @@ export function BerryKindSelect({
   };
 
   return (
-    <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+    <FormControl
+      variant="outlined"
+      sx={{
+        mt: 1.25,
+        width: { xs: "100%", md: "auto" },
+        minWidth: { xs: "100%", md: 200 },
+      }}
+    >
       <InputLabel id="demo-simple-select-standard-label">Kind</InputLabel>
       <Select
+        sx={{
+          ".MuiOutlinedInput-notchedOutline": {
+            borderColor: "primary.main",
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "primary.secondary",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "primary.secondary",
+          },
+          "& .MuiSvgIcon-root": {
+            color: "primary.main",
+          },
+        }}
         labelId="demo-simple-select-standard-label"
         id="demo-simple-select-standard"
         value={value === null ? "null" : value}
         onChange={handleChange}
-        label="BerryKind"
+        label="Kind"
       >
         <MenuItem key={0} value={"null"}>
           Mixed

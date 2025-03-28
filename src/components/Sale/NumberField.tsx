@@ -21,9 +21,11 @@ export function NumberField({
 }: NumberFieldProps) {
   return (
     <FormControl
+      variant="outlined"
       sx={{
-        m: 1,
-        width: "25ch",
+        mt: 1.25,
+        width: { xs: "100%", md: "auto" },
+        minWidth: { xs: "100%", md: 200 },
         "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
           {
             display: "none",
@@ -32,11 +34,20 @@ export function NumberField({
           MozAppearance: "textfield",
         },
       }}
-      variant="outlined"
-      color="primary"
     >
       <InputLabel htmlFor={`outlined-adornment-${label}`}>{label}</InputLabel>
       <OutlinedInput
+        sx={{
+          ".MuiOutlinedInput-notchedOutline": {
+            borderColor: "primary.main",
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "primary.secondary",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "primary.secondary",
+          },
+        }}
         id={`outlined-adornment-${label}`}
         endAdornment={
           <InputAdornment position="end">{adornment}</InputAdornment>

@@ -26,9 +26,30 @@ export function EmployeeSelectField({
   };
 
   return (
-    <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+    <FormControl
+      variant="outlined"
+      sx={{
+        mt: 1.25,
+        width: { xs: "100%", md: "auto" },
+        minWidth: { xs: "100%", md: 200 },
+      }}
+    >
       <InputLabel id="demo-simple-select-standard-label">Employee</InputLabel>
       <Select
+        sx={{
+          ".MuiOutlinedInput-notchedOutline": {
+            borderColor: "primary.main",
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "primary.secondary",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "primary.secondary",
+          },
+          "& .MuiSvgIcon-root": {
+            color: "primary.main",
+          },
+        }}
         labelId="demo-simple-select-standard-label"
         id="demo-simple-select-standard"
         value={value}
