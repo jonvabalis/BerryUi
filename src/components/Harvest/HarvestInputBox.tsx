@@ -1,10 +1,10 @@
 import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
 import {
   Box,
-  Button,
+  Divider,
   Fade,
-  Grid,
   Grid2,
+  Link,
   Paper,
   Stack,
   Typography,
@@ -21,7 +21,6 @@ import { EmployeeData } from "../../api/employees/useGetByIdEmployee";
 import { EmployeeSelectField } from "./EmployeeSelectField";
 import { BerryKindSelect } from "../Sale/BerryKindSelectField";
 import { CreateButton } from "../Sale/CreateButton";
-import { GridContainer } from "../Reusable/GridContainer";
 import BulkInputDialog from "../Reusable/BulkInputDialog";
 import HarvestInputLine from "./HarvestInputLine";
 import {
@@ -86,14 +85,22 @@ export default function HarvestInputBox({
           sx={{
             p: 4,
             borderRadius: 4,
-            background: "rgba(44, 150, 221, 0.8)",
-            backdropFilter: "blur(10px)",
+            background: "white",
           }}
         >
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Stack spacing={3}>
+          <Grid2 container spacing={4}>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <Stack
+                spacing={3}
+                sx={{
+                  width: "100%",
+                  alignItems: {
+                    md: "center",
+                  },
+                }}
+              >
                 <Box>
+                  <Typography>Select amount (kg)</Typography>
                   <NumberField
                     number={amount}
                     handleChange={handleAmountChange}
@@ -102,75 +109,101 @@ export default function HarvestInputBox({
                   />
                 </Box>
               </Stack>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Stack spacing={3}>
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <Typography color="primary.contrastText">
-                    Select berry kind:
-                  </Typography>
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <BerryKindSelect
-                      berryKindsData={berryKindsData}
-                      setState={setKind}
-                      value={kind}
-                    />
-                  </Box>
+            </Grid2>
+            <Grid2 size={{ xs: 12, md: 6 }}>
+              <Stack
+                spacing={3}
+                sx={{
+                  width: "100%",
+                  alignItems: {
+                    md: "center",
+                  },
+                }}
+              >
+                <Box>
+                  <Typography>Select berry kind</Typography>
+                  <BerryKindSelect
+                    berryKindsData={berryKindsData}
+                    setState={setKind}
+                    value={kind}
+                  />
                 </Box>
                 <Box>
-                  <Typography color="primary.contrastText">
-                    Select employee:
-                  </Typography>
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <EmployeeSelectField
-                      employeesData={employeesData}
-                      setState={setEmployee}
-                      value={selectedEmployeeId}
-                    />
-                  </Box>
+                  <Typography>Select employee</Typography>
+                  <EmployeeSelectField
+                    employeesData={employeesData}
+                    setState={setEmployee}
+                    value={selectedEmployeeId}
+                  />
                 </Box>
               </Stack>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Stack spacing={3}>
-                <CreateButton<HarvestCreate>
-                  data={{
-                    kilograms: Number(amount),
-                    employeeId: selectedEmployeeId,
-                    berryTypeId: berryTypeData.id,
-                    berryKindId: kind,
+            </Grid2>
+            <Grid2 display="flex" justifyContent="center" width="100%">
+              <Stack width="100%" alignItems="center">
+                <Stack
+                  sx={{
+                    width: {
+                      xs: "100%",
+                      md: "33%",
+                    },
                   }}
-                  onSuccess={() => {
-                    toast.success("Harvest created successfully!");
-                  }}
-                  onError={(error) => {
-                    toast.error(error.message);
-                  }}
-                  text={"Harvest"}
-                  createMutation={createHarvestMutation}
-                ></CreateButton>
-                <Button variant="contained" onClick={handleBulkDialogOpen}>
-                  Input bulk
-                </Button>
-                <BulkInputDialog<BulkHarvestCreate>
-                  open={bulkDialogOpen}
-                  onClose={handleBulkDialogClose}
-                  title="Bulk harvest input"
-                  defaultItem={emptyProduct}
-                  addButtonText="Add another harvest"
-                  itemLabel="Harvest"
-                  createMutation={createBulkHarvestMutation}
-                  toastSuccess={"Harvests created successfully!"}
                 >
-                  <HarvestInputLine
-                    berryKindsData={berryKindsData}
-                    employeesData={employeesData}
-                    defaultEmployeeId={defaultEmployeeId}
+                  <CreateButton<HarvestCreate>
+                    data={{
+                      kilograms: Number(amount),
+                      employeeId: selectedEmployeeId,
+                      berryTypeId: berryTypeData.id,
+                      berryKindId: kind,
+                    }}
+                    onSuccess={() => {
+                      toast.success("Harvest created successfully!");
+                    }}
+                    onError={(error) => {
+                      toast.error(error.message);
+                    }}
+                    text={"Harvest"}
+                    createMutation={createHarvestMutation}
                   />
-                </BulkInputDialog>
+                </Stack>
+                <Divider
+                  sx={{
+                    mt: 4,
+                    mb: 1,
+                    width: {
+                      xs: "100%",
+                      md: "100%",
+                    },
+                    borderColor: "primary.main",
+                  }}
+                />
+                <Box sx={{ textAlign: "center" }}>
+                  <Link
+                    component="button"
+                    underline="hover"
+                    onClick={handleBulkDialogOpen}
+                  >
+                    Use bulk input mode
+                  </Link>
+                </Box>
               </Stack>
-            </Grid>
-          </Grid>
+              <BulkInputDialog<BulkHarvestCreate>
+                open={bulkDialogOpen}
+                onClose={handleBulkDialogClose}
+                title="Bulk harvest input"
+                defaultItem={emptyProduct}
+                addButtonText="Add another harvest"
+                itemLabel="Harvest"
+                createMutation={createBulkHarvestMutation}
+                toastSuccess={"Harvests created successfully!"}
+              >
+                <HarvestInputLine
+                  berryKindsData={berryKindsData}
+                  employeesData={employeesData}
+                  defaultEmployeeId={defaultEmployeeId}
+                />
+              </BulkInputDialog>
+            </Grid2>
+          </Grid2>
         </Paper>
       </Fade>
     </Box>
