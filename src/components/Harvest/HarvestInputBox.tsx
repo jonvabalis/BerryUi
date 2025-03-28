@@ -64,6 +64,10 @@ export default function HarvestInputBox({
     setAmount((prev) => Math.max(0, Number(prev) - 1).toString());
   };
 
+  const handleReset = () => {
+    setAmount("0");
+  };
+
   const [bulkDialogOpen, setBulkDialogOpen] = useState<boolean>(false);
 
   const handleBulkDialogOpen = () => setBulkDialogOpen(true);
@@ -88,7 +92,7 @@ export default function HarvestInputBox({
     eventTime: todayFormatted,
   };
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%", maxWidth: "1000px", mx: "auto" }}>
       <Fade in={true} timeout={500}>
         <Paper
           elevation={5}
@@ -209,6 +213,7 @@ export default function HarvestInputBox({
                       berryKindId: kind,
                     }}
                     onSuccess={() => {
+                      handleReset();
                       toast.success("Harvest created successfully!");
                     }}
                     onError={(error) => {
@@ -239,26 +244,26 @@ export default function HarvestInputBox({
                   </Link>
                 </Box>
               </Stack>
-              <BulkInputDialog<BulkHarvestCreate>
-                open={bulkDialogOpen}
-                onClose={handleBulkDialogClose}
-                title="Bulk harvest input"
-                defaultItem={emptyProduct}
-                addButtonText="Add another harvest"
-                itemLabel="Harvest"
-                createMutation={createBulkHarvestMutation}
-                toastSuccess={"Harvests created successfully!"}
-              >
-                <HarvestInputLine
-                  berryKindsData={berryKindsData}
-                  employeesData={employeesData}
-                  defaultEmployeeId={defaultEmployeeId}
-                />
-              </BulkInputDialog>
             </Grid2>
           </Grid2>
         </Paper>
       </Fade>
+      <BulkInputDialog<BulkHarvestCreate>
+        open={bulkDialogOpen}
+        onClose={handleBulkDialogClose}
+        title="Bulk harvest input"
+        defaultItem={emptyProduct}
+        addButtonText="Add another harvest"
+        itemLabel="Harvest"
+        createMutation={createBulkHarvestMutation}
+        toastSuccess={"Harvests created successfully!"}
+      >
+        <HarvestInputLine
+          berryKindsData={berryKindsData}
+          employeesData={employeesData}
+          defaultEmployeeId={defaultEmployeeId}
+        />
+      </BulkInputDialog>
     </Box>
   );
 }

@@ -134,6 +134,23 @@ export default function HarvestInputLine({
             onChange={handleTimeChange}
             ampm={false}
             timezone="Europe/Vilnius"
+            sx={{
+              mt: 1.25,
+              width: { xs: "100%", md: "auto" },
+              minWidth: { xs: "100%", md: 200 },
+              ".MuiOutlinedInput-notchedOutline": {
+                borderColor: "primary.main",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "primary.secondary",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "primary.secondary",
+              },
+              "& .MuiSvgIcon-root": {
+                color: "primary.main",
+              },
+            }}
           />
         </LocalizationProvider>
       </GridContainer>
