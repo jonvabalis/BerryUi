@@ -10,11 +10,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/L
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { BulkHarvestCreate } from "../../api/harvests/useCreateBulkHarvest";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 interface HarvestInputLineProps {
   berryKindsData: BerryKind[] | undefined;
@@ -133,7 +128,7 @@ export default function HarvestInputLine({
             value={selectedTime}
             onChange={handleTimeChange}
             ampm={false}
-            timezone="Europe/Vilnius"
+            timezone="UTC"
             sx={{
               mt: 1.25,
               width: { xs: "100%", md: "auto" },
