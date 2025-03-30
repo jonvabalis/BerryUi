@@ -10,6 +10,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/L
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { BulkHarvestCreate } from "../../api/harvests/useCreateBulkHarvest";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 interface HarvestInputLineProps {
   berryKindsData: BerryKind[] | undefined;
