@@ -59,7 +59,7 @@ export default function HarvestInputLine({
         berryKindId: kind,
         berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
         employeeId: selectedEmployeeId,
-        eventTime: selectedTime.toDate(),
+        eventTime: dayjsToUTCDate(selectedTime),
       });
     }
   };
@@ -73,7 +73,7 @@ export default function HarvestInputLine({
         berryKindId: kind,
         berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
         employeeId: selectedEmployeeId,
-        eventTime: (newTime ?? dayjs().hour(0).minute(0)).toDate(),
+        eventTime: dayjsToUTCDate(newTime ?? dayjs().hour(0).minute(0)),
       });
     }
   };
@@ -86,7 +86,7 @@ export default function HarvestInputLine({
       berryKindId: berryKindId === "null" ? null : berryKindId,
       berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
       employeeId: selectedEmployeeId,
-      eventTime: selectedTime.toDate(),
+      eventTime: dayjsToUTCDate(selectedTime),
     });
   };
 
@@ -96,7 +96,7 @@ export default function HarvestInputLine({
       berryKindId: kind,
       berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
       employeeId: employeeId,
-      eventTime: selectedTime.toDate(),
+      eventTime: dayjsToUTCDate(selectedTime),
     });
   };
 
@@ -155,5 +155,19 @@ export default function HarvestInputLine({
         </LocalizationProvider>
       </GridContainer>
     </GridContainer>
+  );
+}
+
+export function dayjsToUTCDate(dayjsObj: Dayjs): Date {
+  return new Date(
+    Date.UTC(
+      dayjsObj.utc().year(),
+      dayjsObj.utc().month(),
+      dayjsObj.utc().date(),
+      dayjsObj.utc().hour(),
+      dayjsObj.utc().minute(),
+      dayjsObj.utc().second(),
+      dayjsObj.utc().millisecond()
+    )
   );
 }

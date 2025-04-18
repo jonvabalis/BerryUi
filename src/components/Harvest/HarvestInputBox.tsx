@@ -75,13 +75,15 @@ export default function HarvestInputBox({
 
   const today = new Date();
   const todayFormatted = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate(),
-    2,
-    0,
-    0,
-    0
+    Date.UTC(
+      today.getUTCFullYear(),
+      today.getUTCMonth(),
+      today.getUTCDate(),
+      0,
+      0,
+      0,
+      0
+    )
   );
 
   const emptyProduct: BulkHarvestCreate = {

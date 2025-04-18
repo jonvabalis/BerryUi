@@ -47,6 +47,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
   const handleChange = (index: number) => (data: any) => {
     const newItems = [...items];
     newItems[index] = data;
+    console.log(newItems);
     setItems(newItems);
   };
 
