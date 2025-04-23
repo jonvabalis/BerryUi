@@ -161,18 +161,20 @@ export default function BulkInputDialog<T extends Record<string, any>>({
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <CreateButton<T[]>
-            data={items}
-            onSuccess={() => {
-              toast.success(toastSuccess);
-            }}
-            onError={(error) => {
-              toast.error(error.message);
-            }}
-            text={"Harvest"}
-            createMutation={createMutation}
-            handleSubmit={handleSubmit}
-          />
+          <Box>
+            <CreateButton<T[]>
+              data={items}
+              onSuccess={() => {
+                toast.success(toastSuccess);
+              }}
+              onError={(error) => {
+                toast.error(error.message);
+              }}
+              text={"Harvest"}
+              createMutation={createMutation}
+              handleSubmit={handleSubmit}
+            />
+          </Box>
         </DialogActions>
       </Dialog>
 
