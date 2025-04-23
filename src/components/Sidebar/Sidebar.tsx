@@ -25,6 +25,7 @@ export default function Sidebar() {
               minWidth: 0,
               justifyContent: "center",
               alignItems: "center",
+              color: "primary.contrastText",
             }}
           >
             {open ? (

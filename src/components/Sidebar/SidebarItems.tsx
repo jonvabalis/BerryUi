@@ -40,13 +40,14 @@ export default function SidebarItems(
                   justifyContent: "center",
                   alignItems: "center",
                   mr: open ? 3 : "auto",
+                  color: "primary.contrastText",
                 }}
               >
                 {item.icon}
               </ListItemIcon>
               <ListItemText
                 primary={item.text}
-                sx={{ opacity: open ? 1 : 0, color: "secondary.dark" }}
+                sx={{ opacity: open ? 1 : 0, color: "primary.contrastText" }}
               />
             </ListItemButton>
           </ListItem>
