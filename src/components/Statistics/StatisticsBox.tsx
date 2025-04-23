@@ -1,4 +1,12 @@
-import { Radio, RadioGroup, Typography } from "@mui/material";
+import {
+  Box,
+  Fade,
+  Grid2,
+  Paper,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { useToast } from "../../hooks/useToast";
 import StatisticsControlLabel from "./StatisticsControlLabel";
@@ -67,81 +75,155 @@ export default function StatisticsBox({
 
   return (
     <>
-      <GridContainer span={3}>
-        <RadioGroup
-          value={radioValue}
-          onChange={handleRadioChange}
-          name="use-radio-group"
-          defaultValue="All-time"
-        >
-          <StatisticsControlLabel
-            value="alltime"
-            label="All-time"
-            control={<Radio />}
-          />
-          <StatisticsControlLabel
-            value="filter"
-            label="Filter"
-            control={<Radio />}
-          />
-        </RadioGroup>
-      </GridContainer>
-      <GridContainer span={3}>
-        <Typography color="primary.contrastText">Select year:</Typography>
-        <StatisticsSelectField
-          data={YEAR_SELECT_DATA}
-          value={year}
-          setState={setYear}
-          label={"Year"}
-          radioValue={radioValue}
-        />
-      </GridContainer>
-      <GridContainer span={3}>
-        <Typography color="primary.contrastText">Select month:</Typography>
-        <StatisticsSelectField
-          data={MONTH_SELECT_DATA}
-          value={month}
-          setState={setMonth}
-          label={"Month"}
-          radioValue={radioValue}
-        />
-      </GridContainer>
-      <GridContainer span={3}>
-        <GetButton
-          firstQuery={
-            radioValue == "alltime"
-              ? useGetCollectionStatisticsAllTimeQuery
-              : useGetCollectionStatisticsFilteredQuery
-          }
-          secondQuery={
-            radioValue == "alltime"
-              ? useGetCostsStatisticsAllTimeQuery
-              : useGetCostsStatisticsFilteredQuery
-          }
-          handleHeaderTypeChange={handleHeaderTypeChange}
-          onSuccess={(data) => {
-            setCollectionTableData(data.firstResultData);
-            setCostTableData(data.secondResultData);
-          }}
-          onError={(error) => {
-            toast.error(error.message);
-          }}
-        />
-      </GridContainer>
-      <GridContainer span={6}>
-        <StatisticsTable
-          data={collectionTableData}
-          header={[
-            headerType,
-            "Kilograms harvested",
-            "Kilograms sold",
-            "Sold for",
-          ]}
-        />
-      </GridContainer>
-      <GridContainer span={6}>
-        <StatisticsTable data={costTableData} header={[headerType, "Costs"]} />
-      </GridContainer>
+      <Box sx={{ width: "100%", maxWidth: "1000px", mx: "auto" }}>
+        <Fade in={true} timeout={500}>
+          <Paper
+            elevation={5}
+            sx={{
+              p: 4,
+              borderRadius: 4,
+              background: "white",
+            }}
+          >
+            <Grid2 container spacing={4}>
+              <Grid2
+                container
+                spacing={1}
+                size={12}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <RadioGroup
+                  value={radioValue}
+                  onChange={handleRadioChange}
+                  name="use-radio-group"
+                  defaultValue="All-time"
+                >
+                  <StatisticsControlLabel
+                    value="alltime"
+                    label="All-time"
+                    control={<Radio />}
+                  />
+                  <StatisticsControlLabel
+                    value="filter"
+                    label="Filter"
+                    control={<Radio />}
+                  />
+                </RadioGroup>
+                <Grid2
+                  container
+                  size={{ xs: 12, sm: 9, md: 9 }}
+                  sx={{
+                    display: "flex",
+                    alignItems: "flex-end",
+                    justifyContent: "space-around",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "100%",
+                      maxWidth: { md: "235px", sm: "135px" },
+                    }}
+                  >
+                    <Typography>Select year:</Typography>
+                    <StatisticsSelectField
+                      data={YEAR_SELECT_DATA}
+                      value={year}
+                      setState={setYear}
+                      label={"Year"}
+                      radioValue={radioValue}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      width: "100%",
+                      maxWidth: { md: "235px", sm: "135px" },
+                    }}
+                  >
+                    <Typography>Select month:</Typography>
+                    <StatisticsSelectField
+                      data={MONTH_SELECT_DATA}
+                      value={month}
+                      setState={setMonth}
+                      label={"Month"}
+                      radioValue={radioValue}
+                    />
+                  </Box>
+                </Grid2>
+              </Grid2>
+
+              <Grid2
+                container
+                size={12}
+                sx={{
+                  justifyContent: "center",
+                }}
+              >
+                <Box
+                  width={"100%"}
+                  maxWidth={"250px"}
+                  sx={{ display: "flex", justifyContent: "center" }}
+                >
+                  <GetButton
+                    firstQuery={
+                      radioValue == "alltime"
+                        ? useGetCollectionStatisticsAllTimeQuery
+                        : useGetCollectionStatisticsFilteredQuery
+                    }
+                    secondQuery={
+                      radioValue == "alltime"
+                        ? useGetCostsStatisticsAllTimeQuery
+                        : useGetCostsStatisticsFilteredQuery
+                    }
+                    handleHeaderTypeChange={handleHeaderTypeChange}
+                    onSuccess={(data) => {
+                      setCollectionTableData(data.firstResultData);
+                      setCostTableData(data.secondResultData);
+                    }}
+                    onError={(error) => {
+                      toast.error(error.message);
+                    }}
+                  />
+                </Box>
+              </Grid2>
+            </Grid2>
+          </Paper>
+        </Fade>
+      </Box>
+
+      <Box sx={{ width: "100%", maxWidth: "1000px", mx: "auto" }}>
+        <Fade in={true} timeout={500}>
+          <Paper
+            elevation={5}
+            sx={{
+              p: 4,
+              borderRadius: 4,
+              background: "white",
+            }}
+          >
+            <Grid2 container spacing={4}>
+              <StatisticsTable
+                data={collectionTableData}
+                header={[
+                  headerType,
+                  "Kilograms harvested",
+                  "Kilograms sold",
+                  "Sold for",
+                ]}
+              />
+              <GridContainer span={6}>
+                <StatisticsTable
+                  data={costTableData}
+                  header={[headerType, "Costs"]}
+                />
+              </GridContainer>
+            </Grid2>
+          </Paper>
+        </Fade>
+      </Box>
     </>
   );
 }

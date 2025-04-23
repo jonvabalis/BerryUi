@@ -24,16 +24,10 @@ export default function statistics() {
   }
 
   return (
-    <Box
-      display="grid"
-      gridTemplateColumns="repeat(12, 1fr)"
-      gridAutoRows="100px"
-      gap={2}
-      width="100vw"
-    >
-      <GridContainer span={12}>
+    <Box width="100vw">
+      <Box>
         <PageHeader text="Statistics" />
-      </GridContainer>
+      </Box>
       <StatisticsBox berryTypeData={berryTypeData} />
     </Box>
   );

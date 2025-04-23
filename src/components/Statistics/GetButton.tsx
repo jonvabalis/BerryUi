@@ -41,6 +41,7 @@ export const GetButton = <T, U>({
   return (
     <Button
       variant="contained"
+      fullWidth
       onClick={() => {
         handleClick();
         handleHeaderTypeChange();

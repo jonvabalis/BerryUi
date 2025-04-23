@@ -30,7 +30,10 @@ export function StatisticsSelectField<T extends YearSelect | MonthSelect>({
   return (
     <FormControl
       variant="filled"
-      sx={{ m: 1, minWidth: 120 }}
+      sx={{
+        width: { xs: "100%" },
+        minWidth: { xs: "100%" },
+      }}
       disabled={radioValue === "alltime"}
     >
       <InputLabel id="demo-simple-select-standard-label">{label}</InputLabel>
@@ -42,7 +45,7 @@ export function StatisticsSelectField<T extends YearSelect | MonthSelect>({
         label={label}
       >
         <MenuItem key={0} value={0}>
-          None
+          All
         </MenuItem>
         {data?.map((entry) => (
           <MenuItem key={entry.value} value={entry.value}>
