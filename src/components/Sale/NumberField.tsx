@@ -11,6 +11,7 @@ interface NumberFieldProps {
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   label: string;
   adornment: string;
+  startAdornment?: string;
 }
 
 export function NumberField({
@@ -18,6 +19,7 @@ export function NumberField({
   handleChange,
   label,
   adornment,
+  startAdornment,
 }: NumberFieldProps) {
   return (
     <FormControl
@@ -51,6 +53,11 @@ export function NumberField({
         id={`outlined-adornment-${label}`}
         endAdornment={
           <InputAdornment position="end">{adornment}</InputAdornment>
+        }
+        startAdornment={
+          <InputAdornment position="start">
+            {startAdornment ? startAdornment : ""}
+          </InputAdornment>
         }
         label={label}
         type="number"
