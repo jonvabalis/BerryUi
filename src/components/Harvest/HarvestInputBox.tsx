@@ -264,6 +264,7 @@ export default function HarvestInputBox({
           berryKindsData={berryKindsData}
           employeesData={employeesData}
           defaultEmployeeId={defaultEmployeeId}
+          defaultTime={todayFormatted}
         />
       </BulkInputDialog>
     </Box>

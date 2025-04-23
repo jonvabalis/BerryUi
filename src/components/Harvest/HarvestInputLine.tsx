@@ -21,6 +21,7 @@ interface HarvestInputLineProps {
   berryKindsData: BerryKind[] | undefined;
   employeesData: EmployeeData[] | undefined;
   defaultEmployeeId: string;
+  defaultTime: Date;
   data?: BulkHarvestCreate;
   onChange?: (data: BulkHarvestCreate) => void;
 }
@@ -29,10 +30,10 @@ export default function HarvestInputLine({
   berryKindsData,
   employeesData,
   defaultEmployeeId,
+  defaultTime,
   data,
   onChange,
 }: HarvestInputLineProps) {
-  const defaultTime = dayjs().hour(0).minute(0);
   const [amount, setAmount] = useState<string>("0");
   const [kind, setKind] = useState<string | null>(null);
   const [selectedEmployeeId, setEmployee] = useState<string>(defaultEmployeeId);
@@ -42,13 +43,7 @@ export default function HarvestInputLine({
     setAmount(data?.kilograms.toString() || "0");
     setKind(data?.berryKindId || null);
     setEmployee(data?.employeeId || defaultEmployeeId);
-    setSelectedTime(
-      data
-        ? dayjs()
-            .hour(data.eventTime.getHours())
-            .minute(data.eventTime.getMinutes())
-        : defaultTime
-    );
+    setSelectedTime(data?.eventTime || defaultTime);
   }, [data]);
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -61,13 +56,14 @@ export default function HarvestInputLine({
         berryKindId: kind,
         berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
         employeeId: selectedEmployeeId,
-        eventTime: dayjsToUTCDate(selectedTime),
+        eventTime: selectedTime,
       });
     }
   };
 
   const handleTimeChange = (newTime: Dayjs | null) => {
-    setSelectedTime(newTime ?? defaultTime);
+    const updatedSelectedTime = newTime ? dayjsToUTCDate(newTime) : defaultTime;
+    setSelectedTime(updatedSelectedTime);
 
     if (onChange) {
       onChange({
@@ -75,7 +71,7 @@ export default function HarvestInputLine({
         berryKindId: kind,
         berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
         employeeId: selectedEmployeeId,
-        eventTime: dayjsToUTCDate(newTime ?? defaultTime),
+        eventTime: updatedSelectedTime,
       });
     }
   };
@@ -88,7 +84,7 @@ export default function HarvestInputLine({
       berryKindId: berryKindId === "null" ? null : berryKindId,
       berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
       employeeId: selectedEmployeeId,
-      eventTime: dayjsToUTCDate(selectedTime),
+      eventTime: selectedTime,
     });
   };
 
@@ -98,7 +94,7 @@ export default function HarvestInputLine({
       berryKindId: kind,
       berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
       employeeId: employeeId,
-      eventTime: dayjsToUTCDate(selectedTime),
+      eventTime: selectedTime,
     });
   };
 
@@ -132,7 +128,7 @@ export default function HarvestInputLine({
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <TimePicker
             label="Select Time"
-            value={selectedTime}
+            value={dayjs(selectedTime)}
             onChange={handleTimeChange}
             ampm={false}
             timezone="UTC"
