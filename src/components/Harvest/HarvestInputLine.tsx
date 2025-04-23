@@ -12,6 +12,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { BulkHarvestCreate } from "../../api/harvests/useCreateBulkHarvest";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { dayjsToUTCDate } from "../../utils/utcHelper";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -31,10 +32,11 @@ export default function HarvestInputLine({
   data,
   onChange,
 }: HarvestInputLineProps) {
+  const defaultTime = dayjs().hour(0).minute(0);
   const [amount, setAmount] = useState<string>("0");
   const [kind, setKind] = useState<string | null>(null);
   const [selectedEmployeeId, setEmployee] = useState<string>(defaultEmployeeId);
-  const [selectedTime, setSelectedTime] = useState(dayjs().hour(0).minute(0));
+  const [selectedTime, setSelectedTime] = useState(defaultTime);
 
   useEffect(() => {
     setAmount(data?.kilograms.toString() || "0");
@@ -45,7 +47,7 @@ export default function HarvestInputLine({
         ? dayjs()
             .hour(data.eventTime.getHours())
             .minute(data.eventTime.getMinutes())
-        : dayjs().hour(0).minute(0)
+        : defaultTime
     );
   }, [data]);
 
@@ -65,7 +67,7 @@ export default function HarvestInputLine({
   };
 
   const handleTimeChange = (newTime: Dayjs | null) => {
-    setSelectedTime(newTime ?? dayjs().hour(0).minute(0));
+    setSelectedTime(newTime ?? defaultTime);
 
     if (onChange) {
       onChange({
@@ -73,7 +75,7 @@ export default function HarvestInputLine({
         berryKindId: kind,
         berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
         employeeId: selectedEmployeeId,
-        eventTime: dayjsToUTCDate(newTime ?? dayjs().hour(0).minute(0)),
+        eventTime: dayjsToUTCDate(newTime ?? defaultTime),
       });
     }
   };
@@ -155,19 +157,5 @@ export default function HarvestInputLine({
         </LocalizationProvider>
       </GridContainer>
     </GridContainer>
-  );
-}
-
-export function dayjsToUTCDate(dayjsObj: Dayjs): Date {
-  return new Date(
-    Date.UTC(
-      dayjsObj.utc().year(),
-      dayjsObj.utc().month(),
-      dayjsObj.utc().date(),
-      dayjsObj.utc().hour(),
-      dayjsObj.utc().minute(),
-      dayjsObj.utc().second(),
-      dayjsObj.utc().millisecond()
-    )
   );
 }
