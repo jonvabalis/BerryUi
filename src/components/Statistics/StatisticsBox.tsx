@@ -21,7 +21,6 @@ import { CollectionStatisticsDto } from "../../apiInterfaces/statistics/Collecti
 import StatisticsTable from "./StatisticsTable";
 import { useGetCostsStatisticsFiltered } from "../../api/statistics/useGetCostsStatisticsFiltered";
 import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
-import { GridContainer } from "../Reusable/GridContainer";
 
 interface StatisticsBoxProps {
   berryTypeData: BerryType;
@@ -204,7 +203,12 @@ export default function StatisticsBox({
               background: "white",
             }}
           >
-            <Grid2 container spacing={4} size={12}>
+            <Grid2
+              container
+              spacing={4}
+              size={12}
+              sx={{ justifyContent: "center" }}
+            >
               <StatisticsTable
                 data={collectionTableData}
                 header={[

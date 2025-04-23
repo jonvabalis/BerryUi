@@ -5,7 +5,6 @@ import {
   useGetByNameBerryType,
 } from "../api/berryTypes/useGetByNameBerryType";
 import StatisticsBox from "../components/Statistics/StatisticsBox";
-import { GridContainer } from "../components/Reusable/GridContainer";
 
 export default function statistics() {
   const savedBerryType = localStorage.getItem("berryType");
