@@ -32,6 +32,7 @@ export const CreateButton = <T,>({
   return (
     <Button
       variant="contained"
+      fullWidth
       onClick={(e) => {
         handleClick();
         handleSubmit?.(e);

@@ -53,7 +53,7 @@ export default function HarvestInputBox({
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setAmount(Math.max(0, Number(value) + 1).toString());
+    setAmount(Math.max(0, Number(value)).toString());
   };
 
   const handleAmountIncrease = () => {
