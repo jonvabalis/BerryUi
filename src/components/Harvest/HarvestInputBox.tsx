@@ -116,7 +116,7 @@ export default function HarvestInputBox({
                 <Box
                   sx={{
                     display: "flex",
-                    alignItems: "center",
+                    alignItems: "flex-end",
 
                     width: {
                       xs: "100%",
@@ -131,7 +131,7 @@ export default function HarvestInputBox({
                     size="small"
                     sx={{
                       mr: 1,
-                      mt: 3,
+                      mb: 1.5,
                       border: "1px solid",
                       borderColor: "divider",
                     }}
@@ -159,7 +159,7 @@ export default function HarvestInputBox({
                     size="small"
                     sx={{
                       ml: 1,
-                      mt: 3,
+                      mb: 1.5,
                       border: "1px solid",
                       borderColor: "divider",
                     }}
