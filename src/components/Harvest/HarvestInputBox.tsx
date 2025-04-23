@@ -179,7 +179,7 @@ export default function HarvestInputBox({
                   },
                 }}
               >
-                <Box>
+                <Box sx={{ width: { md: "100%" }, maxWidth: { md: "235px" } }}>
                   <Typography>Select berry kind</Typography>
                   <BerryKindSelect
                     berryKindsData={berryKindsData}
@@ -187,7 +187,7 @@ export default function HarvestInputBox({
                     value={kind}
                   />
                 </Box>
-                <Box>
+                <Box sx={{ width: { md: "100%" }, maxWidth: { md: "235px" } }}>
                   <Typography>Select employee</Typography>
                   <EmployeeSelectField
                     employeesData={employeesData}
