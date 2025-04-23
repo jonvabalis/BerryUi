@@ -38,6 +38,23 @@ export function StatisticsSelectField<T extends YearSelect | MonthSelect>({
     >
       <InputLabel id="demo-simple-select-standard-label">{label}</InputLabel>
       <Select
+        sx={{
+          ".MuiOutlinedInput-notchedOutline": {
+            borderColor: "primary.main",
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "primary.secondary",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "primary.secondary",
+          },
+          "& .MuiSvgIcon-root": {
+            color: "primary.main",
+          },
+          "&.Mui-disabled .MuiSvgIcon-root": {
+            color: "gray",
+          },
+        }}
         labelId="demo-simple-select-standard-label"
         id="demo-simple-select-standard"
         value={value.toString()}

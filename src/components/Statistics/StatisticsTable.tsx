@@ -21,10 +21,20 @@ const tableRowStyle = {
   },
 };
 
+const tableEndRowStyle = {
+  "& > td, & > th": {
+    color: "primary.contrastText",
+    fontWeight: "bold",
+    fontSize: "16px",
+  },
+};
+
 const addTableCells = (dataArray: number[]) => {
   return dataArray.map((value, index) => (
     <TableCell key={index}>
-      {dataArray.length - 1 !== index ? value : formatCurrency(Number(value))}
+      {dataArray.length - 1 !== index
+        ? `${value} kg`
+        : formatCurrency(Number(value))}
     </TableCell>
   ));
 };
@@ -71,18 +81,23 @@ const StatisticsTable = <
         <TableHead>
           <TableRow sx={{ tableRowStyle }}>
             {header.map((headerElement) => (
-              <TableCell key={headerElement}>{headerElement}</TableCell>
+              <TableCell
+                key={headerElement}
+                sx={{ color: "primary.contrastText", fontWeight: "bold" }}
+              >
+                {headerElement}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {dataArray.map((row) => (
-            <TableRow key={row.id} hover sx={{ tableRowStyle }}>
+            <TableRow key={row.id} hover sx={tableRowStyle}>
               <TableCell>{row.id}</TableCell>
               {addTableCells(row.values)}
             </TableRow>
           ))}
-          <TableRow sx={{ tableRowStyle }}>
+          <TableRow sx={tableEndRowStyle}>
             <TableCell>Total</TableCell>
             {addTableCells(sumArray)}
           </TableRow>

@@ -194,7 +194,7 @@ export default function StatisticsBox({
         </Fade>
       </Box>
 
-      <Box sx={{ width: "100%", maxWidth: "1000px", mx: "auto" }}>
+      <Box sx={{ width: "100%", maxWidth: "1000px", mx: "auto", mt: 8 }}>
         <Fade in={true} timeout={500}>
           <Paper
             elevation={5}
@@ -204,7 +204,7 @@ export default function StatisticsBox({
               background: "white",
             }}
           >
-            <Grid2 container spacing={4}>
+            <Grid2 container spacing={4} size={12}>
               <StatisticsTable
                 data={collectionTableData}
                 header={[
@@ -214,12 +214,10 @@ export default function StatisticsBox({
                   "Sold for",
                 ]}
               />
-              <GridContainer span={6}>
-                <StatisticsTable
-                  data={costTableData}
-                  header={[headerType, "Costs"]}
-                />
-              </GridContainer>
+              <StatisticsTable
+                data={costTableData}
+                header={[headerType, "Costs"]}
+              />
             </Grid2>
           </Paper>
         </Fade>
