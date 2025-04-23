@@ -107,18 +107,27 @@ export default function BulkInputDialog<T extends Record<string, any>>({
           }
         }}
         disableEscapeKeyDown
-        fullWidth
-        maxWidth="md"
+        maxWidth={false}
+        sx={{
+          width: "100%",
+          maxWidth: "1000px",
+          mx: "auto",
+        }}
       >
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           {items.map((_item, index) => (
-            <Box key={index} sx={{ mb: 3 }}>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
-                sx={{ mb: 1 }}
+            <Box
+              key={index}
+              sx={{ mb: 3, width: "100%", maxWidth: "1000px", mx: "auto" }}
+            >
+              <Box
+                sx={{
+                  mb: 1,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
               >
                 <Typography variant="subtitle1">
                   {itemLabel} #{index + 1}
@@ -132,9 +141,9 @@ export default function BulkInputDialog<T extends Record<string, any>>({
                     <DeleteIcon />
                   </IconButton>
                 )}
-              </Stack>
+              </Box>
 
-              <Box sx={{ pl: 1 }}>{renderItemFields(index)}</Box>
+              <Box>{renderItemFields(index)}</Box>
 
               {index < items.length - 1 && <Divider sx={{ my: 2 }} />}
             </Box>

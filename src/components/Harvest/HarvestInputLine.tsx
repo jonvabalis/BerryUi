@@ -1,7 +1,6 @@
 import { useState, ChangeEvent, useEffect } from "react";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 import { EmployeeData } from "../../api/employees/useGetByIdEmployee";
-import { GridContainer } from "../Reusable/GridContainer";
 import { BerryKindSelect } from "../Sale/BerryKindSelectField";
 import { NumberField } from "../Sale/NumberField";
 import { EmployeeSelectField } from "./EmployeeSelectField";
@@ -13,6 +12,7 @@ import { BulkHarvestCreate } from "../../api/harvests/useCreateBulkHarvest";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { dayjsToUTCDate } from "../../utils/utcHelper";
+import { Box, Grid2 } from "@mui/material";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -99,59 +99,65 @@ export default function HarvestInputLine({
   };
 
   return (
-    <GridContainer span={12}>
-      <GridContainer span={3}>
-        <NumberField
-          number={amount}
-          handleChange={handleAmountChange}
-          label="Amount"
-          adornment="kg"
-        />
-      </GridContainer>
-      <GridContainer span={3}>
-        <BerryKindSelect
-          berryKindsData={berryKindsData}
-          setState={setKind}
-          value={kind}
-          onChange={handleKindChange}
-        />
-      </GridContainer>
-      <GridContainer span={3}>
-        <EmployeeSelectField
-          employeesData={employeesData}
-          setState={setEmployee}
-          value={selectedEmployeeId}
-          onChange={handleEmployeeChange}
-        />
-      </GridContainer>
-      <GridContainer span={3}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <TimePicker
-            label="Select Time"
-            value={dayjs(selectedTime)}
-            onChange={handleTimeChange}
-            ampm={false}
-            timezone="UTC"
-            sx={{
-              mt: 1.25,
-              width: { xs: "100%", md: "auto" },
-              minWidth: { xs: "100%", md: 200 },
-              ".MuiOutlinedInput-notchedOutline": {
-                borderColor: "primary.main",
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "primary.secondary",
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "primary.secondary",
-              },
-              "& .MuiSvgIcon-root": {
-                color: "primary.main",
-              },
-            }}
-          />
-        </LocalizationProvider>
-      </GridContainer>
-    </GridContainer>
+    <Box sx={{ width: "100%", maxWidth: "1000px", mx: "auto" }}>
+      <Grid2 container spacing={1}>
+        <Grid2 container spacing={1} size={{ xs: 12, sm: 6 }}>
+          <Grid2 container size={{ xs: 12, md: 6 }}>
+            <NumberField
+              number={amount}
+              handleChange={handleAmountChange}
+              label="Amount"
+              adornment="kg"
+            />
+          </Grid2>
+          <Grid2 container size={{ xs: 12, md: 6 }}>
+            <BerryKindSelect
+              berryKindsData={berryKindsData}
+              setState={setKind}
+              value={kind}
+              onChange={handleKindChange}
+            />
+          </Grid2>
+        </Grid2>
+        <Grid2 container spacing={1} size={{ xs: 12, sm: 6 }}>
+          <Grid2 container size={{ xs: 12, md: 6 }}>
+            <EmployeeSelectField
+              employeesData={employeesData}
+              setState={setEmployee}
+              value={selectedEmployeeId}
+              onChange={handleEmployeeChange}
+            />
+          </Grid2>
+          <Grid2 container size={{ xs: 12, md: 6 }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <TimePicker
+                label="Select Time"
+                value={dayjs(selectedTime)}
+                onChange={handleTimeChange}
+                ampm={false}
+                timezone="UTC"
+                sx={{
+                  mt: 1.25,
+                  width: { xs: "100%" },
+                  minWidth: { xs: "100%" },
+                  ".MuiOutlinedInput-notchedOutline": {
+                    borderColor: "primary.main",
+                  },
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "primary.secondary",
+                  },
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "primary.secondary",
+                  },
+                  "& .MuiSvgIcon-root": {
+                    color: "primary.main",
+                  },
+                }}
+              />
+            </LocalizationProvider>
+          </Grid2>
+        </Grid2>
+      </Grid2>
+    </Box>
   );
 }

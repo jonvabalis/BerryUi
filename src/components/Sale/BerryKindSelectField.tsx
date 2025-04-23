@@ -30,8 +30,8 @@ export function BerryKindSelect({
       variant="outlined"
       sx={{
         mt: 1.25,
-        width: { xs: "100%", md: "auto" },
-        minWidth: { xs: "100%", md: 200 },
+        width: { xs: "100%" },
+        minWidth: { xs: "100%" },
       }}
     >
       <InputLabel id="demo-simple-select-standard-label">Kind</InputLabel>

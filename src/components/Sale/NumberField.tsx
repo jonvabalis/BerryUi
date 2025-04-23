@@ -24,8 +24,8 @@ export function NumberField({
       variant="outlined"
       sx={{
         mt: 1.25,
-        width: { xs: "100%", md: "auto" },
-        minWidth: { xs: "100%", md: 200 },
+        width: { xs: "100%" },
+        minWidth: { xs: "100%" },
         "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
           {
             display: "none",
