@@ -29,6 +29,7 @@ import {
   useCreateBulkHarvest,
 } from "../../api/harvests/useCreateBulkHarvest";
 import { Add as PlusIcon, Remove as MinusIcon } from "@mui/icons-material";
+import { BoxPaper } from "../Reusable/BoxPaper";
 
 interface HarvestInputBoxProps {
   berryTypeData: BerryType;
@@ -94,162 +95,151 @@ export default function HarvestInputBox({
     eventTime: todayFormatted,
   };
   return (
-    <Box sx={{ width: "100%", maxWidth: "1000px", mx: "auto" }}>
-      <Fade in={true} timeout={500}>
-        <Paper
-          elevation={5}
-          sx={{
-            p: 4,
-            borderRadius: 4,
-            background: "white",
-          }}
-        >
-          <Grid2 container spacing={4}>
-            <Grid2 size={{ xs: 12, md: 6 }}>
-              <Stack
-                spacing={3}
+    <BoxPaper>
+      <Grid2 container spacing={4}>
+        <Grid2 size={{ xs: 12, md: 6 }}>
+          <Stack
+            spacing={3}
+            sx={{
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "flex-end",
+
+                width: {
+                  xs: "100%",
+                  md: "auto",
+                },
+              }}
+            >
+              <IconButton
+                onClick={handleAmountDecrease}
+                disabled={amount == "0"}
+                color="primary"
+                size="small"
                 sx={{
-                  width: "100%",
-                  alignItems: "center",
+                  mr: 1,
+                  mb: 1.5,
+                  border: "1px solid",
+                  borderColor: "divider",
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "flex-end",
-
-                    width: {
-                      xs: "100%",
-                      md: "auto",
-                    },
-                  }}
-                >
-                  <IconButton
-                    onClick={handleAmountDecrease}
-                    disabled={amount == "0"}
-                    color="primary"
-                    size="small"
-                    sx={{
-                      mr: 1,
-                      mb: 1.5,
-                      border: "1px solid",
-                      borderColor: "divider",
-                    }}
-                  >
-                    <MinusIcon fontSize="small" />
-                  </IconButton>
-                  <Box
-                    sx={{
-                      width: {
-                        xs: "100%",
-                      },
-                    }}
-                  >
-                    <Typography>Select amount (kg)</Typography>
-                    <NumberField
-                      number={amount}
-                      handleChange={handleAmountChange}
-                      label="Amount"
-                      adornment="kg"
-                    />
-                  </Box>
-                  <IconButton
-                    onClick={handleAmountIncrease}
-                    color="primary"
-                    size="small"
-                    sx={{
-                      ml: 1,
-                      mb: 1.5,
-                      border: "1px solid",
-                      borderColor: "divider",
-                    }}
-                  >
-                    <PlusIcon fontSize="small" />
-                  </IconButton>
-                </Box>
-              </Stack>
-            </Grid2>
-            <Grid2 size={{ xs: 12, md: 6 }}>
-              <Stack
-                spacing={3}
+                <MinusIcon fontSize="small" />
+              </IconButton>
+              <Box
                 sx={{
-                  width: "100%",
-                  alignItems: {
-                    md: "center",
+                  width: {
+                    xs: "100%",
                   },
                 }}
               >
-                <Box sx={{ width: { md: "100%" }, maxWidth: { md: "235px" } }}>
-                  <Typography>Select berry kind</Typography>
-                  <BerryKindSelect
-                    berryKindsData={berryKindsData}
-                    setState={setKind}
-                    value={kind}
-                  />
-                </Box>
-                <Box sx={{ width: { md: "100%" }, maxWidth: { md: "235px" } }}>
-                  <Typography>Select employee</Typography>
-                  <EmployeeSelectField
-                    employeesData={employeesData}
-                    setState={setEmployee}
-                    value={selectedEmployeeId}
-                  />
-                </Box>
-              </Stack>
-            </Grid2>
-            <Grid2 display="flex" justifyContent="center" width="100%">
-              <Stack width="100%" alignItems="center">
-                <Stack
-                  sx={{
-                    width: {
-                      xs: "100%",
-                      md: "33%",
-                    },
-                  }}
-                >
-                  <CreateButton<HarvestCreate>
-                    data={{
-                      kilograms: Number(amount),
-                      employeeId: selectedEmployeeId,
-                      berryTypeId: berryTypeData.id,
-                      berryKindId: kind,
-                    }}
-                    onSuccess={() => {
-                      handleReset();
-                      toast.success("Harvest created successfully!");
-                    }}
-                    onError={(error) => {
-                      toast.error(error.message);
-                    }}
-                    text={"Harvest"}
-                    createMutation={createHarvestMutation}
-                  />
-                </Stack>
-                <Divider
-                  sx={{
-                    mt: 4,
-                    mb: 1,
-                    width: {
-                      xs: "100%",
-                      md: "100%",
-                    },
-                    borderColor: "primary.main",
-                  }}
+                <Typography>Select amount (kg)</Typography>
+                <NumberField
+                  number={amount}
+                  handleChange={handleAmountChange}
+                  label="Amount"
+                  adornment="kg"
                 />
-                <Box sx={{ textAlign: "center" }}>
-                  <Link
-                    component="button"
-                    underline="hover"
-                    onClick={handleBulkDialogOpen}
-                  >
-                    Use bulk input mode
-                  </Link>
-                </Box>
-              </Stack>
-            </Grid2>
-          </Grid2>
-        </Paper>
-      </Fade>
+              </Box>
+              <IconButton
+                onClick={handleAmountIncrease}
+                color="primary"
+                size="small"
+                sx={{
+                  ml: 1,
+                  mb: 1.5,
+                  border: "1px solid",
+                  borderColor: "divider",
+                }}
+              >
+                <PlusIcon fontSize="small" />
+              </IconButton>
+            </Box>
+          </Stack>
+        </Grid2>
+        <Grid2 size={{ xs: 12, md: 6 }}>
+          <Stack
+            spacing={3}
+            sx={{
+              width: "100%",
+              alignItems: {
+                md: "center",
+              },
+            }}
+          >
+            <Box sx={{ width: { md: "100%" }, maxWidth: { md: "235px" } }}>
+              <Typography>Select berry kind</Typography>
+              <BerryKindSelect
+                berryKindsData={berryKindsData}
+                setState={setKind}
+                value={kind}
+              />
+            </Box>
+            <Box sx={{ width: { md: "100%" }, maxWidth: { md: "235px" } }}>
+              <Typography>Select employee</Typography>
+              <EmployeeSelectField
+                employeesData={employeesData}
+                setState={setEmployee}
+                value={selectedEmployeeId}
+              />
+            </Box>
+          </Stack>
+        </Grid2>
+        <Grid2 display="flex" justifyContent="center" width="100%">
+          <Stack width="100%" alignItems="center">
+            <Stack
+              sx={{
+                width: {
+                  xs: "100%",
+                  md: "33%",
+                },
+              }}
+            >
+              <CreateButton<HarvestCreate>
+                data={{
+                  kilograms: Number(amount),
+                  employeeId: selectedEmployeeId,
+                  berryTypeId: berryTypeData.id,
+                  berryKindId: kind,
+                }}
+                onSuccess={() => {
+                  handleReset();
+                  toast.success("Harvest created successfully!");
+                }}
+                onError={(error) => {
+                  toast.error(error.message);
+                }}
+                text={"Harvest"}
+                createMutation={createHarvestMutation}
+              />
+            </Stack>
+            <Divider
+              sx={{
+                mt: 4,
+                mb: 1,
+                width: {
+                  xs: "100%",
+                  md: "100%",
+                },
+                borderColor: "primary.main",
+              }}
+            />
+            <Box sx={{ textAlign: "center" }}>
+              <Link
+                component="button"
+                underline="hover"
+                onClick={handleBulkDialogOpen}
+              >
+                Use bulk input mode
+              </Link>
+            </Box>
+          </Stack>
+        </Grid2>
+      </Grid2>
       <BulkInputDialog<BulkHarvestCreate>
         open={bulkDialogOpen}
         onClose={handleBulkDialogClose}
@@ -267,6 +257,6 @@ export default function HarvestInputBox({
           defaultTime={todayFormatted}
         />
       </BulkInputDialog>
-    </Box>
+    </BoxPaper>
   );
 }

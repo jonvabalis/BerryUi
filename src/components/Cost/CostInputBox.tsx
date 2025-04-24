@@ -3,7 +3,8 @@ import { useToast } from "../../hooks/useToast";
 import { NumberField } from "../Sale/NumberField";
 import { CreateButton } from "../Sale/CreateButton";
 import { CostCreate, useCreateCost } from "../../api/costs/useCreateCost";
-import { Box, Fade, Grid2, Paper } from "@mui/material";
+import { Grid2 } from "@mui/material";
+import { BoxPaper } from "../Reusable/BoxPaper";
 
 export default function CostInputBox() {
   const toast = useToast();
@@ -17,61 +18,50 @@ export default function CostInputBox() {
   };
 
   return (
-    <Box sx={{ width: "100%", maxWidth: "1000px", mx: "auto" }}>
-      <Fade in={true} timeout={500}>
-        <Paper
-          elevation={5}
+    <BoxPaper>
+      <Grid2 container spacing={4}>
+        <Grid2
+          container
+          spacing={1}
+          size={12}
           sx={{
-            p: 4,
-            borderRadius: 4,
-            background: "white",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
         >
-          <Grid2 container spacing={4}>
-              <Grid2
-                container
-                spacing={1}
-                size={12}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-            <NumberField
-              number={cost}
-              handleChange={handleCostChange}
-              label="Cost"
-              adornment="€"
-            />
-          </Grid2>
-          <Grid2
-                container
-                spacing={1}
-                size={12}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-            <CreateButton<CostCreate>
-              data={{
-                price: Number(cost),
-              }}
-              onSuccess={() => {
-                toast.success("Cost created successfully!");
-              }}
-              onError={(error) => {
-                toast.error(error.message);
-              }}
-              text={"Cost"}
-              createMutation={createSaleMutation}
-            ></CreateButton>
-          </Grid2>
-          </Grid2>
-        </Paper>
-      </Fade>
-    </Box>
+          <NumberField
+            number={cost}
+            handleChange={handleCostChange}
+            label="Cost"
+            adornment="€"
+          />
+        </Grid2>
+        <Grid2
+          container
+          spacing={1}
+          size={12}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <CreateButton<CostCreate>
+            data={{
+              price: Number(cost),
+            }}
+            onSuccess={() => {
+              toast.success("Cost created successfully!");
+            }}
+            onError={(error) => {
+              toast.error(error.message);
+            }}
+            text={"Cost"}
+            createMutation={createSaleMutation}
+          ></CreateButton>
+        </Grid2>
+      </Grid2>
+    </BoxPaper>
   );
 }
