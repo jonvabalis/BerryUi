@@ -33,23 +33,34 @@ export default function EmployeeBox({ data }: { data: EmployeeData }) {
               alignItems: "center",
             }}
           >
-            <Grid2 container spacing={1} size={5}>
+            <Grid2
+              container
+              spacing={1}
+              size={{ md: 5, sm: 12 }}
+              sx={{ justifyContent: "center" }}
+            >
               <AccountCircleIcon
                 sx={{
                   width: "100%",
                   height: "100%",
-
+                  maxWidth: { sm: "300px" },
                   color: "secondary.main",
                 }}
               />
             </Grid2>
-            <Grid2 container spacing={1} size={7}>
+            <Grid2
+              container
+              spacing={1}
+              size={{ md: 7, sm: 12 }}
+              sx={{ justifyContent: "center" }}
+            >
               <TableContainer
                 component={Paper}
                 sx={{
                   bgcolor: "transparent",
                   boxShadow: "none",
                   width: "100%",
+                  maxWidth: "500px",
                 }}
               >
                 <Table>
