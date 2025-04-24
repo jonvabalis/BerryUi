@@ -47,7 +47,7 @@ export default function SaleInputBar({
       size={12}
       sx={{
         alignItems: "center",
-        justifyContent: "space-evenly",
+        justifyContent: "space-between",
         width: "100%",
       }}
     >
@@ -86,11 +86,25 @@ export default function SaleInputBar({
       </Grid2>
       <Grid2
         container
+        size={{ md: 0.25, sm: 0.25 }}
+        sx={{
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography
+          sx={{
+            mt: "5px",
+            display: { xs: "none", md: "initial", sm: "initial" },
+          }}
+        >
+          =
+        </Typography>
+      </Grid2>
+      <Grid2
+        container
         spacing={1}
         size={{ xs: 12, md: 3.75, sm: 3.75 }}
-        sx={{
-          ml: { xs: 0, sm: 2, md: 4 },
-        }}
       >
         <Box
           sx={{
@@ -105,7 +119,6 @@ export default function SaleInputBar({
             handleChange={handleTotalChange}
             label="Total"
             adornment="€"
-            startAdornment="="
           />
         </Box>
       </Grid2>
