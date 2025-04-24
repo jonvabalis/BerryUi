@@ -3,7 +3,7 @@ import { useToast } from "../../hooks/useToast";
 import { NumberField } from "../Sale/NumberField";
 import { CreateButton } from "../Sale/CreateButton";
 import { CostCreate, useCreateCost } from "../../api/costs/useCreateCost";
-import { GridContainer } from "../Reusable/GridContainer";
+import { Box, Fade, Grid2, Paper } from "@mui/material";
 
 export default function CostInputBox() {
   const toast = useToast();
@@ -13,34 +13,65 @@ export default function CostInputBox() {
 
   const handleCostChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setCost(value);
+    setCost(Math.max(0, Number(value)).toString());
   };
 
   return (
-    <>
-      <GridContainer span={12}>
-        <NumberField
-          number={cost}
-          handleChange={handleCostChange}
-          label="Cost"
-          adornment="€"
-        />
-      </GridContainer>
-      <GridContainer span={12}>
-        <CreateButton<CostCreate>
-          data={{
-            price: Number(cost),
+    <Box sx={{ width: "100%", maxWidth: "1000px", mx: "auto" }}>
+      <Fade in={true} timeout={500}>
+        <Paper
+          elevation={5}
+          sx={{
+            p: 4,
+            borderRadius: 4,
+            background: "white",
           }}
-          onSuccess={() => {
-            toast.success("Cost created successfully!");
-          }}
-          onError={(error) => {
-            toast.error(error.message);
-          }}
-          text={"Cost"}
-          createMutation={createSaleMutation}
-        ></CreateButton>
-      </GridContainer>
-    </>
+        >
+          <Grid2 container spacing={4}>
+              <Grid2
+                container
+                spacing={1}
+                size={12}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+            <NumberField
+              number={cost}
+              handleChange={handleCostChange}
+              label="Cost"
+              adornment="€"
+            />
+          </Grid2>
+          <Grid2
+                container
+                spacing={1}
+                size={12}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+            <CreateButton<CostCreate>
+              data={{
+                price: Number(cost),
+              }}
+              onSuccess={() => {
+                toast.success("Cost created successfully!");
+              }}
+              onError={(error) => {
+                toast.error(error.message);
+              }}
+              text={"Cost"}
+              createMutation={createSaleMutation}
+            ></CreateButton>
+          </Grid2>
+          </Grid2>
+        </Paper>
+      </Fade>
+    </Box>
   );
 }
