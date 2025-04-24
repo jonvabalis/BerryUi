@@ -74,34 +74,32 @@ export default function StatisticsBox({
             spacing={1}
             size={12}
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
               alignItems: "center",
             }}
           >
-            <RadioGroup
-              value={radioValue}
-              onChange={handleRadioChange}
-              name="use-radio-group"
-              defaultValue="All-time"
-            >
-              <StatisticsControlLabel
-                value="alltime"
-                label="All-time"
-                control={<Radio />}
-              />
-              <StatisticsControlLabel
-                value="filter"
-                label="Filter"
-                control={<Radio />}
-              />
-            </RadioGroup>
+            <Grid2 size={{ xs: 12, sm: 3, md: 3 }}>
+              <RadioGroup
+                value={radioValue}
+                onChange={handleRadioChange}
+                name="use-radio-group"
+                defaultValue="All-time"
+              >
+                <StatisticsControlLabel
+                  value="alltime"
+                  label="All-time"
+                  control={<Radio />}
+                />
+                <StatisticsControlLabel
+                  value="filter"
+                  label="Filter"
+                  control={<Radio />}
+                />
+              </RadioGroup>
+            </Grid2>
             <Grid2
               container
               size={{ xs: 12, sm: 9, md: 9 }}
               sx={{
-                display: "flex",
-                alignItems: "flex-end",
                 justifyContent: "space-around",
               }}
             >
