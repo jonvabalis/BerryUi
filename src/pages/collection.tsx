@@ -1,11 +1,10 @@
 import Box from "@mui/material/Box";
 import { useGetByNameBerryType } from "../api/berryTypes/useGetByNameBerryType";
 import { BerryType } from "../components/Themes/BerryData";
-import PageHeader from "../components/Employee/PageHeader";
+import PageHeader from "../components/Reusable/PageHeader";
 import { useGetAllByTypeBerryKind } from "../api/berryKinds/useGetAllByTypeBerryKind";
 import { useGetAllEmployees } from "../api/employees/useGetAllEmployees";
 import HarvestInputBox from "../components/Harvest/HarvestInputBox";
-import { GridContainer } from "../components/Reusable/GridContainer";
 
 export default function collection() {
   const savedBerryType = localStorage.getItem("berryType");

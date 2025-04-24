@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useGetByIdEmployee } from "../api/employees/useGetByIdEmployee";
 import EmployeeBox from "../components/Employee/EmployeeBox";
-import PageHeader from "../components/Employee/PageHeader";
+import PageHeader from "../components/Reusable/PageHeader";
 
 export default function user() {
   const { data: employeeData, isLoading } = useGetByIdEmployee(

@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import PageHeader from "../components/Employee/PageHeader";
+import PageHeader from "../components/Reusable/PageHeader";
 import CostInputBox from "../components/Cost/CostInputBox";
 
 export default function costs() {

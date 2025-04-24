@@ -2,11 +2,9 @@ import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
 import {
   Box,
   Divider,
-  Fade,
   Grid2,
   IconButton,
   Link,
-  Paper,
   Stack,
   Typography,
 } from "@mui/material";

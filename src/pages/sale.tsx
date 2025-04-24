@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { useGetByNameBerryType } from "../api/berryTypes/useGetByNameBerryType";
 import { BerryType } from "../components/Themes/BerryData";
-import PageHeader from "../components/Employee/PageHeader";
+import PageHeader from "../components/Reusable/PageHeader";
 import SaleInputBox from "../components/Sale/SaleInputBox";
 import { useGetAllByTypeBerryKind } from "../api/berryKinds/useGetAllByTypeBerryKind";
 
