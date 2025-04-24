@@ -1,23 +1,27 @@
 import { Box } from "@mui/material";
 import { useGetByIdEmployee } from "../api/employees/useGetByIdEmployee";
-import EmployeeData from "../components/Employee/EmployeeData";
+import EmployeeBox from "../components/Employee/EmployeeBox";
+import PageHeader from "../components/Employee/PageHeader";
 
 export default function user() {
-  const { data, isLoading } = useGetByIdEmployee(
+  const { data: employeeData, isLoading } = useGetByIdEmployee(
     "3fa85f64-5717-4562-b3fc-2c963f66afa6"
   );
 
-  if (!data) {
-    return (
-      <Box sx={{ color: "primary.contrastText" }}>
-        No employee data is available
-      </Box>
-    );
+  if (isLoading) {
+    return <PageHeader text="Data is being fetched" />;
+  }
+
+  if (!employeeData) {
+    return <PageHeader text="No data is available" />;
   }
 
   return (
-    <>
-      {isLoading ? "Data is being fetched" : !isLoading && EmployeeData(data)}
-    </>
+    <Box width="100vw">
+      <Box>
+        <PageHeader text="Employee overview" />
+      </Box>
+      <EmployeeBox data={employeeData} />
+    </Box>
   );
 }
