@@ -175,6 +175,8 @@ export default function StatisticsBox({
         </Grid2>
       </BoxPaper>
 
+      <Box sx={{ mt: 4 }}></Box>
+
       <BoxPaper>
         <Grid2
           container
