@@ -13,34 +13,35 @@ import Costs from "./pages/costs.tsx";
 
 function App() {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        bgcolor: "primary.light",
-        height: "100vh",
-        padding: 4,
-        boxShadow: 3,
-        borderRadius: 2,
-        overflow: "hidden",
-        flexDirection: "row",
-        justifyContent: "flex-start",
-        alignItems: "stretch",
-        overflowY: "scroll",
-      }}
-    >
-      <Sidebar />
-      <Routes>
-        <Route path="/" element={<QuickSummary />} />
-        <Route path="/sale" element={<Sale />} />
-        <Route path="/collection" element={<Collection />} />
-        <Route path="/costs" element={<Costs />} />
-        <Route path="/statistics" element={<Statistics />} />
-        <Route path="/historyData" element={<HistoryData />} />
-        <Route path="/user" element={<User />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </Box>
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          bgcolor: "primary.light",
+          height: "100vh",
+          padding: 1,
+          borderRadius: 2,
+          overflow: "hidden",
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "stretch",
+          overflowY: "scroll",
+        }}
+      >
+        <Sidebar />
+        <Routes>
+          <Route path="/" element={<QuickSummary />} />
+          <Route path="/sale" element={<Sale />} />
+          <Route path="/collection" element={<Collection />} />
+          <Route path="/costs" element={<Costs />} />
+          <Route path="/statistics" element={<Statistics />} />
+          <Route path="/historyData" element={<HistoryData />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </Box>
+    </>
   );
 }
 

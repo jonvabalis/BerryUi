@@ -8,7 +8,7 @@ export const BoxPaper = ({ children }: { children: ReactNode }) => {
         <Paper
           elevation={5}
           sx={{
-            p: 4,
+            p: { md: 4, sm: 3, xs: 1 },
             borderRadius: 4,
             background: "white",
           }}

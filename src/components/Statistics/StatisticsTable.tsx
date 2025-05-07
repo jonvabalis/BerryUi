@@ -69,10 +69,7 @@ const StatisticsTable = <
   const sumArray: number[] = Object.values(data.sum);
 
   return (
-    <TableContainer
-      component={Paper}
-      sx={{ maxWidth: 800, margin: "auto", mt: 3 }}
-    >
+    <TableContainer component={Paper} sx={{ maxWidth: 800, margin: "auto" }}>
       <Table
         sx={{
           backgroundColor: "primary.dark",
@@ -83,7 +80,12 @@ const StatisticsTable = <
             {header.map((headerElement) => (
               <TableCell
                 key={headerElement}
-                sx={{ color: "primary.contrastText", fontWeight: "bold" }}
+                sx={{
+                  color: "primary.contrastText",
+                  fontWeight: "bold",
+                  wordBreak: "break-word",
+                  whiteSpace: "normal",
+                }}
               >
                 {headerElement}
               </TableCell>
