@@ -13,6 +13,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { dayjsToUTCDate } from "../../utils/utcHelper";
 import { Box, Grid2 } from "@mui/material";
+import React from "react";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -23,15 +24,17 @@ interface HarvestInputLineProps {
   defaultEmployeeId: string;
   defaultTime: Date;
   data?: BulkHarvestCreate;
-  onChange?: (data: BulkHarvestCreate) => void;
+  itemIndex?: number;
+  onChange?: (index: number, data: BulkHarvestCreate) => void;
 }
 
-export default function HarvestInputLine({
+function HarvestInputLineComponent({
   berryKindsData,
   employeesData,
   defaultEmployeeId,
   defaultTime,
   data,
+  itemIndex,
   onChange,
 }: HarvestInputLineProps) {
   const [amount, setAmount] = useState<string>("0");
@@ -44,14 +47,14 @@ export default function HarvestInputLine({
     setKind(data?.berryKindId || null);
     setEmployee(data?.employeeId || defaultEmployeeId);
     setSelectedTime(data?.eventTime || defaultTime);
-  }, [data]);
+  }, [data, defaultEmployeeId, defaultTime]);
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setAmount(value);
 
-    if (onChange) {
-      onChange({
+    if (onChange && typeof itemIndex === "number") {
+      onChange(itemIndex, {
         kilograms: Number(value),
         berryKindId: kind,
         berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
@@ -65,8 +68,8 @@ export default function HarvestInputLine({
     const updatedSelectedTime = newTime ? dayjsToUTCDate(newTime) : defaultTime;
     setSelectedTime(updatedSelectedTime);
 
-    if (onChange) {
-      onChange({
+    if (onChange && typeof itemIndex === "number") {
+      onChange(itemIndex, {
         kilograms: Number(amount),
         berryKindId: kind,
         berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
@@ -79,23 +82,27 @@ export default function HarvestInputLine({
   const handleKindChange = (berryKindId: string) => {
     setKind(berryKindId === "null" ? null : berryKindId);
 
-    onChange?.({
-      kilograms: Number(amount),
-      berryKindId: berryKindId === "null" ? null : berryKindId,
-      berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
-      employeeId: selectedEmployeeId,
-      eventTime: selectedTime,
-    });
+    if (onChange && typeof itemIndex === "number") {
+      onChange(itemIndex, {
+        kilograms: Number(amount),
+        berryKindId: berryKindId === "null" ? null : berryKindId,
+        berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+        employeeId: selectedEmployeeId,
+        eventTime: selectedTime,
+      });
+    }
   };
 
   const handleEmployeeChange = (employeeId: string) => {
-    onChange?.({
-      kilograms: Number(amount),
-      berryKindId: kind,
-      berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
-      employeeId: employeeId,
-      eventTime: selectedTime,
-    });
+    if (onChange && typeof itemIndex === "number") {
+      onChange(itemIndex, {
+        kilograms: Number(amount),
+        berryKindId: kind,
+        berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+        employeeId: employeeId,
+        eventTime: selectedTime,
+      });
+    }
   };
 
   return (
@@ -161,3 +168,7 @@ export default function HarvestInputLine({
     </Box>
   );
 }
+
+const HarvestInputLine = React.memo(HarvestInputLineComponent);
+
+export default HarvestInputLine;

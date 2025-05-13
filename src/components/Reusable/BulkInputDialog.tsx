@@ -11,11 +11,13 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
+import { v4 as uuidv4 } from "uuid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import { useToast } from "../../hooks/useToast";
 import { CreateButton } from "../Sale/CreateButton";
 import { UseMutationResult } from "@tanstack/react-query";
+
 interface BulkInputDialogProps<T extends Record<string, any>> {
   open: boolean;
   onClose: () => void;
@@ -40,39 +42,52 @@ export default function BulkInputDialog<T extends Record<string, any>>({
   toastSuccess,
 }: BulkInputDialogProps<T>): JSX.Element {
   const toast = useToast();
-  const [items, setItems] = useState<T[]>([{ ...defaultItem }]);
+  const [items, setItems] = useState<T[]>([
+    { ...defaultItem, listId: uuidv4() },
+  ]);
   const [confirmWindowOpen, setConfirmWindowOpen] = useState<boolean>(false);
 
-  const handleChange = (index: number) => (data: any) => {
-    const newItems = [...items];
-    newItems[index] = data;
-    setItems(newItems);
-  };
+  const handleItemDataChange = useCallback((index: number, newData: any) => {
+    setItems((currentItems) => {
+      const newItems = [...currentItems];
+      newItems[index] = { ...newData, listId: currentItems[index].listId };
+      return newItems;
+    });
+  }, []);
 
-  const handleAddItem = () => {
-    setItems([...items, { ...defaultItem }]);
-  };
+  const handleAddItem = useCallback(() => {
+    setItems((currentItems) => [
+      ...currentItems,
+      { ...defaultItem, listId: uuidv4() },
+    ]);
+  }, [defaultItem]);
 
-  const handleRemoveItem = (index: number) => {
-    const newItems = [...items];
-    newItems.splice(index, 1);
-    setItems(newItems.length > 0 ? newItems : [{ ...defaultItem }]);
-  };
+  const handleRemoveItem = useCallback(
+    (index: number) => {
+      setItems((currentItems) => {
+        const updatedItems = [...currentItems];
+        updatedItems.splice(index, 1);
+        return updatedItems.length > 0 ? updatedItems : [{ ...defaultItem }];
+      });
+    },
+    [defaultItem]
+  );
 
   const handleSubmit = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setItems([{ ...defaultItem, _internalId: uuidv4() }]);
     onClose();
   }, []);
 
-  const handleClose = useCallback(() => {
+  const handleCloseDialog = useCallback(() => {
     setConfirmWindowOpen(true);
   }, []);
 
   const handleDiscardChanges = useCallback(() => {
-    setItems([{ ...defaultItem }]);
+    setItems([{ ...defaultItem, _internalId: uuidv4() }]);
     setConfirmWindowOpen(false);
     onClose();
-  }, []);
+  }, [defaultItem, onClose]);
 
   const handleConfirmWindowClose = useCallback(() => {
     setConfirmWindowOpen(false);
@@ -84,7 +99,8 @@ export default function BulkInputDialog<T extends Record<string, any>>({
         if (React.isValidElement(child)) {
           const newProps = {
             ...(child.props as Record<string, any>),
-            onChange: handleChange(itemIndex),
+            onChange: handleItemDataChange,
+            itemIndex: itemIndex,
             data: items[itemIndex],
           };
           return React.cloneElement(child, newProps as any);
@@ -92,7 +108,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
         return child;
       });
     },
-    [handleAddItem, handleRemoveItem]
+    [children, items, handleItemDataChange]
   );
 
   return (
@@ -101,7 +117,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
         open={open}
         onClose={(_event, reason) => {
           if (reason !== "backdropClick") {
-            handleClose();
+            handleCloseDialog();
           }
         }}
         disableEscapeKeyDown
@@ -114,9 +130,9 @@ export default function BulkInputDialog<T extends Record<string, any>>({
       >
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
-          {items.map((_item, index) => (
+          {items.map((item, index) => (
             <Box
-              key={index}
+              key={item.listId}
               sx={{ mb: 3, width: "100%", maxWidth: "1000px", mx: "auto" }}
             >
               <Box
@@ -158,7 +174,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleCloseDialog} color="primary">
             Cancel
           </Button>
           <Box>
