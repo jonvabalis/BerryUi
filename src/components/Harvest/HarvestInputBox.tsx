@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 import { useToast } from "../../hooks/useToast";
 import {
@@ -70,28 +70,35 @@ export default function HarvestInputBox({
   const [bulkDialogOpen, setBulkDialogOpen] = useState<boolean>(false);
 
   const handleBulkDialogOpen = () => setBulkDialogOpen(true);
-  const handleBulkDialogClose = () => setBulkDialogOpen(false);
+  const handleBulkDialogClose = useCallback(() => {
+    setBulkDialogOpen(false);
+  }, []);
 
-  const today = new Date();
-  const todayFormatted = new Date(
-    Date.UTC(
-      today.getUTCFullYear(),
-      today.getUTCMonth(),
-      today.getUTCDate(),
-      0,
-      0,
-      0,
-      0
-    )
-  );
+  const todayFormatted = useMemo(() => {
+    const today = new Date();
+    return new Date(
+      Date.UTC(
+        today.getUTCFullYear(),
+        today.getUTCMonth(),
+        today.getUTCDate(),
+        0,
+        0,
+        0,
+        0
+      )
+    );
+  }, []);
 
-  const emptyProduct: BulkHarvestCreate = {
-    kilograms: 0,
-    employeeId: "",
-    berryTypeId: "",
-    berryKindId: "",
-    eventTime: todayFormatted,
-  };
+  const emptyProduct = useMemo<BulkHarvestCreate>(() => {
+    return {
+      kilograms: 0,
+      employeeId: "",
+      berryTypeId: "",
+      berryKindId: "",
+      eventTime: todayFormatted,
+    };
+  }, [todayFormatted]);
+
   return (
     <BoxPaper>
       <Grid2 container spacing={4}>
