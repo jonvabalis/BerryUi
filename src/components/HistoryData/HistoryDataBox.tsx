@@ -1,6 +1,5 @@
 import { useState, useMemo, useCallback } from "react";
 import { useToast } from "../../hooks/useToast";
-import { Typography } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs, { Dayjs } from "dayjs";
@@ -9,16 +8,22 @@ import { BoxPaper } from "../Reusable/BoxPaper";
 import { RecordedDataDay, RecordedDataDayProps } from "./RecordedDataDay";
 import { useGetAllRecordedDaysByYear } from "../../api/history/useGetAllRecordedDaysByYear";
 import Grid2 from "@mui/material/Grid2";
+import { useGetBriefByDay } from "../../api/history/useGetBriefByDay";
+import HistoryDataBriefTable from "./HistoryDataBriefTable";
 
 export default function HistoryDataBox() {
   const toast = useToast();
 
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs());
+  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs().hour(23));
   const [currentDataYear, setCurrentDataYear] = useState<number>(
-    selectedDate ? selectedDate.year() : dayjs().year
+    selectedDate ? selectedDate.year() : dayjs().hour(23).year
   );
 
   const { data: datesWithData } = useGetAllRecordedDaysByYear(currentDataYear);
+  const { data: selectedDateBrief } = useGetBriefByDay(
+    selectedDate.format("YYYY-MM-DD")
+  );
+  console.log(selectedDateBrief);
 
   const calendarSlotProps = useMemo(
     () => ({
@@ -30,7 +35,7 @@ export default function HistoryDataBox() {
   );
 
   const handleDateChange = useCallback(
-    (date: Dayjs | null) => {
+    (date: Dayjs) => {
       setSelectedDate(date);
       if (date && date.year() !== currentDataYear) {
         setCurrentDataYear(date.year());
@@ -107,7 +112,7 @@ export default function HistoryDataBox() {
           </LocalizationProvider>
         </Grid2>
         <Grid2 size={{ xs: 12, md: 6, lg: 8 }}>
-          <Typography>Statistics to be displayed</Typography>
+          <HistoryDataBriefTable data={selectedDateBrief} />
         </Grid2>
       </Grid2>
     </BoxPaper>
