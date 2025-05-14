@@ -6,9 +6,8 @@ import {
   TableBody,
   TableContainer,
   Paper,
-  Typography,
 } from "@mui/material";
-import { BriefByDay } from "../../api/history/useGetBriefByDay";
+import { HistoryEmployeeBriefByDay } from "../../api/history/useGetBriefByDay";
 
 const tableRowStyle = {
   "& > td, & > th": {
@@ -17,45 +16,25 @@ const tableRowStyle = {
 };
 
 const addTableCells = (
-  dataArray: {
-    key: string;
-    value: number;
-  }[]
+  key: string,
+  data: Record<string, HistoryEmployeeBriefByDay>
 ) => {
-  return dataArray.map((element) => (
-    <TableCell key={element.key}>
-      {element.key !== "soldSum"
-        ? `${element.value} kg`
-        : formatCurrency(element.value)}
-    </TableCell>
-  ));
+  return (
+    <>
+      <TableCell key={`${key}-1`}>{`${data[key].name}`}</TableCell>
+      <TableCell key={`${key}-2`}>{`${data[key].harvestedCount} kg`}</TableCell>
+      <TableCell key={`${key}-3`}>{`${data[key].soldCount} kg`}</TableCell>
+    </>
+  );
 };
 
-const formatCurrency = (value: number) => {
-  return new Intl.NumberFormat("lt-LT", {
-    style: "currency",
-    currency: "EUR",
-  }).format(value);
-};
+const header = ["Name", "Harvested", "Sold"];
 
-const header = ["Harvested", "Sold", "Sold for"];
-
-export default function HistoryDataBriefTable({
+export default function HistoryTotalDataBriefTable({
   data,
 }: {
-  data: BriefByDay | undefined;
+  data: Record<string, HistoryEmployeeBriefByDay>;
 }) {
-  if (!data) {
-    return <Typography>Please wait...</Typography>;
-  }
-
-  const dataArray = Object.keys(data).map((key) => {
-    return {
-      key: key,
-      value: data[key as keyof BriefByDay],
-    };
-  });
-
   return (
     <TableContainer component={Paper} sx={{ maxWidth: 800, margin: "auto" }}>
       <Table
@@ -81,9 +60,11 @@ export default function HistoryDataBriefTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow hover sx={tableRowStyle}>
-            {addTableCells(dataArray)}
-          </TableRow>
+          {Object.keys(data).map((key) => (
+            <TableRow key={key} hover sx={tableRowStyle}>
+              {addTableCells(key, data)}
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>

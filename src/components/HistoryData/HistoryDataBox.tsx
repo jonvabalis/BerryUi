@@ -9,7 +9,9 @@ import { RecordedDataDay, RecordedDataDayProps } from "./RecordedDataDay";
 import { useGetAllRecordedDaysByYear } from "../../api/history/useGetAllRecordedDaysByYear";
 import Grid2 from "@mui/material/Grid2";
 import { useGetBriefByDay } from "../../api/history/useGetBriefByDay";
-import HistoryDataBriefTable from "./HistoryDataBriefTable";
+import HistoryTotalDataBriefTable from "./HistoryTotalDataBriefTable";
+import Typography from "@mui/material/Typography/Typography";
+import HistoryEmployeeDataBriefTable from "./HistoryEmployeeDataBriefTable";
 
 export default function HistoryDataBox() {
   const toast = useToast();
@@ -23,7 +25,6 @@ export default function HistoryDataBox() {
   const { data: selectedDateBrief } = useGetBriefByDay(
     selectedDate.format("YYYY-MM-DD")
   );
-  console.log(selectedDateBrief);
 
   const calendarSlotProps = useMemo(
     () => ({
@@ -112,7 +113,16 @@ export default function HistoryDataBox() {
           </LocalizationProvider>
         </Grid2>
         <Grid2 size={{ xs: 12, md: 6, lg: 8 }}>
-          <HistoryDataBriefTable data={selectedDateBrief} />
+          {selectedDateBrief ? (
+            <Grid2 container spacing={4}>
+              <HistoryTotalDataBriefTable data={selectedDateBrief.totals} />
+              <HistoryEmployeeDataBriefTable
+                data={selectedDateBrief.employees}
+              />
+            </Grid2>
+          ) : (
+            <Typography>Please wait...</Typography>
+          )}
         </Grid2>
       </Grid2>
     </BoxPaper>
