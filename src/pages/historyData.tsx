@@ -8,8 +8,11 @@ import {
 } from "../api/berryTypes/useGetByNameBerryType";
 import { useGetAllEmployees } from "../api/employees/useGetAllEmployees";
 import HistoryBulkInputBox from "../components/HistoryData/HistoryBulkInputBox";
+import dayjs, { Dayjs } from "dayjs";
+import { useState } from "react";
 
 export default function historyData() {
+  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs().hour(23));
   const savedBerryType = localStorage.getItem("berryType");
   const berryTypeName = savedBerryType
     ? (JSON.parse(savedBerryType) as BerryType).type
@@ -32,13 +35,17 @@ export default function historyData() {
       <Box>
         <PageHeader text="History data" />
       </Box>
-      <HistoryDataBox />
+      <HistoryDataBox
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+      />
       <Box sx={{ mt: 4 }} />
       <HistoryBulkInputBox
         employeesData={employeesData}
         berryKindsData={berryKindsData}
         defaultEmployeeId={currentEmployeeId}
         berryTypeData={berryTypeData}
+        selectedDate={selectedDate}
       />
     </Box>
   );

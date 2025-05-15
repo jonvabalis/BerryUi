@@ -21,13 +21,13 @@ import { EmployeeSelectField } from "./EmployeeSelectField";
 import { BerryKindSelect } from "../Sale/BerryKindSelectField";
 import { CreateButton } from "../Sale/CreateButton";
 import BulkInputDialog from "../Reusable/BulkInputDialog";
-import HarvestInputLine from "./HarvestInputLine";
 import {
   BulkHarvestCreate,
   useCreateBulkHarvest,
 } from "../../api/harvests/useCreateBulkHarvest";
 import { Add as PlusIcon, Remove as MinusIcon } from "@mui/icons-material";
 import { BoxPaper } from "../Reusable/BoxPaper";
+import { HarvestInputLine } from "./HarvestInputLine";
 
 interface HarvestInputBoxProps {
   berryTypeData: BerryType;

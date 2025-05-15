@@ -11,15 +11,19 @@ interface SaleTypeSelectFieldProps {
   saleTypeData: SaleType[];
   value: number;
   setState: React.Dispatch<React.SetStateAction<number>>;
+  onChange?: (e: number) => void;
 }
 
 export function SaleTypeSelect({
   saleTypeData,
   value,
   setState,
+  onChange,
 }: SaleTypeSelectFieldProps) {
   const handleChange = (event: SelectChangeEvent) => {
-    setState(Number(event.target.value));
+    const value = Number(event.target.value);
+    setState(value);
+    onChange?.(value);
   };
 
   return (
@@ -31,7 +35,7 @@ export function SaleTypeSelect({
         minWidth: { xs: "100%" },
       }}
     >
-      <InputLabel id="demo-simple-select-standard-label">Kind</InputLabel>
+      <InputLabel id="demo-simple-select-standard-label">Sale</InputLabel>
       <Select
         sx={{
           ".MuiOutlinedInput-notchedOutline": {

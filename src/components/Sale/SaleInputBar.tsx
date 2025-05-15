@@ -5,19 +5,25 @@ import { NumberField } from "./NumberField";
 interface SaleInputBarProps {
   amount: string;
   setAmount: React.Dispatch<React.SetStateAction<string>>;
+  handleParentAmountChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   price: string;
   setPrice: React.Dispatch<React.SetStateAction<string>>;
+  handleParentPriceChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   totalPrice: string;
   setTotalPrice: React.Dispatch<React.SetStateAction<string>>;
+  handleParentTotalPriceChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function SaleInputBar({
   amount,
   setAmount,
+  handleParentAmountChange,
   price,
   setPrice,
+  handleParentPriceChange,
   totalPrice,
   setTotalPrice,
+  handleParentTotalPriceChange,
 }: SaleInputBarProps) {
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -25,6 +31,8 @@ export default function SaleInputBar({
 
     const calculatedPrice = (Number(value) * Number(price)).toFixed(2);
     setTotalPrice(calculatedPrice);
+
+    handleParentAmountChange?.(e);
   };
 
   const handleCostChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -33,11 +41,15 @@ export default function SaleInputBar({
 
     const calculatedPrice = (Number(amount) * Number(value)).toFixed(2);
     setTotalPrice(calculatedPrice);
+
+    handleParentPriceChange?.(e);
   };
 
   const handleTotalChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setTotalPrice(Math.max(0, Number(value)).toString());
+
+    handleParentTotalPriceChange?.(e);
   };
 
   return (
@@ -101,11 +113,7 @@ export default function SaleInputBar({
           =
         </Typography>
       </Grid2>
-      <Grid2
-        container
-        spacing={1}
-        size={{ xs: 12, md: 3.75, sm: 3.75 }}
-      >
+      <Grid2 container spacing={1} size={{ xs: 12, md: 3.75, sm: 3.75 }}>
         <Box
           sx={{
             display: "flex",

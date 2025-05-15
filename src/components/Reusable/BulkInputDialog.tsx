@@ -51,6 +51,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
     setItems((currentItems) => {
       const newItems = [...currentItems];
       newItems[index] = { ...newData, listId: currentItems[index].listId };
+      console.log(newItems);
       return newItems;
     });
   }, []);
@@ -96,9 +97,11 @@ export default function BulkInputDialog<T extends Record<string, any>>({
   const renderItemFields = useCallback(
     (itemIndex: number): ReactNode => {
       return React.Children.map(children, (child) => {
+        console.log(items[itemIndex].listId + ", o itemIndex " + itemIndex);
         if (React.isValidElement(child)) {
           const newProps = {
             ...(child.props as Record<string, any>),
+            // key: `child-${items[itemIndex].listId}`,
             onChange: handleItemDataChange,
             itemIndex: itemIndex,
             data: items[itemIndex],
@@ -132,7 +135,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
         <DialogContent>
           {items.map((item, index) => (
             <Box
-              key={item.listId}
+              key={item.listId || "defaultListId"}
               sx={{ mb: 3, width: "100%", maxWidth: "1000px", mx: "auto" }}
             >
               <Box
@@ -157,7 +160,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
                 )}
               </Box>
 
-              <Box>{renderItemFields(index)}</Box>
+              <Box key={`child-${item.listId}`}>{renderItemFields(index)}</Box>
 
               {index < items.length - 1 && <Divider sx={{ my: 2 }} />}
             </Box>

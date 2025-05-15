@@ -1,5 +1,4 @@
 import { useState, useMemo, useCallback } from "react";
-import { useToast } from "../../hooks/useToast";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs, { Dayjs } from "dayjs";
@@ -13,10 +12,15 @@ import HistoryTotalDataBriefTable from "./HistoryTotalDataBriefTable";
 import Typography from "@mui/material/Typography/Typography";
 import HistoryEmployeeDataBriefTable from "./HistoryEmployeeDataBriefTable";
 
-export default function HistoryDataBox() {
-  const toast = useToast();
+interface HistoryDataBoxProps {
+  selectedDate: Dayjs;
+  setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs>>;
+}
 
-  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs().hour(23));
+export default function HistoryDataBox({
+  selectedDate,
+  setSelectedDate,
+}: HistoryDataBoxProps) {
   const [currentDataYear, setCurrentDataYear] = useState<number>(
     selectedDate ? selectedDate.year() : dayjs().hour(23).year
   );

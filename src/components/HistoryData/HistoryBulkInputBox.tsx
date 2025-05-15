@@ -5,7 +5,7 @@ import {
   useCreateBulkHarvest,
 } from "../../api/harvests/useCreateBulkHarvest";
 import { useCallback, useMemo, useState } from "react";
-import HarvestInputLine from "../Harvest/HarvestInputLine";
+import { HarvestInputLine } from "../Harvest/HarvestInputLine";
 import BulkInputDialog from "../Reusable/BulkInputDialog";
 import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
@@ -14,13 +14,18 @@ import {
   BulkSaleCreate,
   useCreateBulkSale,
 } from "../../api/sales/useCreateBulkSale";
-import SaleInputLine from "../Sale/SaleInputLine";
+import { SaleInputLine } from "../Sale/SaleInputLine";
+import dayjs, { Dayjs } from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 interface HistoryBulkInputBoxProps {
   berryTypeData: BerryType;
   berryKindsData: BerryKind[] | undefined;
   employeesData: EmployeeData[] | undefined;
   defaultEmployeeId: string;
+  selectedDate: Dayjs;
 }
 
 export default function HistoryBulkInputBox({
@@ -28,6 +33,7 @@ export default function HistoryBulkInputBox({
   berryKindsData,
   employeesData,
   defaultEmployeeId,
+  selectedDate,
 }: HistoryBulkInputBoxProps) {
   const createBulkHarvestMutation = useCreateBulkHarvest();
   const createBulkSaleMutation = useCreateBulkSale();
@@ -45,20 +51,20 @@ export default function HistoryBulkInputBox({
     setBulkSaleDialogOpen(false);
   }, []);
 
-  const todayFormatted = useMemo(() => {
-    const today = new Date();
+  const selectedDay = useMemo(() => {
+    const selectedTimeInUTC = selectedDate.utc();
     return new Date(
       Date.UTC(
-        today.getUTCFullYear(),
-        today.getUTCMonth(),
-        today.getUTCDate(),
+        selectedTimeInUTC.year(),
+        selectedTimeInUTC.month(),
+        selectedTimeInUTC.date(),
         0,
         0,
         0,
         0
       )
     );
-  }, []);
+  }, [selectedDate]);
 
   const emptyHarvest = useMemo<BulkHarvestCreate>(() => {
     return {
@@ -66,9 +72,9 @@ export default function HistoryBulkInputBox({
       employeeId: "",
       berryTypeId: "",
       berryKindId: "",
-      eventTime: todayFormatted,
+      eventTime: selectedDay,
     };
-  }, [todayFormatted]);
+  }, [selectedDay]);
 
   const emptySale = useMemo<BulkSaleCreate>(() => {
     return {
@@ -76,12 +82,12 @@ export default function HistoryBulkInputBox({
       employeeId: "",
       berryTypeId: "",
       berryKindId: "",
-      eventTime: todayFormatted,
-      pricePerKilo: "0",
+      eventTime: selectedDay,
+      pricePerKilo: "6",
       totalPrice: "0",
       saleType: 0,
     };
-  }, [todayFormatted]);
+  }, [selectedDay]);
 
   return (
     <BoxPaper>
@@ -137,7 +143,7 @@ export default function HistoryBulkInputBox({
           berryKindsData={berryKindsData}
           employeesData={employeesData}
           defaultEmployeeId={defaultEmployeeId}
-          defaultTime={todayFormatted}
+          defaultTime={selectedDay}
         />
       </BulkInputDialog>
       <BulkInputDialog<BulkSaleCreate>
@@ -154,7 +160,7 @@ export default function HistoryBulkInputBox({
           berryKindsData={berryKindsData}
           employeesData={employeesData}
           defaultEmployeeId={defaultEmployeeId}
-          defaultTime={todayFormatted}
+          defaultTime={selectedDay}
           defaultBerryCost={"6"}
         />
       </BulkInputDialog>
