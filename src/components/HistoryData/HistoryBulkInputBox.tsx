@@ -130,6 +130,7 @@ export default function HistoryBulkInputBox({
         </Grid2>
       </Grid2>
       <BulkInputDialog<BulkHarvestCreate>
+        key={`bulkharvest-${selectedDay.toISOString()}`}
         open={bulkHarvestDialogOpen}
         onClose={handleBulkHarvestDialogClose}
         title="Bulk harvest input"
@@ -147,6 +148,7 @@ export default function HistoryBulkInputBox({
         />
       </BulkInputDialog>
       <BulkInputDialog<BulkSaleCreate>
+        key={`bulksale-${selectedDay.toISOString()}`}
         open={bulkSaleDialogOpen}
         onClose={handleBulkSaleDialogClose}
         title="Bulk sale input"
