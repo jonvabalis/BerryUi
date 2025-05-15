@@ -186,7 +186,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
               onError={(error) => {
                 toast.error(error.message);
               }}
-              text={"Harvest"}
+              text={itemLabel}
               createMutation={createMutation}
               handleSubmit={handleSubmit}
             />
