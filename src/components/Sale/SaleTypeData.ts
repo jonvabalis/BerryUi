@@ -12,4 +12,8 @@ export const SALETYPE_DATA: SaleType[] = [
     text: "Order",
     value: 1,
   },
+  {
+    text: "Gift",
+    value: 2,
+  },
 ];
