@@ -1,13 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-
-export interface BerryType {
-  type: string;
-  berryKinds: string[] | null;
-  id: string;
-  createdAt: Date;
-  lastModifiedAt: Date;
-}
+import { BerryType } from "../../components/Themes/BerryData";
 
 export const useGetByNameBerryType = (berryType: string) => {
   return useQuery<BerryType, Error>({
@@ -19,6 +12,7 @@ export const useGetByNameBerryType = (berryType: string) => {
           params: { BerryType: berryType },
         }
       );
+
       return data;
     },
   });

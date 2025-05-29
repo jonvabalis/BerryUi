@@ -51,7 +51,6 @@ export default function BulkInputDialog<T extends Record<string, any>>({
     setItems((currentItems) => {
       const newItems = [...currentItems];
       newItems[index] = { ...newData, listId: currentItems[index].listId };
-      console.log(newItems);
       return newItems;
     });
   }, []);
@@ -97,11 +96,9 @@ export default function BulkInputDialog<T extends Record<string, any>>({
   const renderItemFields = useCallback(
     (itemIndex: number): ReactNode => {
       return React.Children.map(children, (child) => {
-        console.log(items[itemIndex].listId + ", o itemIndex " + itemIndex);
         if (React.isValidElement(child)) {
           const newProps = {
             ...(child.props as Record<string, any>),
-            // key: `child-${items[itemIndex].listId}`,
             onChange: handleItemDataChange,
             itemIndex: itemIndex,
             data: items[itemIndex],

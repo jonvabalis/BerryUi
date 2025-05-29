@@ -1,36 +1,21 @@
 import Box from "@mui/material/Box";
 import PageHeader from "../components/Reusable/PageHeader";
-import {
-  BerryType,
-  useGetByNameBerryType,
-} from "../api/berryTypes/useGetByNameBerryType";
 import StatisticsBox from "../components/Statistics/StatisticsBox";
-import { Tabs, Tab, Grid2 } from "@mui/material";
+import { Tabs, Tab } from "@mui/material";
 import { useState } from "react";
 import { BoxPaper } from "../components/Reusable/BoxPaper";
 import TabPanel from "../components/Reusable/TabPanel";
+import { BerryType } from "../components/Themes/BerryData";
 
 export default function statistics() {
   const savedBerryType = localStorage.getItem("berryType");
-  const berryTypeName = savedBerryType
-    ? (JSON.parse(savedBerryType) as BerryType).type
-    : "not found";
-  const { data: berryTypeData, isLoading } =
-    useGetByNameBerryType(berryTypeName);
+  const berryTypeData = JSON.parse(savedBerryType!) as BerryType;
 
   const [tabValue, setTabValue] = useState(0);
 
   const handleTabChange = (_e: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
-
-  if (isLoading) {
-    return <PageHeader text="Data is being fetched" />;
-  }
-
-  if (!berryTypeData) {
-    return <PageHeader text="No data is available" />;
-  }
 
   return (
     <Box width="100vw">

@@ -1,5 +1,4 @@
 import Box from "@mui/material/Box";
-import { useGetByNameBerryType } from "../api/berryTypes/useGetByNameBerryType";
 import { BerryType } from "../components/Themes/BerryData";
 import PageHeader from "../components/Reusable/PageHeader";
 import { useGetAllByTypeBerryKind } from "../api/berryKinds/useGetAllByTypeBerryKind";
@@ -8,22 +7,11 @@ import HarvestInputBox from "../components/Harvest/HarvestInputBox";
 
 export default function collection() {
   const savedBerryType = localStorage.getItem("berryType");
-  const berryTypeName = savedBerryType
-    ? (JSON.parse(savedBerryType) as BerryType).type
-    : "not found";
-  const { data: berryTypeData, isLoading } =
-    useGetByNameBerryType(berryTypeName);
+  const berryTypeData = JSON.parse(savedBerryType!) as BerryType;
 
-  const { data: berryKindsData } = useGetAllByTypeBerryKind(berryTypeData?.id, {
-    enabled: !!berryTypeData,
-  });
-
+  const { data: berryKindsData } = useGetAllByTypeBerryKind(berryTypeData.id);
   const { data: employeesData } = useGetAllEmployees();
   const currentEmployeeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
-
-  if (isLoading) {
-    return <PageHeader text="Data is being fetched" />;
-  }
 
   if (!berryTypeData) {
     return <PageHeader text="No data is available" />;

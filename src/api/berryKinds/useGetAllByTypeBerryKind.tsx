@@ -11,8 +11,8 @@ export interface BerryKind {
 }
 
 export const useGetAllByTypeBerryKind = (
-  berryTypeId: string | undefined,
-  options: { enabled: boolean }
+  berryTypeId: string,
+  options?: { enabled: boolean }
 ) => {
   return useQuery<BerryKind[], Error>({
     queryKey: ["getAllBerryKind", berryTypeId],
@@ -25,6 +25,6 @@ export const useGetAllByTypeBerryKind = (
       );
       return data;
     },
-    enabled: options.enabled,
+    enabled: options ? options.enabled : true,
   });
 };

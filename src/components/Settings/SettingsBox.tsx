@@ -1,10 +1,19 @@
 import { Box, Button, Grid2, Typography } from "@mui/material";
 import { BoxPaper } from "../Reusable/BoxPaper";
 import { useBerryContext } from "../Themes/BerryContext";
-import { BERRY_TYPE } from "../Themes/BerryData";
+import { BerryType, defaultBerryType } from "../Themes/BerryData";
+import { useGetAllBerryType } from "../../api/berryTypes/useGetAllBerryType";
+import { useState } from "react";
 
 export default function SettingsBox() {
-  const { berryTheme, setBerryTheme } = useBerryContext();
+  const { setBerryTheme } = useBerryContext();
+  const { data: berryTypes } = useGetAllBerryType();
+  const [currentBerryTypeName, setCurrentBerryTypeName] = useState(() => {
+    const savedBerryType = localStorage.getItem("berryType");
+    return savedBerryType
+      ? (JSON.parse(savedBerryType) as BerryType).name
+      : defaultBerryType;
+  });
 
   return (
     <BoxPaper>
@@ -19,9 +28,7 @@ export default function SettingsBox() {
             flexWrap: "wrap",
           }}
         >
-          <Typography>
-            Current berry type: {BERRY_TYPE[berryTheme.id].type}
-          </Typography>
+          <Typography>Current berry type: {currentBerryTypeName}</Typography>
         </Box>
         <Box
           sx={{
@@ -29,17 +36,20 @@ export default function SettingsBox() {
             flexWrap: "wrap",
           }}
         >
-          {BERRY_TYPE.map((berry) => (
+          {berryTypes?.map((berryType) => (
             <Button
-              key={berry.id}
-              onClick={() => setBerryTheme(berry)}
+              key={berryType.id}
+              onClick={() => {
+                setCurrentBerryTypeName(berryType.name);
+                setBerryTheme(berryType);
+              }}
               sx={{
                 margin: "5px",
                 border: "1px solid black",
                 cursor: "pointer",
               }}
             >
-              {berry.type}
+              {berryType.name}
             </Button>
           ))}
         </Box>
