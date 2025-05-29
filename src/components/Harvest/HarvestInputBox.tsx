@@ -1,4 +1,3 @@
-import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
 import {
   Box,
   Divider,
@@ -28,6 +27,7 @@ import {
 import { Add as PlusIcon, Remove as MinusIcon } from "@mui/icons-material";
 import { BoxPaper } from "../Reusable/BoxPaper";
 import { HarvestInputLine } from "./HarvestInputLine";
+import { BerryType } from "../Themes/BerryData";
 
 interface HarvestInputBoxProps {
   berryTypeData: BerryType;
@@ -256,6 +256,7 @@ export default function HarvestInputBox({
         toastSuccess={"Harvests created successfully!"}
       >
         <HarvestInputLine
+          berryTypeId={berryTypeData.id}
           berryKindsData={berryKindsData}
           employeesData={employeesData}
           defaultEmployeeId={defaultEmployeeId}

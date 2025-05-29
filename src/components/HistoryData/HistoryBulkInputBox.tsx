@@ -7,7 +7,6 @@ import {
 import { useCallback, useMemo, useState } from "react";
 import { HarvestInputLine } from "../Harvest/HarvestInputLine";
 import BulkInputDialog from "../Reusable/BulkInputDialog";
-import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 import { EmployeeData } from "../../api/employees/useGetByIdEmployee";
 import {
@@ -17,6 +16,7 @@ import {
 import { SaleInputLine } from "../Sale/SaleInputLine";
 import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
+import { BerryType } from "../Themes/BerryData";
 
 dayjs.extend(utc);
 
@@ -141,6 +141,7 @@ export default function HistoryBulkInputBox({
         toastSuccess={"Harvests created successfully!"}
       >
         <HarvestInputLine
+          berryTypeId={berryTypeData.id}
           berryKindsData={berryKindsData}
           employeesData={employeesData}
           defaultEmployeeId={defaultEmployeeId}
@@ -159,6 +160,7 @@ export default function HistoryBulkInputBox({
         toastSuccess={"Sales created successfully!"}
       >
         <SaleInputLine
+          berryTypeId={berryTypeData.id}
           berryKindsData={berryKindsData}
           employeesData={employeesData}
           defaultEmployeeId={defaultEmployeeId}

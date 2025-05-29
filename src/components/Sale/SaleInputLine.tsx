@@ -21,6 +21,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 interface SaleInputLineProps {
+  berryTypeId: string;
   berryKindsData: BerryKind[] | undefined;
   employeesData: EmployeeData[] | undefined;
   defaultEmployeeId: string;
@@ -33,6 +34,7 @@ interface SaleInputLineProps {
 
 export const SaleInputLine = React.memo(
   ({
+    berryTypeId,
     berryKindsData,
     employeesData,
     defaultBerryCost,
@@ -68,7 +70,7 @@ export const SaleInputLine = React.memo(
         onChange(itemIndex, {
           kilograms: Number(Math.max(0, Number(value))),
           berryKindId: kind,
-          berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+          berryTypeId: berryTypeId,
           employeeId: selectedEmployeeId,
           eventTime: selectedTime,
           pricePerKilo: price,
@@ -85,7 +87,7 @@ export const SaleInputLine = React.memo(
         onChange(itemIndex, {
           kilograms: Number(amount),
           berryKindId: kind,
-          berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+          berryTypeId: berryTypeId,
           employeeId: selectedEmployeeId,
           eventTime: selectedTime,
           pricePerKilo: Math.max(0, Number(value)).toString(),
@@ -102,7 +104,7 @@ export const SaleInputLine = React.memo(
         onChange(itemIndex, {
           kilograms: Number(amount),
           berryKindId: kind,
-          berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+          berryTypeId: berryTypeId,
           employeeId: selectedEmployeeId,
           eventTime: selectedTime,
           pricePerKilo: price,
@@ -122,7 +124,7 @@ export const SaleInputLine = React.memo(
         onChange(itemIndex, {
           kilograms: Number(amount),
           berryKindId: kind,
-          berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+          berryTypeId: berryTypeId,
           employeeId: selectedEmployeeId,
           eventTime: updatedSelectedTime,
           pricePerKilo: price,
@@ -139,7 +141,7 @@ export const SaleInputLine = React.memo(
         onChange(itemIndex, {
           kilograms: Number(amount),
           berryKindId: berryKindId === "null" ? null : berryKindId,
-          berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+          berryTypeId: berryTypeId,
           employeeId: selectedEmployeeId,
           eventTime: selectedTime,
           pricePerKilo: price,
@@ -154,7 +156,7 @@ export const SaleInputLine = React.memo(
         onChange(itemIndex, {
           kilograms: Number(amount),
           berryKindId: kind,
-          berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+          berryTypeId: berryTypeId,
           employeeId: employeeId,
           eventTime: selectedTime,
           pricePerKilo: price,
@@ -169,7 +171,7 @@ export const SaleInputLine = React.memo(
         onChange(itemIndex, {
           kilograms: Number(amount),
           berryKindId: kind,
-          berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+          berryTypeId: berryTypeId,
           employeeId: selectedEmployeeId,
           eventTime: selectedTime,
           pricePerKilo: price,

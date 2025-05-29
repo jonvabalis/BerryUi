@@ -19,6 +19,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 interface HarvestInputLineProps {
+  berryTypeId: string;
   berryKindsData: BerryKind[] | undefined;
   employeesData: EmployeeData[] | undefined;
   defaultEmployeeId: string;
@@ -30,6 +31,7 @@ interface HarvestInputLineProps {
 
 export const HarvestInputLine = React.memo(
   ({
+    berryTypeId,
     berryKindsData,
     employeesData,
     defaultEmployeeId,
@@ -59,7 +61,7 @@ export const HarvestInputLine = React.memo(
         onChange(itemIndex, {
           kilograms: Number(value),
           berryKindId: kind,
-          berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+          berryTypeId: berryTypeId,
           employeeId: selectedEmployeeId,
           eventTime: selectedTime,
         });
@@ -76,7 +78,7 @@ export const HarvestInputLine = React.memo(
         onChange(itemIndex, {
           kilograms: Number(amount),
           berryKindId: kind,
-          berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+          berryTypeId: berryTypeId,
           employeeId: selectedEmployeeId,
           eventTime: updatedSelectedTime,
         });
@@ -90,7 +92,7 @@ export const HarvestInputLine = React.memo(
         onChange(itemIndex, {
           kilograms: Number(amount),
           berryKindId: berryKindId === "null" ? null : berryKindId,
-          berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+          berryTypeId: berryTypeId,
           employeeId: selectedEmployeeId,
           eventTime: selectedTime,
         });
@@ -102,7 +104,7 @@ export const HarvestInputLine = React.memo(
         onChange(itemIndex, {
           kilograms: Number(amount),
           berryKindId: kind,
-          berryTypeId: "67cc8b9d-0376-4726-b69d-01eb869bba2c",
+          berryTypeId: berryTypeId,
           employeeId: employeeId,
           eventTime: selectedTime,
         });
