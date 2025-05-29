@@ -3,12 +3,14 @@ import { BerryType } from "../components/Themes/BerryData";
 import PageHeader from "../components/Reusable/PageHeader";
 import SaleInputBox from "../components/Sale/SaleInputBox";
 import { useGetAllByTypeBerryKind } from "../api/berryKinds/useGetAllByTypeBerryKind";
+import { useGetAllEmployees } from "../api/employees/useGetAllEmployees";
 
 export default function sale() {
   const savedBerryType = localStorage.getItem("berryType");
   const berryTypeData = JSON.parse(savedBerryType!) as BerryType;
 
   const { data: berryKindsData } = useGetAllByTypeBerryKind(berryTypeData.id);
+  const { data: employeesData } = useGetAllEmployees();
   const defaultBerryCost = "6";
   const employeeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
 
@@ -21,7 +23,8 @@ export default function sale() {
         berryTypeData={berryTypeData}
         berryKindsData={berryKindsData}
         defaultBerryCost={defaultBerryCost}
-        employeeId={employeeId}
+        defaultEmployeeId={employeeId}
+        employeesData={employeesData}
       />
     </Box>
   );
