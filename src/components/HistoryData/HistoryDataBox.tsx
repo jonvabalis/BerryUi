@@ -1,13 +1,12 @@
-import { useState, useMemo, useCallback } from "react";
+import { useMemo, useCallback } from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { BoxPaper } from "../Reusable/BoxPaper";
 import { RecordedDataDay, RecordedDataDayProps } from "./RecordedDataDay";
-import { useGetAllRecordedDaysByYear } from "../../api/history/useGetAllRecordedDaysByYear";
 import Grid2 from "@mui/material/Grid2";
-import { useGetBriefByDay } from "../../api/history/useGetBriefByDay";
+import { HistoryBriefByDay } from "../../api/history/useGetBriefByDay";
 import HistoryTotalDataBriefTable from "./HistoryTotalDataBriefTable";
 import Typography from "@mui/material/Typography/Typography";
 import HistoryEmployeeDataBriefTable from "./HistoryEmployeeDataBriefTable";
@@ -15,27 +14,20 @@ import HistoryEmployeeDataBriefTable from "./HistoryEmployeeDataBriefTable";
 interface HistoryDataBoxProps {
   selectedDate: Dayjs;
   setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs>>;
-  berryTypeId: string;
+  datesWithData: string[] | undefined;
+  currentDataYear: number;
+  setCurrentDataYear: React.Dispatch<React.SetStateAction<number>>;
+  selectedDateBrief: HistoryBriefByDay | undefined;
 }
 
 export default function HistoryDataBox({
   selectedDate,
   setSelectedDate,
-  berryTypeId,
+  datesWithData,
+  currentDataYear,
+  setCurrentDataYear,
+  selectedDateBrief,
 }: HistoryDataBoxProps) {
-  const [currentDataYear, setCurrentDataYear] = useState<number>(
-    selectedDate ? selectedDate.year() : dayjs().hour(23).year
-  );
-
-  const { data: datesWithData } = useGetAllRecordedDaysByYear(
-    currentDataYear,
-    berryTypeId
-  );
-  const { data: selectedDateBrief } = useGetBriefByDay(
-    selectedDate.format("YYYY-MM-DD"),
-    berryTypeId
-  );
-
   const calendarSlotProps = useMemo(
     () => ({
       day: {

@@ -1,4 +1,10 @@
-import React, { useState, useCallback, ReactElement, ReactNode } from "react";
+import React, {
+  useState,
+  useCallback,
+  ReactElement,
+  ReactNode,
+  useRef,
+} from "react";
 import {
   Button,
   Dialog,
@@ -28,6 +34,7 @@ interface BulkInputDialogProps<T extends Record<string, any>> {
   itemLabel: string;
   createMutation: UseMutationResult<string, Error, T[], unknown>;
   toastSuccess: string;
+  onRefetch?: () => Promise<void>;
 }
 
 export default function BulkInputDialog<T extends Record<string, any>>({
@@ -40,7 +47,9 @@ export default function BulkInputDialog<T extends Record<string, any>>({
   itemLabel,
   createMutation,
   toastSuccess,
+  onRefetch,
 }: BulkInputDialogProps<T>): JSX.Element {
+  const addButtonRef = useRef<HTMLButtonElement>(null);
   const toast = useToast();
   const [items, setItems] = useState<T[]>([
     { ...defaultItem, listId: uuidv4() },
@@ -60,6 +69,12 @@ export default function BulkInputDialog<T extends Record<string, any>>({
       ...currentItems,
       { ...defaultItem, listId: uuidv4() },
     ]);
+    setTimeout(() => {
+      addButtonRef.current?.scrollIntoView({
+        behavior: "auto",
+        block: "nearest",
+      });
+    }, 0);
   }, [defaultItem]);
 
   const handleRemoveItem = useCallback(
@@ -77,6 +92,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
     e.preventDefault();
     setItems([{ ...defaultItem, _internalId: uuidv4() }]);
     onClose();
+    onRefetch?.();
   }, []);
 
   const handleCloseDialog = useCallback(() => {
@@ -164,6 +180,7 @@ export default function BulkInputDialog<T extends Record<string, any>>({
           ))}
 
           <Button
+            ref={addButtonRef}
             startIcon={<AddIcon />}
             onClick={handleAddItem}
             variant="outlined"

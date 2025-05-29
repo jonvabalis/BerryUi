@@ -18,8 +18,8 @@ export const CreateButton = <T,>({
   createMutation,
   text,
 }: CreateButtonProps<T>) => {
-  const handleClick = () => {
-    createMutation.mutate(data, {
+  const handleClick = async () => {
+    await createMutation.mutateAsync(data, {
       onSuccess: () => {
         onSuccess();
       },
@@ -33,8 +33,8 @@ export const CreateButton = <T,>({
     <Button
       variant="contained"
       fullWidth
-      onClick={(e) => {
-        handleClick();
+      onClick={async (e) => {
+        await handleClick();
         handleSubmit?.(e);
       }}
       disabled={createMutation.isPending}

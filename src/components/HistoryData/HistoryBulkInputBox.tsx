@@ -26,6 +26,7 @@ interface HistoryBulkInputBoxProps {
   employeesData: EmployeeData[] | undefined;
   defaultEmployeeId: string;
   selectedDate: Dayjs;
+  refetchAfterHistoryInput: () => Promise<void>;
 }
 
 export default function HistoryBulkInputBox({
@@ -34,6 +35,7 @@ export default function HistoryBulkInputBox({
   employeesData,
   defaultEmployeeId,
   selectedDate,
+  refetchAfterHistoryInput,
 }: HistoryBulkInputBoxProps) {
   const createBulkHarvestMutation = useCreateBulkHarvest();
   const createBulkSaleMutation = useCreateBulkSale();
@@ -139,6 +141,7 @@ export default function HistoryBulkInputBox({
         itemLabel="Harvest"
         createMutation={createBulkHarvestMutation}
         toastSuccess={"Harvests created successfully!"}
+        onRefetch={refetchAfterHistoryInput}
       >
         <HarvestInputLine
           berryTypeId={berryTypeData.id}
@@ -158,6 +161,7 @@ export default function HistoryBulkInputBox({
         itemLabel="Sale"
         createMutation={createBulkSaleMutation}
         toastSuccess={"Sales created successfully!"}
+        onRefetch={refetchAfterHistoryInput}
       >
         <SaleInputLine
           berryTypeId={berryTypeData.id}

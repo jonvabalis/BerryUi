@@ -6,21 +6,35 @@ import { useGetAllByTypeBerryKind } from "../api/berryKinds/useGetAllByTypeBerry
 import { useGetAllEmployees } from "../api/employees/useGetAllEmployees";
 import HistoryBulkInputBox from "../components/HistoryData/HistoryBulkInputBox";
 import dayjs, { Dayjs } from "dayjs";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { BerryType } from "../components/Themes/BerryData";
+import { useGetAllRecordedDaysByYear } from "../api/history/useGetAllRecordedDaysByYear";
+import { useGetBriefByDay } from "../api/history/useGetBriefByDay";
 
 export default function historyData() {
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs().hour(23));
+  const [currentDataYear, setCurrentDataYear] = useState<number>(
+    selectedDate ? selectedDate.year() : dayjs().hour(23).year
+  );
+
   const savedBerryType = localStorage.getItem("berryType");
   const berryTypeData = JSON.parse(savedBerryType!) as BerryType;
 
   const { data: berryKindsData } = useGetAllByTypeBerryKind(berryTypeData.id);
   const { data: employeesData } = useGetAllEmployees();
+  const { data: datesWithData, refetch: refetchRecordedDaysByYear } =
+    useGetAllRecordedDaysByYear(currentDataYear, berryTypeData.id);
+  const { data: selectedDateBrief, refetch: refetchBriefByDay } =
+    useGetBriefByDay(selectedDate.format("YYYY-MM-DD"), berryTypeData.id);
   const currentEmployeeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
 
   if (!berryTypeData) {
     return <PageHeader text="No data is available" />;
   }
+
+  const refetchAfterHistoryInput = useCallback(async () => {
+    await Promise.all([refetchBriefByDay(), refetchRecordedDaysByYear()]);
+  }, []);
 
   return (
     <Box width="100vw">
@@ -30,7 +44,10 @@ export default function historyData() {
       <HistoryDataBox
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
-        berryTypeId={berryTypeData.id}
+        datesWithData={datesWithData}
+        currentDataYear={currentDataYear}
+        setCurrentDataYear={setCurrentDataYear}
+        selectedDateBrief={selectedDateBrief}
       />
       <Box sx={{ mt: 4 }} />
       <HistoryBulkInputBox
@@ -39,6 +56,7 @@ export default function historyData() {
         defaultEmployeeId={currentEmployeeId}
         berryTypeData={berryTypeData}
         selectedDate={selectedDate}
+        refetchAfterHistoryInput={refetchAfterHistoryInput}
       />
     </Box>
   );
