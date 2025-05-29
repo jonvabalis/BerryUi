@@ -30,6 +30,7 @@ export default function historyData() {
       <HistoryDataBox
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
+        berryTypeId={berryTypeData.id}
       />
       <Box sx={{ mt: 4 }} />
       <HistoryBulkInputBox

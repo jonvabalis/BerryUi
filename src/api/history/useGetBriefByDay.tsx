@@ -18,14 +18,14 @@ export interface HistoryBriefByDay {
   totals: HistoryTotalBriefByDay;
 }
 
-export const useGetBriefByDay = (date: string) => {
+export const useGetBriefByDay = (date: string, berryTypeId: string) => {
   return useQuery<HistoryBriefByDay, Error>({
     queryKey: ["getBriefByDay", date],
     queryFn: async () => {
       const { data } = await axios.get<HistoryBriefByDay>(
         `${import.meta.env.VITE_BASE_URL}/History/GetBriefByDay`,
         {
-          params: { date: date },
+          params: { date: date, berryTypeId: berryTypeId },
         }
       );
       return data;

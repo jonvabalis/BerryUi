@@ -15,19 +15,25 @@ import HistoryEmployeeDataBriefTable from "./HistoryEmployeeDataBriefTable";
 interface HistoryDataBoxProps {
   selectedDate: Dayjs;
   setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs>>;
+  berryTypeId: string;
 }
 
 export default function HistoryDataBox({
   selectedDate,
   setSelectedDate,
+  berryTypeId,
 }: HistoryDataBoxProps) {
   const [currentDataYear, setCurrentDataYear] = useState<number>(
     selectedDate ? selectedDate.year() : dayjs().hour(23).year
   );
 
-  const { data: datesWithData } = useGetAllRecordedDaysByYear(currentDataYear);
+  const { data: datesWithData } = useGetAllRecordedDaysByYear(
+    currentDataYear,
+    berryTypeId
+  );
   const { data: selectedDateBrief } = useGetBriefByDay(
-    selectedDate.format("YYYY-MM-DD")
+    selectedDate.format("YYYY-MM-DD"),
+    berryTypeId
   );
 
   const calendarSlotProps = useMemo(
