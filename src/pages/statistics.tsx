@@ -1,11 +1,10 @@
 import Box from "@mui/material/Box";
 import PageHeader from "../components/Reusable/PageHeader";
 import StatisticsBox from "../components/Statistics/StatisticsBox";
-import { Tabs, Tab } from "@mui/material";
 import { useState } from "react";
-import { BoxPaper } from "../components/Reusable/BoxPaper";
 import TabPanel from "../components/Reusable/TabPanel";
 import { BerryType } from "../components/Themes/BerryData";
+import StatisticsSettingChange from "../components/Statistics/StatisticsSettingChange";
 
 export default function statistics() {
   const savedBerryType = localStorage.getItem("berryType");
@@ -22,33 +21,11 @@ export default function statistics() {
       <Box>
         <PageHeader text="Statistics" />
       </Box>
-      <BoxPaper>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Tabs
-            value={tabValue}
-            onChange={handleTabChange}
-            sx={{
-              [`& .MuiTabs-flexContainer`]: {
-                flexWrap: "wrap",
-                justifyContent: "center",
-              },
-              "& .MuiTabs-indicator": {
-                display: "none",
-              },
-            }}
-          >
-            <Tab label="Berry Statistics" id="statistics-tab-0" />
-            <Tab label="Employee Statistics" id="statistics-tab-1" />
-            <Tab label="Global Statistics" id="statistics-tab-2" />
-            <Tab label="Global Employee Statistics" id="statistics-tab-3" />
-          </Tabs>
-        </Box>
-      </BoxPaper>
+
+      <StatisticsSettingChange
+        tabValue={tabValue}
+        handleTabChange={handleTabChange}
+      />
       <Box sx={{ mt: 4 }} />
 
       <TabPanel value={tabValue} index={0}>
