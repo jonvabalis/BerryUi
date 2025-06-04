@@ -1,15 +1,13 @@
 import Box from "@mui/material/Box";
 import PageHeader from "../components/Reusable/PageHeader";
 import StatisticsBox from "../components/Statistics/StatisticsBox";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import TabPanel from "../components/Reusable/TabPanel";
-import { BerryType } from "../components/Themes/BerryData";
 import StatisticsSettingChange from "../components/Statistics/StatisticsSettingChange";
+import { getBerryType } from "../utils/berryTypeHelper";
 
 export default function statistics() {
-  const savedBerryType = localStorage.getItem("berryType");
-  const berryTypeData = JSON.parse(savedBerryType!) as BerryType;
-
+  const berryTypeData = useMemo(() => getBerryType(), []);
   const [tabValue, setTabValue] = useState(0);
 
   const handleTabChange = (_e: React.SyntheticEvent, newValue: number) => {

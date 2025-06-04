@@ -6,19 +6,17 @@ import { useGetAllByTypeBerryKind } from "../api/berryKinds/useGetAllByTypeBerry
 import { useGetAllEmployees } from "../api/employees/useGetAllEmployees";
 import HistoryBulkInputBox from "../components/HistoryData/HistoryBulkInputBox";
 import dayjs, { Dayjs } from "dayjs";
-import { useCallback, useState } from "react";
-import { BerryType } from "../components/Themes/BerryData";
+import { useCallback, useMemo, useState } from "react";
 import { useGetAllRecordedDaysByYear } from "../api/history/useGetAllRecordedDaysByYear";
 import { useGetBriefByDay } from "../api/history/useGetBriefByDay";
+import { getBerryType } from "../utils/berryTypeHelper";
 
 export default function historyData() {
+  const berryTypeData = useMemo(() => getBerryType(), []);
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs().hour(23));
   const [currentDataYear, setCurrentDataYear] = useState<number>(
     selectedDate ? selectedDate.year() : dayjs().hour(23).year
   );
-
-  const savedBerryType = localStorage.getItem("berryType");
-  const berryTypeData = JSON.parse(savedBerryType!) as BerryType;
 
   const { data: berryKindsData } = useGetAllByTypeBerryKind(berryTypeData.id);
   const { data: employeesData } = useGetAllEmployees();

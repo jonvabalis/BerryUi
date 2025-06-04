@@ -1,13 +1,13 @@
 import Box from "@mui/material/Box";
-import { BerryType } from "../components/Themes/BerryData";
 import PageHeader from "../components/Reusable/PageHeader";
 import SaleInputBox from "../components/Sale/SaleInputBox";
 import { useGetAllByTypeBerryKind } from "../api/berryKinds/useGetAllByTypeBerryKind";
 import { useGetAllEmployees } from "../api/employees/useGetAllEmployees";
+import { useMemo } from "react";
+import { getBerryType } from "../utils/berryTypeHelper";
 
 export default function sale() {
-  const savedBerryType = localStorage.getItem("berryType");
-  const berryTypeData = JSON.parse(savedBerryType!) as BerryType;
+  const berryTypeData = useMemo(() => getBerryType(), []);
 
   const { data: berryKindsData } = useGetAllByTypeBerryKind(berryTypeData.id);
   const { data: employeesData } = useGetAllEmployees();
