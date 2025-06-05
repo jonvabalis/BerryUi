@@ -69,10 +69,14 @@ const StatisticsTable = <
   const sumArray: number[] = Object.values(data.sum);
 
   return (
-    <TableContainer component={Paper} sx={{ maxWidth: 800, margin: "auto" }}>
+    <TableContainer
+      component={Paper}
+      sx={{ maxWidth: "800px", margin: "auto" }}
+    >
       <Table
         sx={{
           backgroundColor: "primary.dark",
+          tableLayout: "fixed",
         }}
       >
         <TableHead>

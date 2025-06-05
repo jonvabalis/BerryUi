@@ -1,4 +1,11 @@
-import { Box, Grid2, Radio, RadioGroup, Typography } from "@mui/material";
+import {
+  Box,
+  Collapse,
+  Grid2,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { useToast } from "../../hooks/useToast";
 import StatisticsControlLabel from "./StatisticsControlLabel";
@@ -12,16 +19,17 @@ import { CostStatisticsDto } from "../../apiInterfaces/statistics/CostStatistics
 import { CollectionStatisticsDto } from "../../apiInterfaces/statistics/CollectionStatisticsDto";
 import StatisticsTable from "./StatisticsTable";
 import { useGetCostsStatisticsFiltered } from "../../api/statistics/useGetCostsStatisticsFiltered";
-import { BerryType } from "../../api/berryTypes/useGetByNameBerryType";
 import { BoxPaper } from "../Reusable/BoxPaper";
+import { BerryType } from "../Themes/BerryData";
+import DisplayLineChart from "./DisplayLineChart";
+import getChartData, { HarvestSaleChartData } from "../../utils/chartHelper";
+import ViewTablesToggle from "./ViewTablesToggle";
 
 interface StatisticsBoxProps {
   berryTypeData: BerryType;
 }
 
-export default function StatisticsBox({
-  berryTypeData: berryTypeData,
-}: StatisticsBoxProps) {
+export default function StatisticsBox({ berryTypeData }: StatisticsBoxProps) {
   const toast = useToast();
 
   const [year, setYear] = useState(0);
@@ -47,6 +55,9 @@ export default function StatisticsBox({
   const [costTableData, setCostTableData] = useState<
     CostStatisticsDto | undefined
   >();
+  const [chartData, setChartData] = useState<
+    HarvestSaleChartData | undefined
+  >();
 
   const [radioValue, setRadioValue] = useState<string>("alltime");
   const [headerType, setHeaderType] = useState<string>("");
@@ -63,6 +74,12 @@ export default function StatisticsBox({
         ? "Day"
         : "Month"
     );
+  };
+
+  const [isTableOpen, setIsTableOpen] = useState(false);
+
+  const handleViewTableChange = () => {
+    setIsTableOpen((prev) => !prev);
   };
 
   return (
@@ -163,6 +180,7 @@ export default function StatisticsBox({
                 onSuccess={(data) => {
                   setCollectionTableData(data.firstResultData);
                   setCostTableData(data.secondResultData);
+                  setChartData(getChartData(data.firstResultData.data));
                 }}
                 onError={(error) => {
                   toast.error(error.message);
@@ -173,29 +191,55 @@ export default function StatisticsBox({
         </Grid2>
       </BoxPaper>
 
-      <Box sx={{ mt: 4 }}></Box>
+      <Box sx={{ mt: 4 }} />
 
       <BoxPaper>
+        <ViewTablesToggle
+          handleViewTableChange={handleViewTableChange}
+          isTableOpen={isTableOpen}
+        />
         <Grid2
           container
-          spacing={4}
+          spacing={{ sm: 1, md: 4 }}
           size={12}
           sx={{ justifyContent: "center" }}
         >
-          <StatisticsTable
-            data={collectionTableData}
-            header={[
-              headerType,
-              "Kilograms harvested",
-              "Kilograms sold",
-              "Sold for",
-            ]}
-          />
-          <StatisticsTable
-            data={costTableData}
-            header={[headerType, "Costs"]}
-          />
+          <Grid2 size={{ xs: 12, sm: 8 }}>
+            <Collapse in={isTableOpen} timeout="auto">
+              <Box sx={{ mt: 4 }} />
+              <StatisticsTable
+                data={collectionTableData}
+                header={[
+                  headerType,
+                  "Kilograms harvested",
+                  "Kilograms sold",
+                  "Sold for",
+                ]}
+              />
+            </Collapse>
+          </Grid2>
+
+          <Grid2 size={{ xs: 12, sm: 4 }}>
+            <Collapse in={isTableOpen} timeout="auto">
+              <Box sx={{ mt: 4, width: "100%" }} />
+              <StatisticsTable
+                data={costTableData}
+                header={[headerType, "Costs"]}
+              />
+            </Collapse>
+          </Grid2>
         </Grid2>
+      </BoxPaper>
+
+      <Box sx={{ mt: 4 }} />
+
+      <BoxPaper>
+        <DisplayLineChart
+          chartName={"Berry kg's harvested by year"}
+          chartData={chartData?.harvests}
+          xAxisLabel={headerType}
+          yAxisLabel="kg"
+        />
       </BoxPaper>
     </>
   );
