@@ -47,3 +47,28 @@ export default function getChartData(
     salesTotalPrices,
   };
 }
+
+interface ChartTitleParams {
+  metricName: string;
+  radioValue: string;
+  year: number;
+  month: number;
+}
+
+export const getChartTitle = ({
+  metricName,
+  radioValue,
+  year,
+  month,
+}: ChartTitleParams): string => {
+  const timePeriodString =
+    radioValue === "alltime"
+      ? "all-time"
+      : year === 0 && month !== 0
+      ? `in month ${month < 10 ? `0${month}` : month} total`
+      : month === 0
+      ? `in ${year}`
+      : `in ${year}-${month < 10 ? `0${month}` : month}`;
+
+  return `${metricName} ${timePeriodString}`;
+};

@@ -69,7 +69,16 @@ export default function DisplayLineChart({
                 position: "insideLeft",
               }}
             />
-            <Tooltip />
+            <Tooltip
+              formatter={(value) => {
+                return [`${value} ${yAxisLabel}`, null];
+              }}
+              labelStyle={{
+                fontWeight: "bold",
+                color: theme.palette.text.primary,
+                marginBottom: "4px",
+              }}
+            />
             <Line
               type="monotone"
               dataKey="count"

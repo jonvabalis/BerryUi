@@ -22,7 +22,10 @@ import { useGetCostsStatisticsFiltered } from "../../api/statistics/useGetCostsS
 import { BoxPaper } from "../Reusable/BoxPaper";
 import { BerryType } from "../Themes/BerryData";
 import DisplayLineChart from "./DisplayLineChart";
-import getChartData, { HarvestSaleChartData } from "../../utils/chartHelper";
+import getChartData, {
+  getChartTitle,
+  HarvestSaleChartData,
+} from "../../utils/chartHelper";
 import ViewTablesToggle from "./ViewTablesToggle";
 
 interface StatisticsBoxProps {
@@ -202,7 +205,7 @@ export default function StatisticsBox({ berryTypeData }: StatisticsBoxProps) {
           container
           spacing={{ sm: 1, md: 4 }}
           size={12}
-          sx={{ justifyContent: "center" }}
+          sx={{ justifyContent: "center", alignItems: "flex-end" }}
         >
           <Grid2 size={{ xs: 12, sm: 8 }}>
             <Collapse in={isTableOpen} timeout="auto">
@@ -232,13 +235,45 @@ export default function StatisticsBox({ berryTypeData }: StatisticsBoxProps) {
       </BoxPaper>
 
       <Box sx={{ mt: 4 }} />
-
       <BoxPaper>
         <DisplayLineChart
-          chartName={"Berry kg's harvested by year"}
+          chartName={getChartTitle({
+            metricName: "Berries harvested",
+            radioValue: radioValue,
+            year: year,
+            month: month,
+          })}
           chartData={chartData?.harvests}
           xAxisLabel={headerType}
           yAxisLabel="kg"
+        />
+      </BoxPaper>
+      <Box sx={{ mt: 4 }} />
+      <BoxPaper>
+        <DisplayLineChart
+          chartName={getChartTitle({
+            metricName: "Berries sold",
+            radioValue: radioValue,
+            year: year,
+            month: month,
+          })}
+          chartData={chartData?.salesKilograms}
+          xAxisLabel={headerType}
+          yAxisLabel="kg"
+        />
+      </BoxPaper>
+      <Box sx={{ mt: 4 }} />
+      <BoxPaper>
+        <DisplayLineChart
+          chartName={getChartTitle({
+            metricName: "Berries revenue",
+            radioValue: radioValue,
+            year: year,
+            month: month,
+          })}
+          chartData={chartData?.harvests}
+          xAxisLabel={headerType}
+          yAxisLabel="eur"
         />
       </BoxPaper>
     </>
