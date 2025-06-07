@@ -2,7 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BerryType } from "../../components/Themes/BerryData";
 
-export const useGetByNameBerryType = (berryType: string) => {
+export const useGetByNameBerryType = (
+  berryType: string,
+  options: { enabled: boolean }
+) => {
   return useQuery<BerryType, Error>({
     queryKey: ["getByNameBerryType", berryType],
     queryFn: async () => {
@@ -15,5 +18,6 @@ export const useGetByNameBerryType = (berryType: string) => {
 
       return data;
     },
+    enabled: options.enabled,
   });
 };

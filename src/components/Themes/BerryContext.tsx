@@ -22,9 +22,11 @@ const BerryContext = createContext<BerryContextTheme>({
 export const BerryProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { data } = useGetByNameBerryType(defaultBerryType);
+  const savedBerryType = localStorage.getItem("berryType");
+  const { data } = useGetByNameBerryType(defaultBerryType, {
+    enabled: !savedBerryType,
+  });
   const [berryTheme, setBerryTypeState] = useState<BerryTheme>(() => {
-    const savedBerryType = localStorage.getItem("berryType");
     if (savedBerryType) {
       const berryType = JSON.parse(savedBerryType!) as BerryType;
       return BERRY_THEME[berryType.name];
@@ -43,13 +45,17 @@ export const BerryProvider: React.FC<{ children: React.ReactNode }> = ({
 
     if (!savedBerryType && data) {
       localStorage.setItem("berryType", JSON.stringify(data));
-      setBerryTypeState(BERRY_THEME[data.name]);
+      setBerryTypeState(
+        BERRY_THEME[data.name] || BERRY_THEME[defaultBerryType]
+      );
     }
   }, [data]);
 
   const setBerryTheme = (berryType: BerryType) => {
     localStorage.setItem("berryType", JSON.stringify(berryType));
-    setBerryTypeState(BERRY_THEME[berryType.name]);
+    setBerryTypeState(
+      BERRY_THEME[berryType.name] || BERRY_THEME[defaultBerryType]
+    );
   };
 
   return (
