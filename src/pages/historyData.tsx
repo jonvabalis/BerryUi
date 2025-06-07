@@ -10,6 +10,8 @@ import { useCallback, useMemo, useState } from "react";
 import { useGetAllRecordedDaysByYear } from "../api/history/useGetAllRecordedDaysByYear";
 import { useGetBriefByDay } from "../api/history/useGetBriefByDay";
 import { getBerryType } from "../utils/berryTypeHelper";
+import { BoxPaper } from "../components/Reusable/BoxPaper";
+import { HistoryDataHarvestTable } from "../components/HistoryData/HistoryDataHarvestTable";
 
 export default function historyData() {
   const berryTypeData = useMemo(() => getBerryType(), []);
@@ -56,6 +58,14 @@ export default function historyData() {
         selectedDate={selectedDate}
         refetchAfterHistoryInput={refetchAfterHistoryInput}
       />
+      <Box sx={{ mt: 4 }} />
+      <BoxPaper>
+        <HistoryDataHarvestTable
+          selectedDate={selectedDate}
+          employeesData={employeesData}
+          berryKindsData={berryKindsData}
+        />
+      </BoxPaper>
     </Box>
   );
 }

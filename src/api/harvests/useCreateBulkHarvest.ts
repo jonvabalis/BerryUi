@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 export interface BulkHarvestCreate {
@@ -10,6 +10,7 @@ export interface BulkHarvestCreate {
 }
 
 export const useCreateBulkHarvest = () => {
+  const queryClient = useQueryClient();
   return useMutation<string, Error, BulkHarvestCreate[]>({
     mutationFn: async (harvests: BulkHarvestCreate[]) => {
       const { data } = await axios.post<string>(
@@ -17,6 +18,9 @@ export const useCreateBulkHarvest = () => {
         { harvests: harvests }
       );
       return data;
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["getByDateHarvests"] });
     },
   });
 };
