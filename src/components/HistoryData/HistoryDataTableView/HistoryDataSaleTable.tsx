@@ -10,17 +10,17 @@ import {
 import { Box, IconButton, MenuItem, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getBerryType } from "../../utils/berryTypeHelper";
+import { getBerryType } from "../../../utils/berryTypeHelper";
 import { Dayjs } from "dayjs";
-import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
-import { EmployeeData } from "../../api/employees/useGetByIdEmployee";
-import { SaleType } from "../Sale/SaleTypeData";
+import { BerryKind } from "../../../api/berryKinds/useGetAllByTypeBerryKind";
+import { EmployeeData } from "../../../api/employees/useGetByIdEmployee";
+import { SaleType } from "../../Sale/SaleTypeData";
 import useGetByDateSales, {
   SaleDataLine,
-} from "../../api/sales/useGetByDateSale";
-import useUpdateSale from "../../api/sales/useUpdateSale";
-import useDeleteSale from "../../api/sales/useDeleteSale";
-import ConfirmationDialog from "../Reusable/ConfirmationDialog";
+} from "../../../api/sales/useGetByDateSale";
+import useUpdateSale from "../../../api/sales/useUpdateSale";
+import useDeleteSale from "../../../api/sales/useDeleteSale";
+import ConfirmationDialog from "../../Reusable/ConfirmationDialog";
 
 interface HistoryDataSaleTableProps {
   selectedDate: Dayjs;

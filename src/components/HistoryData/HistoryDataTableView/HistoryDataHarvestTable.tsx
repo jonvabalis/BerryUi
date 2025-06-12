@@ -10,16 +10,16 @@ import {
 import { Box, IconButton, MenuItem, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import useUpdateHarvest from "../../api/harvests/useUpdateHarvest";
-import useDeleteHarvest from "../../api/harvests/useDeleteHarvest";
+import useUpdateHarvest from "../../../api/harvests/useUpdateHarvest";
+import useDeleteHarvest from "../../../api/harvests/useDeleteHarvest";
 import useGetByDateHarvests, {
   HarvestDataLine,
-} from "../../api/harvests/useGetByDateHarvest";
-import { getBerryType } from "../../utils/berryTypeHelper";
+} from "../../../api/harvests/useGetByDateHarvest";
+import { getBerryType } from "../../../utils/berryTypeHelper";
 import { Dayjs } from "dayjs";
-import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
-import { EmployeeData } from "../../api/employees/useGetByIdEmployee";
-import ConfirmationDialog from "../Reusable/ConfirmationDialog";
+import { BerryKind } from "../../../api/berryKinds/useGetAllByTypeBerryKind";
+import { EmployeeData } from "../../../api/employees/useGetByIdEmployee";
+import ConfirmationDialog from "../../Reusable/ConfirmationDialog";
 
 interface HistoryDataHarvestTableProps {
   selectedDate: Dayjs;
@@ -253,7 +253,7 @@ const createDropdownCell = (
   options: { value: string; text: string }[] | undefined,
   textIfNull: string
 ) => {
-  return ({ cell }: { cell: MRT_Cell<any, unknown> }) => {
+  return ({ cell }: { cell: MRT_Cell<HarvestDataLine, unknown> }) => {
     const optionId = cell.getValue<string>();
     if (optionId === "mixed") {
       return textIfNull;

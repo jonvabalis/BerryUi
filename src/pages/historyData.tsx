@@ -11,8 +11,8 @@ import { useGetAllRecordedDaysByYear } from "../api/history/useGetAllRecordedDay
 import { useGetBriefByDay } from "../api/history/useGetBriefByDay";
 import { getBerryType } from "../utils/berryTypeHelper";
 import { BoxPaper } from "../components/Reusable/BoxPaper";
-import { HistoryDataHarvestTable } from "../components/HistoryData/HistoryDataHarvestTable";
-import { HistoryDataSaleTable } from "../components/HistoryData/HistoryDataSaleTable";
+import { HistoryDataHarvestTable } from "../components/HistoryData/HistoryDataTableView/HistoryDataHarvestTable";
+import { HistoryDataSaleTable } from "../components/HistoryData/HistoryDataTableView/HistoryDataSaleTable";
 import { SALETYPE_DATA } from "../components/Sale/SaleTypeData";
 
 export default function historyData() {
