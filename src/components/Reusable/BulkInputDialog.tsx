@@ -10,7 +10,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Box,
   Divider,
@@ -23,6 +22,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useToast } from "../../hooks/useToast";
 import { CreateButton } from "../Sale/CreateButton";
 import { UseMutationResult } from "@tanstack/react-query";
+import ConfirmationDialog from "./ConfirmationDialog";
 
 interface BulkInputDialogProps<T extends Record<string, any>> {
   open: boolean;
@@ -211,23 +211,18 @@ export default function BulkInputDialog<T extends Record<string, any>>({
         </DialogActions>
       </Dialog>
 
-      <Dialog open={confirmWindowOpen} onClose={handleConfirmWindowClose}>
-        <DialogTitle>Unsaved Changes</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            You have unsaved changes. Are you sure you want to close this bulk
-            input form? All your changes will be lost.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleConfirmWindowClose} color="primary">
-            Continue Editing
-          </Button>
-          <Button onClick={handleDiscardChanges} color="error">
-            Discard Changes
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ConfirmationDialog
+        dialogTitleText={"Unsaved Changes"}
+        dialogContentText={
+          "You have unsaved changes. Are you sure you want to close this bulkinput form? All your changes will be lost."
+        }
+        cancelText={"Continue Editing"}
+        submitText={"Discard Changes"}
+        dialogOpen={confirmWindowOpen}
+        handleDialogClose={handleConfirmWindowClose}
+        handleCancelPress={handleConfirmWindowClose}
+        handleSubmitPress={handleDiscardChanges}
+      />
     </>
   );
 }

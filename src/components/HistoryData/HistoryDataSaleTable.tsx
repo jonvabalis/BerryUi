@@ -7,18 +7,7 @@ import {
   type MRT_TableOptions,
   useMaterialReactTable,
 } from "material-react-table";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  MenuItem,
-  Tooltip,
-} from "@mui/material";
+import { Box, IconButton, MenuItem, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { getBerryType } from "../../utils/berryTypeHelper";
@@ -31,6 +20,7 @@ import useGetByDateSales, {
 } from "../../api/sales/useGetByDateSale";
 import useUpdateSale from "../../api/sales/useUpdateSale";
 import useDeleteSale from "../../api/sales/useDeleteSale";
+import ConfirmationDialog from "../Reusable/ConfirmationDialog";
 
 interface HistoryDataSaleTableProps {
   selectedDate: Dayjs;
@@ -313,31 +303,19 @@ export const HistoryDataSaleTable = ({
   return (
     <>
       <MaterialReactTable table={table} />
-      <Dialog
-        open={deleteConfirmWindowOpen}
-        onClose={handleDeleteConfirmWindowClose}
-      >
-        <DialogTitle>Sale removal</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Do you really want to remove this sale?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDeleteConfirmWindowClose} color="primary">
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              deleteSale(rowToDelete!.original.saleId);
-              handleDeleteConfirmWindowClose();
-            }}
-            color="error"
-          >
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ConfirmationDialog
+        dialogTitleText={"Sale removal"}
+        dialogContentText={"Do you really want to remove this sale?"}
+        cancelText={"Cancel"}
+        submitText={"Delete"}
+        dialogOpen={deleteConfirmWindowOpen}
+        handleDialogClose={handleDeleteConfirmWindowClose}
+        handleCancelPress={handleDeleteConfirmWindowClose}
+        handleSubmitPress={() => {
+          deleteSale(rowToDelete!.original.saleId);
+          handleDeleteConfirmWindowClose();
+        }}
+      />
     </>
   );
 };

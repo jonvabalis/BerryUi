@@ -7,18 +7,7 @@ import {
   type MRT_TableOptions,
   useMaterialReactTable,
 } from "material-react-table";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  MenuItem,
-  Tooltip,
-} from "@mui/material";
+import { Box, IconButton, MenuItem, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import useUpdateHarvest from "../../api/harvests/useUpdateHarvest";
@@ -30,6 +19,7 @@ import { getBerryType } from "../../utils/berryTypeHelper";
 import { Dayjs } from "dayjs";
 import { BerryKind } from "../../api/berryKinds/useGetAllByTypeBerryKind";
 import { EmployeeData } from "../../api/employees/useGetByIdEmployee";
+import ConfirmationDialog from "../Reusable/ConfirmationDialog";
 
 interface HistoryDataHarvestTableProps {
   selectedDate: Dayjs;
@@ -227,31 +217,19 @@ export const HistoryDataHarvestTable = ({
   return (
     <>
       <MaterialReactTable table={table} />
-      <Dialog
-        open={deleteConfirmWindowOpen}
-        onClose={handleDeleteConfirmWindowClose}
-      >
-        <DialogTitle>Harvest removal</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Do you really want to remove this harvest?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDeleteConfirmWindowClose} color="primary">
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              deleteHarvest(rowToDelete!.original.harvestId);
-              handleDeleteConfirmWindowClose();
-            }}
-            color="error"
-          >
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ConfirmationDialog
+        dialogTitleText={"Harvest removal"}
+        dialogContentText={"Do you really want to remove this harvest?"}
+        cancelText={"Cancel"}
+        submitText={"Delete"}
+        dialogOpen={deleteConfirmWindowOpen}
+        handleDialogClose={handleDeleteConfirmWindowClose}
+        handleCancelPress={handleDeleteConfirmWindowClose}
+        handleSubmitPress={() => {
+          deleteHarvest(rowToDelete!.original.harvestId);
+          handleDeleteConfirmWindowClose();
+        }}
+      />
     </>
   );
 };
