@@ -118,9 +118,11 @@ export default function HistoryDataBox({
           {selectedDateBrief ? (
             <Grid2 container spacing={4}>
               <HistoryTotalDataBriefTable data={selectedDateBrief.totals} />
-              <HistoryEmployeeDataBriefTable
-                data={selectedDateBrief.employees}
-              />
+              {Object.values(selectedDateBrief.employees).length > 0 && (
+                <HistoryEmployeeDataBriefTable
+                  data={selectedDateBrief.employees}
+                />
+              )}
             </Grid2>
           ) : (
             <Typography>Please wait...</Typography>
