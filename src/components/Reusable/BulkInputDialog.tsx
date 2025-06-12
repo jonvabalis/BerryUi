@@ -220,7 +220,6 @@ export default function BulkInputDialog<T extends Record<string, any>>({
         submitText={"Discard Changes"}
         dialogOpen={confirmWindowOpen}
         handleDialogClose={handleConfirmWindowClose}
-        handleCancelPress={handleConfirmWindowClose}
         handleSubmitPress={handleDiscardChanges}
       />
     </>

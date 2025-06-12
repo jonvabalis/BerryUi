@@ -14,8 +14,8 @@ interface ConfirmationDialogProps {
   submitText: string;
   dialogOpen: boolean;
   handleDialogClose: () => void;
-  handleCancelPress: () => void;
   handleSubmitPress: () => void;
+  submitColor?: "error" | "success";
 }
 
 export default function ConfirmationDialog({
@@ -25,8 +25,8 @@ export default function ConfirmationDialog({
   submitText,
   dialogOpen,
   handleDialogClose,
-  handleCancelPress,
   handleSubmitPress,
+  submitColor = "error",
 }: ConfirmationDialogProps) {
   return (
     <Dialog open={dialogOpen} onClose={handleDialogClose}>
@@ -35,10 +35,10 @@ export default function ConfirmationDialog({
         <DialogContentText>{dialogContentText}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCancelPress} color="primary">
+        <Button onClick={handleDialogClose} color="primary">
           {cancelText}
         </Button>
-        <Button onClick={handleSubmitPress} color="error">
+        <Button onClick={handleSubmitPress} color={submitColor}>
           {submitText}
         </Button>
       </DialogActions>

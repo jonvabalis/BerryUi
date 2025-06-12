@@ -228,7 +228,6 @@ export const HistoryDataHarvestTable = ({
         submitText={"Delete"}
         dialogOpen={deleteConfirmWindowOpen}
         handleDialogClose={handleDeleteConfirmWindowClose}
-        handleCancelPress={handleDeleteConfirmWindowClose}
         handleSubmitPress={() => {
           deleteHarvest(rowToDelete!.original.harvestId);
           handleDeleteConfirmWindowClose();

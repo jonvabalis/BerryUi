@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import SettingsBox from "../components/Settings/SettingsBox";
 import PageHeader from "../components/Reusable/PageHeader";
+import BerryKindAddBox from "../components/Settings/BerryKindAddBox";
 
 export default function settings() {
   return (
@@ -9,6 +10,8 @@ export default function settings() {
         <PageHeader text="Settings" />
       </Box>
       <SettingsBox />
+      <Box sx={{ mt: 4 }} />
+      <BerryKindAddBox />
     </Box>
   );
 }

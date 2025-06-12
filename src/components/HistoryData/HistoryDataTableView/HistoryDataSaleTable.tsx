@@ -314,7 +314,6 @@ export const HistoryDataSaleTable = ({
         submitText={"Delete"}
         dialogOpen={deleteConfirmWindowOpen}
         handleDialogClose={handleDeleteConfirmWindowClose}
-        handleCancelPress={handleDeleteConfirmWindowClose}
         handleSubmitPress={() => {
           deleteSale(rowToDelete!.original.saleId);
           handleDeleteConfirmWindowClose();
