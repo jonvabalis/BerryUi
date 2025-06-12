@@ -193,89 +193,94 @@ export default function StatisticsBox({ berryTypeData }: StatisticsBoxProps) {
           </Grid2>
         </Grid2>
       </BoxPaper>
+      {collectionTableData && costTableData && (
+        <>
+          <Box sx={{ mt: 4 }} />
+          <BoxPaper>
+            <ViewTablesToggle
+              handleViewTableChange={handleViewTableChange}
+              isTableOpen={isTableOpen}
+            />
+            <Grid2
+              container
+              spacing={{ sm: 1, md: 4 }}
+              size={12}
+              sx={{ justifyContent: "center", alignItems: "flex-end" }}
+            >
+              <Grid2 size={{ xs: 12, sm: 8 }}>
+                <Collapse in={isTableOpen} timeout="auto">
+                  <Box sx={{ mt: 4 }} />
+                  <StatisticsTable
+                    data={collectionTableData}
+                    header={[
+                      headerType,
+                      "Kilograms harvested",
+                      "Kilograms sold",
+                      "Sold for",
+                    ]}
+                  />
+                </Collapse>
+              </Grid2>
 
-      <Box sx={{ mt: 4 }} />
-
-      <BoxPaper>
-        <ViewTablesToggle
-          handleViewTableChange={handleViewTableChange}
-          isTableOpen={isTableOpen}
-        />
-        <Grid2
-          container
-          spacing={{ sm: 1, md: 4 }}
-          size={12}
-          sx={{ justifyContent: "center", alignItems: "flex-end" }}
-        >
-          <Grid2 size={{ xs: 12, sm: 8 }}>
-            <Collapse in={isTableOpen} timeout="auto">
-              <Box sx={{ mt: 4 }} />
-              <StatisticsTable
-                data={collectionTableData}
-                header={[
-                  headerType,
-                  "Kilograms harvested",
-                  "Kilograms sold",
-                  "Sold for",
-                ]}
-              />
-            </Collapse>
-          </Grid2>
-
-          <Grid2 size={{ xs: 12, sm: 4 }}>
-            <Collapse in={isTableOpen} timeout="auto">
-              <Box sx={{ mt: 4, width: "100%" }} />
-              <StatisticsTable
-                data={costTableData}
-                header={[headerType, "Costs"]}
-              />
-            </Collapse>
-          </Grid2>
-        </Grid2>
-      </BoxPaper>
-
-      <Box sx={{ mt: 4 }} />
-      <BoxPaper>
-        <DisplayLineChart
-          chartName={getChartTitle({
-            metricName: "Berries harvested",
-            radioValue: radioValue,
-            year: year,
-            month: month,
-          })}
-          chartData={chartData?.harvests}
-          xAxisLabel={headerType}
-          yAxisLabel="kg"
-        />
-      </BoxPaper>
-      <Box sx={{ mt: 4 }} />
-      <BoxPaper>
-        <DisplayLineChart
-          chartName={getChartTitle({
-            metricName: "Berries sold",
-            radioValue: radioValue,
-            year: year,
-            month: month,
-          })}
-          chartData={chartData?.salesKilograms}
-          xAxisLabel={headerType}
-          yAxisLabel="kg"
-        />
-      </BoxPaper>
-      <Box sx={{ mt: 4 }} />
-      <BoxPaper>
-        <DisplayLineChart
-          chartName={getChartTitle({
-            metricName: "Berries revenue",
-            radioValue: radioValue,
-            year: year,
-            month: month,
-          })}
-          chartData={chartData?.harvests}
-          xAxisLabel={headerType}
-          yAxisLabel="eur"
-        />
-      </BoxPaper>
+              <Grid2 size={{ xs: 12, sm: 4 }}>
+                <Collapse in={isTableOpen} timeout="auto">
+                  <Box sx={{ mt: 4, width: "100%" }} />
+                  <StatisticsTable
+                    data={costTableData}
+                    header={[headerType, "Costs"]}
+                  />
+                </Collapse>
+              </Grid2>
+            </Grid2>
+          </BoxPaper>
+        </>
+      )}
+      {chartData && (
+        <>
+          <Box sx={{ mt: 4 }} />
+          <BoxPaper>
+            <DisplayLineChart
+              chartName={getChartTitle({
+                metricName: "Berries harvested",
+                radioValue: radioValue,
+                year: year,
+                month: month,
+              })}
+              chartData={chartData?.harvests}
+              xAxisLabel={headerType}
+              yAxisLabel="kg"
+            />
+          </BoxPaper>
+          <Box sx={{ mt: 4 }} />
+          <BoxPaper>
+            <DisplayLineChart
+              chartName={getChartTitle({
+                metricName: "Berries sold",
+                radioValue: radioValue,
+                year: year,
+                month: month,
+              })}
+              chartData={chartData?.salesKilograms}
+              xAxisLabel={headerType}
+              yAxisLabel="kg"
+            />
+          </BoxPaper>
+          <Box sx={{ mt: 4 }} />
+          <BoxPaper>
+            <DisplayLineChart
+              chartName={getChartTitle({
+                metricName: "Berries revenue",
+                radioValue: radioValue,
+                year: year,
+                month: month,
+              })}
+              chartData={chartData?.harvests}
+              xAxisLabel={headerType}
+              yAxisLabel="eur"
+            />
+          </BoxPaper>
+        </>
+      )}
     </>
   );
 }

@@ -12,7 +12,7 @@ import { HarvestSaleDataEntry } from "../../utils/chartHelper";
 
 interface DisplayLineChartProps {
   chartName: string;
-  chartData: HarvestSaleDataEntry[] | undefined;
+  chartData: HarvestSaleDataEntry[];
   xAxisLabel: string;
   yAxisLabel: string;
 }
@@ -24,11 +24,6 @@ export default function DisplayLineChart({
   yAxisLabel,
 }: DisplayLineChartProps) {
   const theme = useTheme();
-
-  if (!chartData) {
-    return <Typography>No data yet</Typography>;
-  }
-
   return (
     <>
       <Typography
@@ -78,12 +73,14 @@ export default function DisplayLineChart({
                 color: theme.palette.text.primary,
                 marginBottom: "4px",
               }}
+              animationDuration={1}
             />
             <Line
               type="monotone"
               dataKey="count"
               stroke={theme.palette.primary.main}
               activeDot={{ r: 8 }}
+              isAnimationActive={false}
             />
           </LineChart>
         </ResponsiveContainer>

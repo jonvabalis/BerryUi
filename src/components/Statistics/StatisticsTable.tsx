@@ -11,7 +11,7 @@ import { CollectionStatisticsDto } from "../../apiInterfaces/statistics/Collecti
 import { CostStatisticsDto } from "../../apiInterfaces/statistics/CostStatisticsDto";
 
 interface TableProps<T> {
-  data: T | undefined;
+  data: T;
   header: string[];
 }
 
@@ -52,10 +52,6 @@ const StatisticsTable = <
   data,
   header,
 }: TableProps<T>) => {
-  if (!data) {
-    return <p>Please select the desired filter for search</p>;
-  }
-
   const dataArray = Object.keys(data.data).map((key) => {
     const row = data.data[key];
     const mappedRow: number[] = Object.values(row);
