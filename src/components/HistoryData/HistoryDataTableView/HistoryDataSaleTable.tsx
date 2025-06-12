@@ -21,9 +21,8 @@ import useUpdateSale from "../../../api/sales/useUpdateSale";
 import useDeleteSale from "../../../api/sales/useDeleteSale";
 import ConfirmationDialog from "../../Reusable/ConfirmationDialog";
 import {
-  validateNumber,
-  validateRequired,
   createDropdownCell,
+  validateNumberField,
 } from "./Helpers/historyDataTableViewHelper";
 import { renderDropdownOptions } from "./Helpers/DropdownOptionsRender";
 
@@ -327,11 +326,17 @@ export const HistoryDataSaleTable = ({
 
 function validateSale(sale: SaleDataLine) {
   return {
-    kilograms:
-      !validateRequired(sale.kilograms.toString()) || isNaN(sale.kilograms)
-        ? "Please input kilogram value"
-        : !validateNumber(sale.kilograms)
-        ? "Please input positive value"
-        : "",
+    kilograms: validateNumberField(
+      sale.kilograms,
+      "Please input kilogram value"
+    ),
+    pricePerKilo: validateNumberField(
+      sale.pricePerKilo,
+      "Please input price value"
+    ),
+    totalPrice: validateNumberField(
+      sale.totalPrice,
+      "Please input total value"
+    ),
   };
 }

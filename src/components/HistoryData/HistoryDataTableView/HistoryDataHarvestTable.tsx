@@ -20,9 +20,8 @@ import { BerryKind } from "../../../api/berryKinds/useGetAllByTypeBerryKind";
 import { EmployeeData } from "../../../api/employees/useGetByIdEmployee";
 import ConfirmationDialog from "../../Reusable/ConfirmationDialog";
 import {
-  validateNumber,
-  validateRequired,
   createDropdownCell,
+  validateNumberField,
 } from "./Helpers/historyDataTableViewHelper";
 import { renderDropdownOptions } from "./Helpers/DropdownOptionsRender";
 
@@ -241,12 +240,9 @@ export const HistoryDataHarvestTable = ({
 
 function validateHarvest(harvest: HarvestDataLine) {
   return {
-    kilograms:
-      !validateRequired(harvest.kilograms.toString()) ||
-      isNaN(harvest.kilograms)
-        ? "Please input a number value"
-        : !validateNumber(harvest.kilograms)
-        ? "Please input positive value"
-        : "",
+    kilograms: validateNumberField(
+      harvest.kilograms,
+      "Please input kilogram value"
+    ),
   };
 }
