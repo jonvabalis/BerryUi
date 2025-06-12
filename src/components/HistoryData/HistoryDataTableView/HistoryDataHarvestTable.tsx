@@ -1,13 +1,12 @@
 import { useCallback, useMemo, useState } from "react";
 import {
   MaterialReactTable,
-  MRT_Cell,
   type MRT_ColumnDef,
   type MRT_Row,
   type MRT_TableOptions,
   useMaterialReactTable,
 } from "material-react-table";
-import { Box, IconButton, MenuItem, Tooltip } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import useUpdateHarvest from "../../../api/harvests/useUpdateHarvest";
@@ -20,6 +19,12 @@ import { Dayjs } from "dayjs";
 import { BerryKind } from "../../../api/berryKinds/useGetAllByTypeBerryKind";
 import { EmployeeData } from "../../../api/employees/useGetByIdEmployee";
 import ConfirmationDialog from "../../Reusable/ConfirmationDialog";
+import {
+  validateNumber,
+  validateRequired,
+  createDropdownCell,
+} from "./Helpers/historyDataTableViewHelper";
+import { renderDropdownOptions } from "./Helpers/DropdownOptionsRender";
 
 interface HistoryDataHarvestTableProps {
   selectedDate: Dayjs;
@@ -234,42 +239,14 @@ export const HistoryDataHarvestTable = ({
   );
 };
 
-const validateRequired = (value: string) => !!value.length;
-const validateKilograms = (value: number) => value > 0;
-
 function validateHarvest(harvest: HarvestDataLine) {
   return {
     kilograms:
       !validateRequired(harvest.kilograms.toString()) ||
       isNaN(harvest.kilograms)
-        ? "Please input kilogram value"
-        : !validateKilograms(harvest.kilograms)
+        ? "Please input a number value"
+        : !validateNumber(harvest.kilograms)
         ? "Please input positive value"
         : "",
   };
 }
-
-const createDropdownCell = (
-  options: { value: string; text: string }[] | undefined,
-  textIfNull: string
-) => {
-  return ({ cell }: { cell: MRT_Cell<HarvestDataLine, unknown> }) => {
-    const optionId = cell.getValue<string>();
-    if (optionId === "mixed") {
-      return textIfNull;
-    }
-    const option = options?.find((opt) => opt.value === optionId);
-
-    return option ? option.text : textIfNull;
-  };
-};
-
-const renderDropdownOptions = (
-  options: { value: string; text: string }[] | undefined
-) => {
-  return options?.map((option) => (
-    <MenuItem key={option.value} value={option.value}>
-      {option.text}
-    </MenuItem>
-  ));
-};

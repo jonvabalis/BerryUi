@@ -1,13 +1,12 @@
 import { useCallback, useMemo, useState } from "react";
 import {
   MaterialReactTable,
-  MRT_Cell,
   type MRT_ColumnDef,
   type MRT_Row,
   type MRT_TableOptions,
   useMaterialReactTable,
 } from "material-react-table";
-import { Box, IconButton, MenuItem, Tooltip } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { getBerryType } from "../../../utils/berryTypeHelper";
@@ -21,6 +20,12 @@ import useGetByDateSales, {
 import useUpdateSale from "../../../api/sales/useUpdateSale";
 import useDeleteSale from "../../../api/sales/useDeleteSale";
 import ConfirmationDialog from "../../Reusable/ConfirmationDialog";
+import {
+  validateNumber,
+  validateRequired,
+  createDropdownCell,
+} from "./Helpers/historyDataTableViewHelper";
+import { renderDropdownOptions } from "./Helpers/DropdownOptionsRender";
 
 interface HistoryDataSaleTableProps {
   selectedDate: Dayjs;
@@ -320,38 +325,13 @@ export const HistoryDataSaleTable = ({
   );
 };
 
-const validateRequired = (value: string) => !!value.length;
-const validateKilograms = (value: number) => value > 0;
-
 function validateSale(sale: SaleDataLine) {
   return {
     kilograms:
       !validateRequired(sale.kilograms.toString()) || isNaN(sale.kilograms)
         ? "Please input kilogram value"
-        : !validateKilograms(sale.kilograms)
+        : !validateNumber(sale.kilograms)
         ? "Please input positive value"
         : "",
   };
 }
-
-const createDropdownCell = (
-  options: { value: string; text: string }[] | undefined,
-  textIfNull: string
-) => {
-  return ({ cell }: { cell: MRT_Cell<any, unknown> }) => {
-    const optionId = cell.getValue<string>();
-    const option = options?.find((opt) => opt.value === optionId);
-
-    return option ? option.text : textIfNull;
-  };
-};
-
-const renderDropdownOptions = (
-  options: { value: string; text: string }[] | undefined
-) => {
-  return options?.map((option) => (
-    <MenuItem key={option.value} value={option.value}>
-      {option.text}
-    </MenuItem>
-  ));
-};

@@ -1,16 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Dayjs } from "dayjs";
+import { BaseTableDataLine } from "../../apiInterfaces/historyData/BaseTableDataLine";
 
-export interface SaleDataLine {
-  kilograms: number;
+export interface SaleDataLine extends BaseTableDataLine {
   pricePerKilo: number;
   totalPrice: number;
   saleId: string;
   saleType: string | number;
-  employeeId: string;
-  berryKindId: string;
-  eventTime: Date;
 }
 
 export default function useGetByDateSales(

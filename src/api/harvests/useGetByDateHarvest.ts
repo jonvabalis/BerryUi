@@ -1,13 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Dayjs } from "dayjs";
+import { BaseTableDataLine } from "../../apiInterfaces/historyData/BaseTableDataLine";
 
-export interface HarvestDataLine {
-  kilograms: number;
+export interface HarvestDataLine extends BaseTableDataLine {
   harvestId: string;
-  employeeId: string;
-  berryKindId: string;
-  eventTime: Date;
 }
 
 export default function useGetByDateHarvests(
