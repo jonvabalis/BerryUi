@@ -1,17 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import { useApiClient } from "../useApi";
 
 export interface CostCreate {
   price: number;
 }
 
 export const useCreateCost = () => {
+  const apiClient = useApiClient();
   return useMutation<string, Error, CostCreate>({
     mutationFn: async (cost: CostCreate) => {
-      const { data } = await axios.post<string>(
-        `${import.meta.env.VITE_BASE_URL}/Cost/Create`,
-        cost
-      );
+      const { data } = await apiClient.post<string>("/Cost/Create", cost);
       return data;
     },
   });

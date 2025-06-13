@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useApiClient } from "../useApi";
 
 export interface HistoryEmployeeBriefByDay {
   name: string;
@@ -19,11 +19,12 @@ export interface HistoryBriefByDay {
 }
 
 export const useGetBriefByDay = (date: string, berryTypeId: string) => {
+  const apiClient = useApiClient();
   return useQuery<HistoryBriefByDay, Error>({
     queryKey: ["getBriefByDay", date],
     queryFn: async () => {
-      const { data } = await axios.get<HistoryBriefByDay>(
-        `${import.meta.env.VITE_BASE_URL}/History/GetBriefByDay`,
+      const { data } = await apiClient.get<HistoryBriefByDay>(
+        "/History/GetBriefByDay",
         {
           params: { date: date, berryTypeId: berryTypeId },
         }

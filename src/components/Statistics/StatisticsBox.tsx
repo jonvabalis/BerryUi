@@ -7,7 +7,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { useToast } from "../../hooks/useToast";
 import StatisticsControlLabel from "./StatisticsControlLabel";
 import { StatisticsSelectField } from "./StatisticsSelectField";
 import { YEAR_SELECT_DATA, MONTH_SELECT_DATA } from "./StatisticsData";
@@ -33,8 +32,6 @@ interface StatisticsBoxProps {
 }
 
 export default function StatisticsBox({ berryTypeData }: StatisticsBoxProps) {
-  const toast = useToast();
-
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
 
@@ -184,9 +181,6 @@ export default function StatisticsBox({ berryTypeData }: StatisticsBoxProps) {
                   setCollectionTableData(data.firstResultData);
                   setCostTableData(data.secondResultData);
                   setChartData(getChartData(data.firstResultData.data));
-                }}
-                onError={(error) => {
-                  toast.error(error.message);
                 }}
               />
             </Box>

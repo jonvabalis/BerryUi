@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { CollectionStatisticsDto } from "../../apiInterfaces/statistics/CollectionStatisticsDto";
+import { useApiClient } from "../useApi";
 
 export const useGetCollectionStatisticsFiltered = (
   berryTypeId: string,
   year?: number,
   month?: number
 ) => {
+  const apiClient = useApiClient();
   return useQuery<CollectionStatisticsDto, Error>({
     queryKey: ["getCollectionStatisticsFiltered", berryTypeId, year, month],
     queryFn: async () => {
@@ -15,10 +16,8 @@ export const useGetCollectionStatisticsFiltered = (
           "At least one of either year or month has to be provided"
         );
       }
-      const { data } = await axios.get<CollectionStatisticsDto>(
-        `${
-          import.meta.env.VITE_BASE_URL
-        }/Statistics/GetCollectionStatisticsFiltered`,
+      const { data } = await apiClient.get<CollectionStatisticsDto>(
+        "/Statistics/GetCollectionStatisticsFiltered",
         {
           params: { BerryTypeId: berryTypeId, Year: year, Month: month },
         }

@@ -1,14 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { BerryType } from "../../components/Themes/BerryData";
-import axios from "axios";
+import { useApiClient } from "../useApi";
 
 export const useGetAllBerryType = () => {
+  const apiClient = useApiClient();
   return useQuery<BerryType[], Error>({
     queryKey: ["getAllBerryType"],
     queryFn: async () => {
-      const { data } = await axios.get<BerryType[]>(
-        `${import.meta.env.VITE_BASE_URL}/BerryType/GetAll`
-      );
+      const { data } = await apiClient.get<BerryType[]>("/BerryType/GetAll");
 
       return data;
     },

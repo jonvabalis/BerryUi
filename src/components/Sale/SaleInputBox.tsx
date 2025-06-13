@@ -164,9 +164,6 @@ export default function SaleInputBox({
               onSuccess={() => {
                 toast.success("Sale created successfully!");
               }}
-              onError={(error) => {
-                toast.error(error.message);
-              }}
               text={"Sale"}
               createMutation={createSaleMutation}
             />

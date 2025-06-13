@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import { useApiClient } from "../useApi";
 
 export interface BerryKindCreate {
   kind: string;
@@ -7,10 +7,11 @@ export interface BerryKindCreate {
 }
 
 export const useCreateBerryKind = () => {
+  const apiClient = useApiClient();
   return useMutation<string, Error, BerryKindCreate>({
     mutationFn: async (berryKind: BerryKindCreate) => {
-      const { data } = await axios.post<string>(
-        `${import.meta.env.VITE_BASE_URL}/BerryKind/Create`,
+      const { data } = await apiClient.post<string>(
+        "/BerryKind/Create",
         berryKind
       );
       return data;

@@ -1,16 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { Dayjs } from "dayjs";
 import { SaleDataLine } from "./useGetByDateSale";
+import { useApiClient } from "../useApi";
 
 export default function useUpdateSale(dateForRefetch: Dayjs) {
+  const apiClient = useApiClient();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (sale: SaleDataLine) => {
-      const { data } = await axios.put<boolean>(
-        `${import.meta.env.VITE_BASE_URL}/Sale/Update`,
-        sale
-      );
+      const { data } = await apiClient.put<boolean>("/Sale/Update", sale);
       return data;
     },
     onSettled: () => {

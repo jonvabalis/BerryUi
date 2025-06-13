@@ -1,13 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { Dayjs } from "dayjs";
+import { useApiClient } from "../useApi";
 
 export default function useDeleteSale(dateForRefetch: Dayjs) {
+  const apiClient = useApiClient();
   const queryClient = useQueryClient();
   return useMutation<boolean, Error, string>({
     mutationFn: async (saleId: string) => {
-      const { data } = await axios.delete<boolean>(
-        `${import.meta.env.VITE_BASE_URL}/Sale/Delete/${saleId}`
+      const { data } = await apiClient.delete<boolean>(
+        `/Sale/Delete/${saleId}`
       );
       return data;
     },

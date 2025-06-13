@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useApiClient } from "../useApi";
 
 export interface EmployeeData {
   firstName: string;
@@ -13,15 +13,13 @@ export interface EmployeeData {
 }
 
 export const useGetByIdEmployee = (employeeId: string) => {
+  const apiClient = useApiClient();
   return useQuery<EmployeeData, Error>({
     queryKey: ["getByIdEmployee", employeeId],
     queryFn: async () => {
-      const { data } = await axios.get<EmployeeData>(
-        `${import.meta.env.VITE_BASE_URL}/Employee/Get`,
-        {
-          params: { EmployeeId: employeeId },
-        }
-      );
+      const { data } = await apiClient.get<EmployeeData>("/Employee/Get", {
+        params: { EmployeeId: employeeId },
+      });
       return data;
     },
   });

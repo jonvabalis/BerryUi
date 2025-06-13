@@ -54,9 +54,6 @@ export default function CostInputBox() {
             onSuccess={() => {
               toast.success("Cost created successfully!");
             }}
-            onError={(error) => {
-              toast.error(error.message);
-            }}
             text={"Cost"}
             createMutation={createSaleMutation}
           ></CreateButton>

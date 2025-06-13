@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useApiClient } from "../useApi";
 
 export interface BerryKind {
   kind: string;
@@ -14,15 +14,13 @@ export const useGetAllByTypeBerryKind = (
   berryTypeId: string,
   options?: { enabled: boolean }
 ) => {
+  const apiClient = useApiClient();
   return useQuery<BerryKind[], Error>({
     queryKey: ["getAllBerryKind", berryTypeId],
     queryFn: async () => {
-      const { data } = await axios.get<BerryKind[]>(
-        `${import.meta.env.VITE_BASE_URL}/BerryKind/GetAll`,
-        {
-          params: { BerryTypeId: berryTypeId },
-        }
-      );
+      const { data } = await apiClient.get<BerryKind[]>("/BerryKind/GetAll", {
+        params: { BerryTypeId: berryTypeId },
+      });
       return data;
     },
     enabled: options ? options.enabled : true,

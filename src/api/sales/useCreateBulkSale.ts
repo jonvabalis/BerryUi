@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import { useApiClient } from "../useApi";
 
 export interface BulkSaleCreate {
   kilograms: number;
@@ -13,12 +13,12 @@ export interface BulkSaleCreate {
 }
 
 export const useCreateBulkSale = () => {
+  const apiClient = useApiClient();
   return useMutation<string, Error, BulkSaleCreate[]>({
     mutationFn: async (sales: BulkSaleCreate[]) => {
-      const { data } = await axios.post<string>(
-        `${import.meta.env.VITE_BASE_URL}/Sale/CreateBulk`,
-        { sales: sales }
-      );
+      const { data } = await apiClient.post<string>("/Sale/CreateBulk", {
+        sales: sales,
+      });
       return data;
     },
   });

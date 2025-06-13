@@ -1,16 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { HarvestDataLine } from "./useGetByDateHarvest";
 import { Dayjs } from "dayjs";
+import { useApiClient } from "../useApi";
 
 export default function useUpdateHarvest(dateForRefetch: Dayjs) {
+  const apiClient = useApiClient();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (harvest: HarvestDataLine) => {
-      const { data } = await axios.put<boolean>(
-        `${import.meta.env.VITE_BASE_URL}/Harvest/Update`,
-        harvest
-      );
+      const { data } = await apiClient.put<boolean>("/Harvest/Update", harvest);
       return data;
     },
     onSettled: () => {

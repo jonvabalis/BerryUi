@@ -27,9 +27,6 @@ export default function BerryKindAddBox() {
         onSuccess: () => {
           toast.success(`Berry kind ${berryKindText} created succesfully!`);
         },
-        onError: (error) => {
-          toast.error(error.message);
-        },
       }
     );
 

@@ -3,7 +3,6 @@ import { UseQueryResult } from "@tanstack/react-query";
 
 interface GetButtonProps<T, U> {
   onSuccess: (data: { firstResultData: T; secondResultData: U }) => void;
-  onError: (error: Error) => void;
   handleHeaderTypeChange: () => void;
   firstQuery: UseQueryResult<T, Error>;
   secondQuery: UseQueryResult<U, Error>;
@@ -11,7 +10,6 @@ interface GetButtonProps<T, U> {
 
 export const GetButton = <T, U>({
   onSuccess,
-  onError,
   handleHeaderTypeChange,
   firstQuery,
   secondQuery,
@@ -22,11 +20,7 @@ export const GetButton = <T, U>({
       secondQuery.refetch(),
     ]);
 
-    if (firstResult.error) {
-      onError(firstResult.error);
-      return;
-    } else if (secondResult.error) {
-      onError(secondResult.error);
+    if (firstResult.error || secondResult.error) {
       return;
     }
 

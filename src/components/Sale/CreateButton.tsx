@@ -4,7 +4,6 @@ import { UseMutationResult } from "@tanstack/react-query";
 interface CreateButtonProps<T> {
   data: T;
   onSuccess: () => void;
-  onError: (error: Error) => void;
   handleSubmit?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   createMutation: UseMutationResult<string, Error, T, unknown>;
   text: string;
@@ -13,7 +12,6 @@ interface CreateButtonProps<T> {
 export const CreateButton = <T,>({
   data,
   onSuccess,
-  onError,
   handleSubmit,
   createMutation,
   text,
@@ -22,9 +20,6 @@ export const CreateButton = <T,>({
     await createMutation.mutateAsync(data, {
       onSuccess: () => {
         onSuccess();
-      },
-      onError: (error) => {
-        onError(error);
       },
     });
   };

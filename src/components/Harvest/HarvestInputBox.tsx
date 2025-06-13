@@ -215,9 +215,6 @@ export default function HarvestInputBox({
                   handleReset();
                   toast.success("Harvest created successfully!");
                 }}
-                onError={(error) => {
-                  toast.error(error.message);
-                }}
                 text={"Harvest"}
                 createMutation={createHarvestMutation}
               />

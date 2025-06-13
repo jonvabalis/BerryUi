@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import { useApiClient } from "../useApi";
 
 export interface HarvestCreate {
   kilograms: number;
@@ -9,12 +9,10 @@ export interface HarvestCreate {
 }
 
 export const useCreateHarvest = () => {
+  const apiClient = useApiClient();
   return useMutation<string, Error, HarvestCreate>({
     mutationFn: async (sale: HarvestCreate) => {
-      const { data } = await axios.post<string>(
-        `${import.meta.env.VITE_BASE_URL}/Harvest/Create`,
-        sale
-      );
+      const { data } = await apiClient.post<string>("/Harvest/Create", sale);
       return data;
     },
   });

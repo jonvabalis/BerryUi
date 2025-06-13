@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { CostStatisticsDto } from "../../apiInterfaces/statistics/CostStatisticsDto";
+import { useApiClient } from "../useApi";
 
 export const useGetCostsStatisticsAllTime = () => {
+  const apiClient = useApiClient();
   return useQuery<CostStatisticsDto, Error>({
     queryKey: ["getCostsStatisticsAllTime"],
     queryFn: async () => {
-      const { data } = await axios.get<CostStatisticsDto>(
-        `${import.meta.env.VITE_BASE_URL}/Statistics/GetCostsStatisticsAllTime`
+      const { data } = await apiClient.get<CostStatisticsDto>(
+        "/Statistics/GetCostsStatisticsAllTime"
       );
       return data;
     },
