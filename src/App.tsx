@@ -1,4 +1,5 @@
-import { Box } from "@mui/material";
+import { Box, IconButton, useMediaQuery, useTheme } from "@mui/material";
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import Sidebar from "./components/Sidebar/Sidebar.tsx";
 import { Route, Routes } from "react-router-dom";
 import QuickSummary from "./pages/quickSummary.tsx";
@@ -10,8 +11,15 @@ import About from "./pages/about.tsx";
 import Sale from "./pages/sale.tsx";
 import Collection from "./pages/collection.tsx";
 import Costs from "./pages/costs.tsx";
+import { useState } from "react";
+import { alpha } from "@mui/material/styles";
 
 function App() {
+  const [open, setOpen] = useState(false);
+  const toggleDrawer = () => setOpen(!open);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <>
       <Box
@@ -28,7 +36,27 @@ function App() {
           overflowY: "scroll",
         }}
       >
-        <Sidebar />
+        {isMobile && (
+          <IconButton
+            onClick={toggleDrawer}
+            sx={{
+              position: "absolute",
+              top: 12,
+              left: 12,
+              zIndex: 1199,
+              bgcolor: (theme) => alpha(theme.palette.primary.main, 0.5),
+            }}
+          >
+            <KeyboardDoubleArrowLeftIcon />
+          </IconButton>
+        )}
+        <Sidebar
+          open={open}
+          isMobile={isMobile}
+          toggleSidebar={toggleDrawer}
+          theme={theme}
+        />
+
         <Routes>
           <Route path="/" element={<QuickSummary />} />
           <Route path="/sale" element={<Sale />} />

@@ -13,7 +13,6 @@ import { NavLink } from "react-router-dom";
 
 export default function SidebarItems(
   SIDEBAR_DATA: SidebarItem[],
-  open: boolean,
   sx: SxProps<Theme>
 ) {
   return (
@@ -31,7 +30,7 @@ export default function SidebarItems(
               sx={{
                 minHeight: 48,
                 px: 2.5,
-                justifyContent: open ? "initial" : "center",
+                justifyContent: "initial",
               }}
             >
               <ListItemIcon
@@ -39,7 +38,7 @@ export default function SidebarItems(
                   minWidth: 0,
                   justifyContent: "center",
                   alignItems: "center",
-                  mr: open ? 3 : "auto",
+                  mr: 3,
                   color: "primary.contrastText",
                 }}
               >
@@ -47,7 +46,7 @@ export default function SidebarItems(
               </ListItemIcon>
               <ListItemText
                 primary={item.text}
-                sx={{ opacity: open ? 1 : 0, color: "primary.contrastText" }}
+                sx={{ opacity: 1, color: "primary.contrastText" }}
               />
             </ListItemButton>
           </ListItem>

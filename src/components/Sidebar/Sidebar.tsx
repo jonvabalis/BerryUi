@@ -1,46 +1,73 @@
-import CssBaseline from "@mui/material/CssBaseline";
-import IconButton from "@mui/material/IconButton";
+import { Drawer, IconButton, CssBaseline, Theme } from "@mui/material";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import { useState } from "react";
-import { Drawer, DrawerHeader } from "./SidebarHelpers";
+import { DrawerHeader } from "./SidebarHelpers";
 import SidebarItems from "./SidebarItems";
 import { LOWER_SIDEBAR_DATA, UPPER_SIDEBAR_DATA } from "./SidebarData";
 
-export default function Sidebar() {
-  const [open, setOpen] = useState(false);
+interface SidebarProps {
+  open: boolean;
+  isMobile: boolean;
+  toggleSidebar: () => void;
+  theme: Theme;
+}
 
-  const handleDrawer = () => {
-    setOpen(!open);
-  };
+export default function Sidebar({
+  open,
+  isMobile,
+  toggleSidebar,
+  theme,
+}: SidebarProps) {
+  const sidebarWidth = 240;
+  const closedSidebarWidth = 64;
 
   return (
     <>
       <CssBaseline />
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader sx={{ backgroundColor: "secondary.light" }}>
-          <IconButton
-            onClick={handleDrawer}
-            sx={{
-              minWidth: 0,
-              justifyContent: "center",
-              alignItems: "center",
-              color: "primary.contrastText",
-            }}
-          >
-            {open ? (
+      <Drawer
+        variant={isMobile ? "temporary" : "permanent"}
+        open={isMobile ? open : false}
+        onClose={toggleSidebar}
+        anchor="left"
+        ModalProps={{ keepMounted: true }}
+        sx={{
+          width: open ? sidebarWidth : closedSidebarWidth,
+          flexShrink: 0,
+          whiteSpace: "nowrap",
+          transition: theme.transitions.create("width", {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.standard,
+          }),
+          "& .MuiDrawer-paper": {
+            width: open ? sidebarWidth : closedSidebarWidth,
+            overflowX: "hidden",
+            transition: theme.transitions.create("width", {
+              easing: theme.transitions.easing.sharp,
+              duration: theme.transitions.duration.standard,
+            }),
+            backgroundColor: theme.palette.secondary.light,
+          },
+        }}
+      >
+        <DrawerHeader>
+          {isMobile && (
+            <IconButton onClick={toggleSidebar}>
               <KeyboardDoubleArrowLeftIcon />
-            ) : (
-              <KeyboardDoubleArrowRightIcon />
-            )}
-          </IconButton>
+            </IconButton>
+          )}
+          {!isMobile && (
+            <IconButton onClick={toggleSidebar}>
+              {open ? (
+                <KeyboardDoubleArrowLeftIcon />
+              ) : (
+                <KeyboardDoubleArrowRightIcon />
+              )}
+            </IconButton>
+          )}
         </DrawerHeader>
-        {SidebarItems(UPPER_SIDEBAR_DATA, open, {
-          marginBottom: "auto",
-        })}
-        {SidebarItems(LOWER_SIDEBAR_DATA, open, {
-          marginTop: "auto",
-        })}
+
+        {SidebarItems(UPPER_SIDEBAR_DATA, { marginBottom: "auto" })}
+        {SidebarItems(LOWER_SIDEBAR_DATA, { marginTop: "auto" })}
       </Drawer>
     </>
   );
