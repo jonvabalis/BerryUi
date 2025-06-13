@@ -2,8 +2,9 @@ import { Box } from "@mui/material";
 import SettingsBox from "../components/Settings/SettingsBox";
 import PageHeader from "../components/Reusable/PageHeader";
 import BerryKindAddBox from "../components/Settings/BerryKindAddBox";
+import React from "react";
 
-export default function settings() {
+export default React.memo(function settings() {
   return (
     <Box width="100vw">
       <Box>
@@ -14,4 +15,4 @@ export default function settings() {
       <BerryKindAddBox />
     </Box>
   );
-}
+});

@@ -4,6 +4,7 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import { DrawerHeader } from "./SidebarHelpers";
 import SidebarItems from "./SidebarItems";
 import { LOWER_SIDEBAR_DATA, UPPER_SIDEBAR_DATA } from "./SidebarData";
+import React from "react";
 
 interface SidebarProps {
   open: boolean;
@@ -12,7 +13,7 @@ interface SidebarProps {
   theme: Theme;
 }
 
-export default function Sidebar({
+export default React.memo(function Sidebar({
   open,
   isMobile,
   toggleSidebar,
@@ -71,4 +72,4 @@ export default function Sidebar({
       </Drawer>
     </>
   );
-}
+});

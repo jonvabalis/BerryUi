@@ -5,8 +5,9 @@ import { useGetAllEmployees } from "../api/employees/useGetAllEmployees";
 import HarvestInputBox from "../components/Harvest/HarvestInputBox";
 import { getBerryType } from "../utils/berryTypeHelper";
 import { useMemo } from "react";
+import React from "react";
 
-export default function collection() {
+export default React.memo(function collection() {
   const berryTypeData = useMemo(() => getBerryType(), []);
 
   const { data: berryKindsData } = useGetAllByTypeBerryKind(berryTypeData.id);
@@ -30,4 +31,4 @@ export default function collection() {
       />
     </Box>
   );
-}
+});

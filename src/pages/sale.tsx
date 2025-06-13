@@ -5,8 +5,9 @@ import { useGetAllByTypeBerryKind } from "../api/berryKinds/useGetAllByTypeBerry
 import { useGetAllEmployees } from "../api/employees/useGetAllEmployees";
 import { useMemo } from "react";
 import { getBerryType } from "../utils/berryTypeHelper";
+import React from "react";
 
-export default function sale() {
+export default React.memo(function sale() {
   const berryTypeData = useMemo(() => getBerryType(), []);
 
   const { data: berryKindsData } = useGetAllByTypeBerryKind(berryTypeData.id);
@@ -28,4 +29,4 @@ export default function sale() {
       />
     </Box>
   );
-}
+});

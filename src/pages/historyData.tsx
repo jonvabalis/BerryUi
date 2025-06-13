@@ -2,7 +2,7 @@ import Box from "@mui/material/Box/Box";
 import HistoryDataBox from "../components/HistoryData/HistoryDataBox";
 import PageHeader from "../components/Reusable/PageHeader";
 import { useGetAllByTypeBerryKind } from "../api/berryKinds/useGetAllByTypeBerryKind";
-
+import React from "react";
 import { useGetAllEmployees } from "../api/employees/useGetAllEmployees";
 import HistoryBulkInputBox from "../components/HistoryData/HistoryBulkInputBox";
 import dayjs, { Dayjs } from "dayjs";
@@ -15,7 +15,7 @@ import { HistoryDataHarvestTable } from "../components/HistoryData/HistoryDataTa
 import { HistoryDataSaleTable } from "../components/HistoryData/HistoryDataTableView/HistoryDataSaleTable";
 import { SALETYPE_DATA } from "../components/Sale/SaleTypeData";
 
-export default function historyData() {
+export default React.memo(function historyData() {
   const berryTypeData = useMemo(() => getBerryType(), []);
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs().hour(23));
   const [currentDataYear, setCurrentDataYear] = useState<number>(
@@ -79,4 +79,4 @@ export default function historyData() {
       </BoxPaper>
     </Box>
   );
-}
+});

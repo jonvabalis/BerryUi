@@ -5,8 +5,9 @@ import { useMemo, useState } from "react";
 import TabPanel from "../components/Reusable/TabPanel";
 import StatisticsSettingChange from "../components/Statistics/StatisticsSettingChange";
 import { getBerryType } from "../utils/berryTypeHelper";
+import React from "react";
 
-export default function statistics() {
+export default React.memo(function statistics() {
   const berryTypeData = useMemo(() => getBerryType(), []);
   const [tabValue, setTabValue] = useState(0);
 
@@ -31,4 +32,4 @@ export default function statistics() {
       </TabPanel>
     </Box>
   );
-}
+});
