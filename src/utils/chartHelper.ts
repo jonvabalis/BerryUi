@@ -1,3 +1,4 @@
+import { ComparisonEntry } from "../api/statistics/useGetCompareByYearStatistics";
 import { CollectionStatisticsLine } from "../apiInterfaces/statistics/CollectionStatisticsLine";
 
 export interface HarvestSaleDataEntry {
@@ -71,4 +72,21 @@ export const getChartTitle = ({
       : `in ${year}-${month < 10 ? `0${month}` : month}`;
 
   return `${metricName} ${timePeriodString}`;
+};
+
+export const findOverallMaxChartValue = (data: ComparisonEntry[]): number => {
+  if (!data || data.length === 0) {
+    return 0;
+  }
+  const lastEntry = data[data.length - 1];
+
+  const numericValues = Object.keys(lastEntry)
+    .filter((key) => key !== "time")
+    .map((yearKey) => parseFloat(lastEntry[yearKey]));
+
+  if (numericValues.length === 0) {
+    return 0;
+  }
+
+  return Math.max(...numericValues);
 };

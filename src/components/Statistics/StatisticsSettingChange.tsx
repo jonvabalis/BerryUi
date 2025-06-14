@@ -34,7 +34,7 @@ export default function StatisticsSettingChange({
           <Tab label="Berry Statistics" id="statistics-tab-0" />
           <Tab label="Employee Statistics" id="statistics-tab-1" />
           <Tab label="Global Statistics" id="statistics-tab-2" />
-          <Tab label="Global Employee Statistics" id="statistics-tab-3" />
+          <Tab label="Compare seasons" id="statistics-tab-3" />
         </Tabs>
       </Box>
     </BoxPaper>

@@ -6,6 +6,7 @@ import TabPanel from "../components/Reusable/TabPanel";
 import StatisticsSettingChange from "../components/Statistics/StatisticsSettingChange";
 import { getBerryType } from "../utils/berryTypeHelper";
 import React from "react";
+import CompareSeasonsBox from "../components/Statistics/CompareSeasonsBox";
 
 export default React.memo(function statistics() {
   const berryTypeData = useMemo(() => getBerryType(), []);
@@ -29,6 +30,9 @@ export default React.memo(function statistics() {
 
       <TabPanel value={tabValue} index={0}>
         <StatisticsBox berryTypeData={berryTypeData} />
+      </TabPanel>
+      <TabPanel value={tabValue} index={3}>
+        <CompareSeasonsBox berryTypeData={berryTypeData} />
       </TabPanel>
     </Box>
   );

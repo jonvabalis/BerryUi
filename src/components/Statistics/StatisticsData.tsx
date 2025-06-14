@@ -9,6 +9,7 @@ export interface MonthSelect {
 }
 
 export const YEAR_SELECT_DATA: YearSelect[] = [
+  { value: 2023, text: "2023" },
   { value: 2024, text: "2024" },
   { value: 2025, text: "2025" },
 ];
