@@ -1,5 +1,5 @@
 import { Box, IconButton, useMediaQuery, useTheme } from "@mui/material";
-import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import Sidebar from "./components/Sidebar/Sidebar.tsx";
 import { Route, Routes } from "react-router-dom";
 import QuickSummary from "./pages/quickSummary.tsx";
@@ -16,7 +16,7 @@ import { alpha } from "@mui/material/styles";
 
 function App() {
   const [open, setOpen] = useState(false);
-  const toggleDrawer = () => setOpen(!open);
+  const toggleSidebar = () => setOpen(!open);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -38,7 +38,7 @@ function App() {
       >
         {isMobile && (
           <IconButton
-            onClick={toggleDrawer}
+            onClick={toggleSidebar}
             sx={{
               position: "absolute",
               top: 12,
@@ -47,13 +47,13 @@ function App() {
               bgcolor: (theme) => alpha(theme.palette.primary.main, 0.5),
             }}
           >
-            <KeyboardDoubleArrowLeftIcon />
+            <KeyboardDoubleArrowRightIcon />
           </IconButton>
         )}
         <Sidebar
           open={open}
           isMobile={isMobile}
-          toggleSidebar={toggleDrawer}
+          toggleSidebar={toggleSidebar}
           theme={theme}
         />
 

@@ -220,7 +220,9 @@ export const HistoryDataHarvestTable = ({
 
   return (
     <>
-      <MaterialReactTable table={table} />
+      <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+        <MaterialReactTable table={table} />
+      </Box>
       <ConfirmationDialog
         dialogTitleText={"Harvest removal"}
         dialogContentText={"Do you really want to remove this harvest?"}

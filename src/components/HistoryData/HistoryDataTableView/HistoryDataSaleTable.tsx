@@ -306,7 +306,9 @@ export const HistoryDataSaleTable = ({
 
   return (
     <>
-      <MaterialReactTable table={table} />
+      <Box sx={{ width: "100%", display: "table", tableLayout: "fixed" }}>
+        <MaterialReactTable table={table} />
+      </Box>
       <ConfirmationDialog
         dialogTitleText={"Sale removal"}
         dialogContentText={"Do you really want to remove this sale?"}
