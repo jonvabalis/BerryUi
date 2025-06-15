@@ -20,7 +20,7 @@ import StatisticsTable from "./StatisticsTable";
 import { useGetCostsStatisticsFiltered } from "../../api/statistics/useGetCostsStatisticsFiltered";
 import { BoxPaper } from "../Reusable/BoxPaper";
 import { BerryType } from "../Themes/BerryData";
-import DisplayLineChart from "./DisplayLineChart";
+import DisplayLineChart from "./Charts/DisplaySingleLineChart";
 import getChartData, {
   getChartTitle,
   HarvestSaleChartData,
