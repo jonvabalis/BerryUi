@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useApiClient } from "../useApi";
 
 export interface BulkSaleCreate {
@@ -14,12 +14,16 @@ export interface BulkSaleCreate {
 
 export const useCreateBulkSale = () => {
   const apiClient = useApiClient();
+  const queryClient = useQueryClient();
   return useMutation<string, Error, BulkSaleCreate[]>({
     mutationFn: async (sales: BulkSaleCreate[]) => {
       const { data } = await apiClient.post<string>("/Sale/CreateBulk", {
         sales: sales,
       });
       return data;
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["getByDateSales"] });
     },
   });
 };
