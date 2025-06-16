@@ -10,7 +10,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { useState } from "react";
-import { YEAR_SELECT_DATA } from "./StatisticsData";
+import { YearSelect } from "./StatisticsData";
 import { GetButton } from "./GetButton";
 import { BoxPaper } from "../Reusable/BoxPaper";
 import { BerryType } from "../Themes/BerryData";
@@ -23,6 +23,7 @@ import DisplayMultipleLineChart from "./Charts/DisplayMultipleLineChart";
 
 interface CompareSeasonsBoxProps {
   berryTypeData: BerryType;
+  yearSelectValues: YearSelect[];
 }
 
 const ITEM_HEIGHT = 48;
@@ -38,6 +39,7 @@ const MenuProps = {
 
 export default function CompareSeasonsBox({
   berryTypeData,
+  yearSelectValues,
 }: CompareSeasonsBoxProps) {
   const [years, setYears] = React.useState<number[]>([]);
   const [headerYears, setHeaderYears] = useState<string>("");
@@ -85,7 +87,7 @@ export default function CompareSeasonsBox({
               renderValue={(selected) => selected.join(", ")}
               MenuProps={MenuProps}
             >
-              {YEAR_SELECT_DATA.map((yearSelect) => (
+              {yearSelectValues.map((yearSelect) => (
                 <MenuItem key={yearSelect.value} value={yearSelect.value}>
                   <Checkbox checked={years.includes(yearSelect.value)} />
                   <ListItemText primary={yearSelect.text} />

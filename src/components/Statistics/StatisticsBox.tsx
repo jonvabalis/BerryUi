@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import StatisticsControlLabel from "./StatisticsControlLabel";
 import { StatisticsSelectField } from "./StatisticsSelectField";
-import { YEAR_SELECT_DATA, MONTH_SELECT_DATA } from "./StatisticsData";
+import { MONTH_SELECT_DATA, YearSelect } from "./StatisticsData";
 import { GetButton } from "./GetButton";
 import { useGetCollectionStatisticsFiltered } from "../../api/statistics/useGetCollectionStatisticsFiltered";
 import { useGetCollectionStatisticsAllTime } from "../../api/statistics/useGetCollectionStatisticsAllTime";
@@ -29,9 +29,13 @@ import ViewTablesToggle from "./ViewTablesToggle";
 
 interface StatisticsBoxProps {
   berryTypeData: BerryType;
+  yearSelectValues: YearSelect[];
 }
 
-export default function StatisticsBox({ berryTypeData }: StatisticsBoxProps) {
+export default function StatisticsBox({
+  berryTypeData,
+  yearSelectValues,
+}: StatisticsBoxProps) {
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
 
@@ -128,7 +132,7 @@ export default function StatisticsBox({ berryTypeData }: StatisticsBoxProps) {
               >
                 <Typography>Select year:</Typography>
                 <StatisticsSelectField
-                  data={YEAR_SELECT_DATA}
+                  data={yearSelectValues}
                   value={year}
                   setState={setYear}
                   label={"Year"}
