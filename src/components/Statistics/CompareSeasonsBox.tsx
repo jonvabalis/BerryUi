@@ -1,16 +1,6 @@
-import {
-  Box,
-  Checkbox,
-  FormControl,
-  InputLabel,
-  ListItemText,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
+import { Box, SelectChangeEvent } from "@mui/material";
 import { useState } from "react";
-import { YearSelect } from "./StatisticsData";
+import { MONTH_SELECT_DATA, YearSelect } from "./StatisticsData";
 import { GetButton } from "./GetButton";
 import { BoxPaper } from "../Reusable/BoxPaper";
 import { BerryType } from "../Themes/BerryData";
@@ -20,44 +10,41 @@ import {
   useGetCompareByYearStatistics,
 } from "../../api/statistics/useGetCompareByYearStatistics";
 import DisplayMultipleLineChart from "./Charts/DisplayMultipleLineChart";
+import StatisticFilterSelectForm from "./StatisticFilterSelectForm";
+import { StatisticsSelectField } from "./StatisticsSelectField";
 
 interface CompareSeasonsBoxProps {
   berryTypeData: BerryType;
   yearSelectValues: YearSelect[];
 }
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
 export default function CompareSeasonsBox({
   berryTypeData,
   yearSelectValues,
 }: CompareSeasonsBoxProps) {
   const [years, setYears] = React.useState<number[]>([]);
+  const [startMonth, setStartMonth] = React.useState<number>(1);
+  const [endMonth, setEndMonth] = React.useState<number>(12);
   const [headerYears, setHeaderYears] = useState<string>("");
   const [chartData, setChartData] = useState<CompareByYearStatisticsDto>();
 
-  const handleChange = (event: SelectChangeEvent<typeof years>) => {
-    const {
-      target: { value },
-    } = event;
-    const stringValues = typeof value === "string" ? value.split(",") : value;
-    const numberValues = stringValues.map((item) => Number(item)).sort();
-    setYears(numberValues);
-  };
-
   const useGetCompareByYearStatisticsQuery = useGetCompareByYearStatistics(
     berryTypeData.id,
-    years
+    years,
+    startMonth,
+    endMonth
   );
+
+  const handleYearChange = (event: SelectChangeEvent<typeof years>) => {
+    const value = event.target.value;
+
+    const stringValues = typeof value === "string" ? value.split(",") : value;
+    const numberValues = stringValues
+      .map((item) => Number(item))
+      .sort((a, b) => a - b);
+
+    setYears(numberValues);
+  };
 
   const handleHeaderTypeChange = () => {
     setHeaderYears(years.join(", "));
@@ -75,26 +62,48 @@ export default function CompareSeasonsBox({
             gap: 1,
           }}
         >
-          <FormControl sx={{ minWidth: 300 }}>
-            <InputLabel id="demo-multiple-checkbox-label">Year</InputLabel>
-            <Select
-              labelId="multiple-checkbox-label"
-              id="multiple-checkbox"
-              multiple
-              value={years}
-              onChange={handleChange}
-              input={<OutlinedInput label="Tag" />}
-              renderValue={(selected) => selected.join(", ")}
-              MenuProps={MenuProps}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 1,
+            }}
+          >
+            <StatisticFilterSelectForm
+              inputLabel="Year"
+              selectedValues={years}
+              handleChange={handleYearChange}
+              availableValues={yearSelectValues}
+            />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 1,
+                width: 300,
+              }}
             >
-              {yearSelectValues.map((yearSelect) => (
-                <MenuItem key={yearSelect.value} value={yearSelect.value}>
-                  <Checkbox checked={years.includes(yearSelect.value)} />
-                  <ListItemText primary={yearSelect.text} />
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <Box sx={{ display: "flex", width: "100%" }}>
+                <StatisticsSelectField
+                  data={MONTH_SELECT_DATA}
+                  value={startMonth}
+                  setState={setStartMonth}
+                  label={"Start month"}
+                  selectAllValues={false}
+                />
+              </Box>
+
+              <Box sx={{ display: "flex", width: "100%" }}>
+                <StatisticsSelectField
+                  data={MONTH_SELECT_DATA}
+                  value={endMonth}
+                  setState={setEndMonth}
+                  label={"End month"}
+                  selectAllValues={false}
+                />
+              </Box>
+            </Box>
+          </Box>
           <Box sx={{ minWidth: 300 }}>
             <GetButton
               firstQuery={useGetCompareByYearStatisticsQuery}

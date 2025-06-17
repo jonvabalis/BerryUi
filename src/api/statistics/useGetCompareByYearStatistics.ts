@@ -15,16 +15,29 @@ export interface CompareByYearStatisticsDto {
 
 export const useGetCompareByYearStatistics = (
   berryTypeId: string,
-  yearData: number[]
+  yearData: number[],
+  startMonth: number,
+  endMonth: number
 ) => {
   const apiClient = useApiClient();
   return useQuery<CompareByYearStatisticsDto, Error>({
-    queryKey: ["getCompareByYearStatistics", berryTypeId, yearData],
+    queryKey: [
+      "getCompareByYearStatistics",
+      berryTypeId,
+      yearData,
+      startMonth,
+      endMonth,
+    ],
     queryFn: async () => {
       const { data } = await apiClient.get<CompareByYearStatisticsDto>(
         "/Statistics/GetCompareByYearStatistics",
         {
-          params: { BerryTypeId: berryTypeId, Years: yearData },
+          params: {
+            BerryTypeId: berryTypeId,
+            Years: yearData,
+            StartMonth: startMonth,
+            EndMonth: endMonth,
+          },
           paramsSerializer: (params) => {
             return qs.stringify(params, { arrayFormat: "repeat" });
           },

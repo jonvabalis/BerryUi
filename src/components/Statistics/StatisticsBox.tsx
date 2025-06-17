@@ -137,6 +137,7 @@ export default function StatisticsBox({
                   setState={setYear}
                   label={"Year"}
                   radioValue={radioValue}
+                  selectAllValues={true}
                 />
               </Box>
               <Box
@@ -152,6 +153,7 @@ export default function StatisticsBox({
                   setState={setMonth}
                   label={"Month"}
                   radioValue={radioValue}
+                  selectAllValues={true}
                 />
               </Box>
             </Grid2>

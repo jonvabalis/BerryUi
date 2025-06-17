@@ -12,7 +12,8 @@ interface StatisticsSelectFieldProps<T extends YearSelect | MonthSelect> {
   value: number;
   setState: React.Dispatch<React.SetStateAction<number>>;
   label: string;
-  radioValue: string;
+  radioValue?: string;
+  selectAllValues: boolean;
 }
 
 export function StatisticsSelectField<T extends YearSelect | MonthSelect>({
@@ -21,12 +22,12 @@ export function StatisticsSelectField<T extends YearSelect | MonthSelect>({
   setState,
   label,
   radioValue,
+  selectAllValues,
 }: StatisticsSelectFieldProps<T>) {
   const handleChange = (event: SelectChangeEvent) => {
     const selectedValue = event.target.value;
     setState(Number(selectedValue));
   };
-
   return (
     <FormControl
       variant="filled"
@@ -61,9 +62,11 @@ export function StatisticsSelectField<T extends YearSelect | MonthSelect>({
         onChange={handleChange}
         label={label}
       >
-        <MenuItem key={0} value={0}>
-          All
-        </MenuItem>
+        {selectAllValues && (
+          <MenuItem key={0} value={0}>
+            All
+          </MenuItem>
+        )}
         {data?.map((entry) => (
           <MenuItem key={entry.value} value={entry.value}>
             {entry.text}
