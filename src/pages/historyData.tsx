@@ -3,7 +3,7 @@ import HistoryDataBox from "../components/HistoryData/HistoryDataBox";
 import PageHeader from "../components/Reusable/PageHeader";
 import { useGetAllByTypeBerryKind } from "../api/berryKinds/useGetAllByTypeBerryKind";
 import React from "react";
-import { useGetAllEmployees } from "../api/employees/useGetAllEmployees";
+import { useGetAllActiveEmployees } from "../api/employees/useGetAllActiveEmployees";
 import HistoryBulkInputBox from "../components/HistoryData/HistoryBulkInputBox";
 import dayjs, { Dayjs } from "dayjs";
 import { useCallback, useMemo, useState } from "react";
@@ -23,7 +23,7 @@ export default React.memo(function historyData() {
   );
 
   const { data: berryKindsData } = useGetAllByTypeBerryKind(berryTypeData.id);
-  const { data: employeesData } = useGetAllEmployees();
+  const { data: employeesData } = useGetAllActiveEmployees();
   const { data: datesWithData, refetch: refetchRecordedDaysByYear } =
     useGetAllRecordedDaysByYear(currentDataYear, berryTypeData.id);
   const { data: selectedDateBrief, refetch: refetchBriefByDay } =

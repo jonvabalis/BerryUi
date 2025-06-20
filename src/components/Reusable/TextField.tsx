@@ -1,16 +1,32 @@
-import { FormControl, InputLabel, OutlinedInput } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  OutlinedInput,
+} from "@mui/material";
 import { ChangeEvent } from "react";
 
 interface TextFieldProps {
   text: string;
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   label: string;
+  inputType: string;
+  errorMessage?: string;
+  isError?: boolean;
 }
 
-export function TextField({ text, handleChange, label }: TextFieldProps) {
+export function TextField({
+  text,
+  handleChange,
+  label,
+  inputType,
+  errorMessage,
+  isError,
+}: TextFieldProps) {
   return (
     <FormControl
       variant="outlined"
+      error={isError ?? false}
       sx={{
         mt: 1.25,
         width: { xs: "100%" },
@@ -39,10 +55,11 @@ export function TextField({ text, handleChange, label }: TextFieldProps) {
         }}
         id={`outlined-adornment-${label}`}
         label={label}
-        type="text"
+        type={inputType}
         value={text}
         onChange={handleChange}
       />
+      <FormHelperText>{errorMessage ?? ""}</FormHelperText>
     </FormControl>
   );
 }

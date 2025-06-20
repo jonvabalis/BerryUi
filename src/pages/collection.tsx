@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import PageHeader from "../components/Reusable/PageHeader";
 import { useGetAllByTypeBerryKind } from "../api/berryKinds/useGetAllByTypeBerryKind";
-import { useGetAllEmployees } from "../api/employees/useGetAllEmployees";
+import { useGetAllActiveEmployees } from "../api/employees/useGetAllActiveEmployees";
 import HarvestInputBox from "../components/Harvest/HarvestInputBox";
 import { getBerryType } from "../utils/berryTypeHelper";
 import { useMemo } from "react";
@@ -11,7 +11,7 @@ export default React.memo(function collection() {
   const berryTypeData = useMemo(() => getBerryType(), []);
 
   const { data: berryKindsData } = useGetAllByTypeBerryKind(berryTypeData.id);
-  const { data: employeesData } = useGetAllEmployees();
+  const { data: employeesData } = useGetAllActiveEmployees();
   const currentEmployeeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
 
   if (!berryTypeData) {

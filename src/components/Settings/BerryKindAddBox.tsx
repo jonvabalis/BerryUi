@@ -59,6 +59,7 @@ export default function BerryKindAddBox() {
               text={berryKindText}
               handleChange={handleBerryKindChange}
               label="Berry kind"
+              inputType="text"
             />
           </Grid2>
           <Grid2

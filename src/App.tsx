@@ -13,6 +13,9 @@ import Collection from "./pages/collection.tsx";
 import Costs from "./pages/costs.tsx";
 import { useState } from "react";
 import { alpha } from "@mui/material/styles";
+import Login from "./pages/login.tsx";
+import Register from "./pages/register.tsx";
+import Logout from "./pages/logout.tsx";
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -67,6 +70,9 @@ function App() {
           <Route path="/user" element={<User />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/logout" element={<Logout />} />
         </Routes>
       </Box>
     </>

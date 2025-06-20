@@ -10,6 +10,7 @@ export interface EmployeeData {
   id: string;
   createdAt: Date;
   lastModifiedAt: Date;
+  isActive: boolean;
 }
 
 export const useGetByIdEmployee = (employeeId: string) => {

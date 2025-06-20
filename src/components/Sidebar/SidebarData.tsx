@@ -7,6 +7,9 @@ import InfoIcon from "@mui/icons-material/Info";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import LoginIcon from "@mui/icons-material/Login";
 
 export interface SidebarItem {
   id: number;
@@ -72,5 +75,23 @@ export const LOWER_SIDEBAR_DATA: SidebarItem[] = [
     icon: <InfoIcon />,
     text: "About",
     link: "about",
+  },
+  {
+    id: 2,
+    icon: <LoginIcon />,
+    text: "Login",
+    link: "login",
+  },
+  {
+    id: 3,
+    icon: <AppRegistrationIcon />,
+    text: "Register",
+    link: "register",
+  },
+  {
+    id: 4,
+    icon: <LogoutIcon />,
+    text: "Logout",
+    link: "logout",
   },
 ];
