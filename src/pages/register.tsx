@@ -3,7 +3,7 @@ import React from "react";
 import PageHeader from "../components/Reusable/PageHeader";
 import RegisterBox from "../components/Register/RegisterBox";
 
-export default React.memo(function about() {
+export default React.memo(function register() {
   return (
     <Box width="100vw">
       <Box>
