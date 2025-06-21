@@ -9,17 +9,20 @@ const queryClient = new QueryClient();
 
 import { BerryProvider } from "./components/Themes/BerryContext.tsx";
 import { ToastProvider } from "./providers/ToastProvider.tsx";
+import { AuthProvider } from "./providers/AuthProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <BerryProvider>
-          <ToastProvider>
-            <App />
-          </ToastProvider>
-        </BerryProvider>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <BerryProvider>
+            <ToastProvider>
+              <App />
+            </ToastProvider>
+          </BerryProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </AuthProvider>
   </StrictMode>
 );

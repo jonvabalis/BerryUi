@@ -1,17 +1,10 @@
-import {
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  SxProps,
-  Theme,
-} from "@mui/material";
+import { Divider, List, SxProps, Theme } from "@mui/material";
 import { SidebarItem } from "./SidebarData";
 import { NavLink } from "react-router-dom";
+import SidebarItemEntry from "./SidebarItemEntry";
 
 export default function SidebarItems(
+  isProtected: boolean,
   SIDEBAR_DATA: SidebarItem[],
   sx: SxProps<Theme>
 ) {
@@ -23,35 +16,13 @@ export default function SidebarItems(
       }}
     >
       <Divider />
-      {SIDEBAR_DATA.map((item) => (
-        <NavLink key={item.id} to={item.link}>
-          <ListItem key={item.id} disablePadding sx={{ display: "block" }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                px: 2.5,
-                justifyContent: "initial",
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  mr: 3,
-                  color: "primary.contrastText",
-                }}
-              >
-                {item.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={item.text}
-                sx={{ opacity: 1, color: "primary.contrastText" }}
-              />
-            </ListItemButton>
-          </ListItem>
-        </NavLink>
-      ))}
+      {SIDEBAR_DATA.filter((item) => item.isProtected === isProtected).map(
+        (item) => (
+          <NavLink key={item.id} to={item.link}>
+            <SidebarItemEntry item={item} />
+          </NavLink>
+        )
+      )}
       <Divider />
     </List>
   );

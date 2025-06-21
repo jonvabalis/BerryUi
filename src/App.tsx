@@ -15,13 +15,17 @@ import { useState } from "react";
 import { alpha } from "@mui/material/styles";
 import Login from "./pages/login.tsx";
 import Register from "./pages/register.tsx";
+import ProtectedRoute from "./components/Reusable/ProtectedRoute.tsx";
+import { useAuth } from "./providers/AuthProvider.tsx";
 import Logout from "./pages/logout.tsx";
+import AuthRoute from "./components/Reusable/AuthRoute.tsx";
 
 function App() {
   const [open, setOpen] = useState(false);
   const toggleSidebar = () => setOpen(!open);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const { isAuthenticated } = useAuth();
 
   return (
     <>
@@ -58,21 +62,106 @@ function App() {
           isMobile={isMobile}
           toggleSidebar={toggleSidebar}
           theme={theme}
+          isProtected={isAuthenticated}
         />
 
         <Routes>
-          <Route path="/" element={<QuickSummary />} />
-          <Route path="/sale" element={<Sale />} />
-          <Route path="/collection" element={<Collection />} />
-          <Route path="/costs" element={<Costs />} />
-          <Route path="/statistics" element={<Statistics />} />
-          <Route path="/historyData" element={<HistoryData />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/logout" element={<Logout />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <QuickSummary />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/sale"
+            element={
+              <ProtectedRoute>
+                <Sale />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/collection"
+            element={
+              <ProtectedRoute>
+                <Collection />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/costs"
+            element={
+              <ProtectedRoute>
+                <Costs />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/statistics"
+            element={
+              <ProtectedRoute>
+                <Statistics />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/historyData"
+            element={
+              <ProtectedRoute>
+                <HistoryData />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user"
+            element={
+              <ProtectedRoute>
+                <User />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <ProtectedRoute>
+                <About />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <AuthRoute>
+                <Login />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <AuthRoute>
+                <Register />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/logout"
+            element={
+              <ProtectedRoute>
+                <Logout />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Box>
     </>

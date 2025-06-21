@@ -16,6 +16,7 @@ export interface SidebarItem {
   text: string;
   link: string;
   icon: JSX.Element;
+  isProtected: boolean;
 }
 
 export const UPPER_SIDEBAR_DATA: SidebarItem[] = [
@@ -24,42 +25,49 @@ export const UPPER_SIDEBAR_DATA: SidebarItem[] = [
     icon: <SummarizeIcon />,
     text: "Quick overview",
     link: "/",
+    isProtected: true,
   },
   {
     id: 1,
     icon: <CurrencyExchangeIcon />,
     text: "Sale",
     link: "sale",
+    isProtected: true,
   },
   {
     id: 2,
     icon: <AgricultureIcon />,
     text: "Collection",
     link: "collection",
+    isProtected: true,
   },
   {
     id: 3,
     icon: <BusinessCenterIcon />,
     text: "Costs",
     link: "costs",
+    isProtected: true,
   },
   {
     id: 4,
     icon: <BarChartIcon />,
     text: "Statistics",
     link: "statistics",
+    isProtected: true,
   },
   {
     id: 5,
     icon: <HistoryIcon />,
     text: "Historical Data",
     link: "historyData",
+    isProtected: true,
   },
   {
     id: 6,
     icon: <AccountCircleIcon />,
     text: "User",
     link: "user",
+    isProtected: true,
   },
 ];
 
@@ -69,29 +77,34 @@ export const LOWER_SIDEBAR_DATA: SidebarItem[] = [
     icon: <SettingsIcon />,
     text: "Settings",
     link: "settings",
+    isProtected: true,
   },
   {
     id: 1,
     icon: <InfoIcon />,
     text: "About",
     link: "about",
+    isProtected: true,
   },
   {
     id: 2,
     icon: <LoginIcon />,
     text: "Login",
     link: "login",
+    isProtected: false,
   },
   {
     id: 3,
     icon: <AppRegistrationIcon />,
     text: "Register",
     link: "register",
+    isProtected: false,
   },
   {
     id: 4,
     icon: <LogoutIcon />,
     text: "Logout",
     link: "logout",
+    isProtected: true,
   },
 ];

@@ -4,8 +4,10 @@ import { TextField } from "../Reusable/TextField";
 import { ChangeEvent, useState } from "react";
 import { useRegisterEmployee } from "../../api/auth/useRegisterEmployee";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterBox() {
+  const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [birthday, setBirthday] = useState("");
@@ -24,8 +26,8 @@ export default function RegisterBox() {
   const [passwordHelper, setPasswordHelper] = useState("");
 
   const registerEmployeeMutation = useRegisterEmployee();
-  const handleEmployeeRegister = async () => {
-    await registerEmployeeMutation.mutateAsync(
+  const handleEmployeeRegister = () => {
+    registerEmployeeMutation.mutate(
       {
         firstName: firstName,
         lastName: lastName,
@@ -39,6 +41,7 @@ export default function RegisterBox() {
           toast.success(
             `${firstName} was registered succesfully! Wait for a confirmation`
           );
+          navigate("/login");
         },
       }
     );

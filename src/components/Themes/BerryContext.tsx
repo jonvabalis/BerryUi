@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   BERRY_THEME,
   BerryTheme,
@@ -8,6 +14,7 @@ import {
 import { toast } from "react-toastify";
 import { ThemeProvider } from "@mui/material/styles";
 import { useGetByNameBerryType } from "../../api/berryTypes/useGetByNameBerryType";
+import { useAuth } from "../../providers/AuthProvider";
 
 interface BerryContextTheme {
   berryTheme: BerryTheme;
@@ -22,22 +29,18 @@ const BerryContext = createContext<BerryContextTheme>({
 export const BerryProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const savedBerryType = localStorage.getItem("berryType");
+  const { isAuthenticated } = useAuth();
+  const savedBerryType = useMemo(() => {
+    const item = localStorage.getItem("berryType");
+    return item ? (JSON.parse(item) as BerryType) : null;
+  }, []);
   const { data } = useGetByNameBerryType(defaultBerryType, {
-    enabled: !savedBerryType,
+    enabled: !savedBerryType && isAuthenticated,
   });
-  const [berryTheme, setBerryTypeState] = useState<BerryTheme>(() => {
-    if (savedBerryType) {
-      const berryType = JSON.parse(savedBerryType!) as BerryType;
-      return BERRY_THEME[berryType.name];
-    }
-
-    if (data) {
-      localStorage.setItem("berryType", JSON.stringify(data));
-      return BERRY_THEME[data.name];
-    }
-
-    return BERRY_THEME[defaultBerryType];
+  const [berryTheme, setBerryThemeState] = useState<BerryTheme>(() => {
+    return savedBerryType
+      ? BERRY_THEME[savedBerryType.name]
+      : BERRY_THEME[defaultBerryType];
   });
 
   useEffect(() => {
@@ -45,15 +48,13 @@ export const BerryProvider: React.FC<{ children: React.ReactNode }> = ({
 
     if (!savedBerryType && data) {
       localStorage.setItem("berryType", JSON.stringify(data));
-      setBerryTypeState(
-        BERRY_THEME[data.name] || BERRY_THEME[defaultBerryType]
-      );
+      setBerryThemeState(BERRY_THEME[data.name]);
     }
-  }, [data]);
+  }, [data, isAuthenticated]);
 
   const setBerryTheme = (berryType: BerryType) => {
     localStorage.setItem("berryType", JSON.stringify(berryType));
-    setBerryTypeState(
+    setBerryThemeState(
       BERRY_THEME[berryType.name] || BERRY_THEME[defaultBerryType]
     );
   };

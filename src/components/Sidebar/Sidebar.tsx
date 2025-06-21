@@ -9,6 +9,7 @@ import React from "react";
 interface SidebarProps {
   open: boolean;
   isMobile: boolean;
+  isProtected: boolean;
   toggleSidebar: () => void;
   theme: Theme;
 }
@@ -18,6 +19,7 @@ export default React.memo(function Sidebar({
   isMobile,
   toggleSidebar,
   theme,
+  isProtected,
 }: SidebarProps) {
   const sidebarWidth = 240;
   const closedSidebarWidth = 64;
@@ -67,8 +69,10 @@ export default React.memo(function Sidebar({
           )}
         </DrawerHeader>
 
-        {SidebarItems(UPPER_SIDEBAR_DATA, { marginBottom: "auto" })}
-        {SidebarItems(LOWER_SIDEBAR_DATA, { marginTop: "auto" })}
+        {SidebarItems(isProtected, UPPER_SIDEBAR_DATA, {
+          marginBottom: "auto",
+        })}
+        {SidebarItems(isProtected, LOWER_SIDEBAR_DATA, { marginTop: "auto" })}
       </Drawer>
     </>
   );
