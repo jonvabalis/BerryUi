@@ -33,7 +33,7 @@ export const BerryProvider: React.FC<{ children: React.ReactNode }> = ({
   const savedBerryType = useMemo(() => {
     const item = localStorage.getItem("berryType");
     return item ? (JSON.parse(item) as BerryType) : null;
-  }, []);
+  }, [isAuthenticated]);
   const { data } = useGetByNameBerryType(defaultBerryType, {
     enabled: !savedBerryType && isAuthenticated,
   });
@@ -46,7 +46,7 @@ export const BerryProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const savedBerryType = localStorage.getItem("berryType");
 
-    if (!savedBerryType && data) {
+    if (!savedBerryType && data && isAuthenticated) {
       localStorage.setItem("berryType", JSON.stringify(data));
       setBerryThemeState(BERRY_THEME[data.name]);
     }
