@@ -6,14 +6,15 @@ import { useGetAllActiveEmployees } from "../api/employees/useGetAllActiveEmploy
 import { useMemo } from "react";
 import { getBerryType } from "../utils/berryTypeHelper";
 import React from "react";
+import { useAuth } from "../providers/AuthProvider";
 
 export default React.memo(function sale() {
   const berryTypeData = useMemo(() => getBerryType(), []);
+  const { userId: currentEmployeeId } = useAuth();
 
   const { data: berryKindsData } = useGetAllByTypeBerryKind(berryTypeData.id);
   const { data: employeesData } = useGetAllActiveEmployees();
   const defaultBerryCost = "6";
-  const employeeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
 
   return (
     <Box width="100vw">
@@ -24,7 +25,7 @@ export default React.memo(function sale() {
         berryTypeData={berryTypeData}
         berryKindsData={berryKindsData}
         defaultBerryCost={defaultBerryCost}
-        defaultEmployeeId={employeeId}
+        defaultEmployeeId={currentEmployeeId!}
         employeesData={employeesData}
       />
     </Box>

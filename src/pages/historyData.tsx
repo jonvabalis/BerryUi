@@ -14,9 +14,11 @@ import { BoxPaper } from "../components/Reusable/BoxPaper";
 import { HistoryDataHarvestTable } from "../components/HistoryData/HistoryDataTableView/HistoryDataHarvestTable";
 import { HistoryDataSaleTable } from "../components/HistoryData/HistoryDataTableView/HistoryDataSaleTable";
 import { SALETYPE_DATA } from "../components/Sale/SaleTypeData";
+import { useAuth } from "../providers/AuthProvider";
 
 export default React.memo(function historyData() {
   const berryTypeData = useMemo(() => getBerryType(), []);
+  const { userId: currentEmployeeId } = useAuth();
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs().hour(23));
   const [currentDataYear, setCurrentDataYear] = useState<number>(
     selectedDate ? selectedDate.year() : dayjs().hour(23).year
@@ -28,7 +30,6 @@ export default React.memo(function historyData() {
     useGetAllRecordedDaysByYear(currentDataYear, berryTypeData.id);
   const { data: selectedDateBrief, refetch: refetchBriefByDay } =
     useGetBriefByDay(selectedDate.format("YYYY-MM-DD"), berryTypeData.id);
-  const currentEmployeeId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
 
   if (!berryTypeData) {
     return <PageHeader text="No data is available" />;
@@ -55,7 +56,7 @@ export default React.memo(function historyData() {
       <HistoryBulkInputBox
         employeesData={employeesData}
         berryKindsData={berryKindsData}
-        defaultEmployeeId={currentEmployeeId}
+        defaultEmployeeId={currentEmployeeId!}
         berryTypeData={berryTypeData}
         selectedDate={selectedDate}
         refetchAfterHistoryInput={refetchAfterHistoryInput}

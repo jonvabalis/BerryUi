@@ -3,10 +3,12 @@ import { useGetByIdEmployee } from "../api/employees/useGetByIdEmployee";
 import EmployeeBox from "../components/Employee/EmployeeBox";
 import PageHeader from "../components/Reusable/PageHeader";
 import React from "react";
+import { useAuth } from "../providers/AuthProvider";
 
 export default React.memo(function user() {
+  const { userId: currentEmployeeId } = useAuth();
   const { data: employeeData, isLoading } = useGetByIdEmployee(
-    "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    currentEmployeeId!
   );
 
   if (isLoading) {
