@@ -1,0 +1,14 @@
+.DS_Store
+node_modules
+.vite
+.git
+.gitignore
+README.md
+.dockerignore
+LICENSE
+.docker
+.gitlab
+.env.local
+.env.local_example
+.eslint.config.js
+dist
