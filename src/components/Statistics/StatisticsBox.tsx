@@ -274,7 +274,7 @@ export default function StatisticsBox({
                 year: year,
                 month: month,
               })}
-              chartData={chartData?.harvests}
+              chartData={chartData?.salesTotalPrices}
               xAxisLabel={headerType}
               yAxisLabel="eur"
             />

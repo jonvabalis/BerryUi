@@ -43,7 +43,6 @@ export const useGetCompareByYearStatistics = (
           },
         }
       );
-      console.log(yearData);
       return data;
     },
     enabled: false,
