@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useApiClient } from "../useApi";
 
 export interface EmployeeLogin {
-  email: string;
+  loginCredential: string;
   password: string;
 }
 

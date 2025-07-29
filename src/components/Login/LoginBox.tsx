@@ -6,35 +6,23 @@ import { ChangeEvent, useState } from "react";
 import { useLoginEmployee } from "../../api/auth/useLoginEmployee";
 
 export default function LoginBox() {
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState(true);
-  const [emailHelper, setEmailHelper] = useState("");
+  const [loginCredential, setLoginCredential] = useState("");
 
   const [password, setPassword] = useState("");
 
   const loginEmployeeMutation = useLoginEmployee();
 
-  const handleEmployeeLogin = () => {
+  const handleEmployeeLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     loginEmployeeMutation.mutate({
-      email: email,
+      loginCredential: loginCredential,
       password: password,
     });
   };
 
-  const isValidEmail = (email: string): boolean => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleLoginCredentialChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setEmail(value);
-    if (!isValidEmail(value)) {
-      setEmailError(true);
-      setEmailHelper("Invalid email format.");
-    } else {
-      setEmailError(false);
-      setEmailHelper("");
-    }
+    setLoginCredential(value);
   };
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -43,14 +31,12 @@ export default function LoginBox() {
 
   return (
     <BoxPaper>
-      <Stack>
+      <Stack component="form" noValidate onSubmit={handleEmployeeLogin}>
         <TextField
-          text={email}
-          handleChange={handleEmailChange}
-          label="Email"
-          inputType="email"
-          isError={emailError}
-          errorMessage={emailHelper}
+          text={loginCredential}
+          handleChange={handleLoginCredentialChange}
+          label="Login credential"
+          inputType="text"
         />
         <TextField
           text={password}
@@ -63,10 +49,7 @@ export default function LoginBox() {
           variant="contained"
           type="submit"
           fullWidth
-          onClick={handleEmployeeLogin}
-          disabled={
-            loginEmployeeMutation.isPending || emailError || password.length < 1
-          }
+          disabled={loginEmployeeMutation.isPending || password.length < 1}
         >
           {loginEmployeeMutation.isPending ? `Logging in...` : `Login`}
         </Button>
