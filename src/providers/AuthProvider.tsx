@@ -14,7 +14,7 @@ interface AuthContextInterface {
   user: JwtPayload | null;
   isAuthenticated: boolean;
   userId: string | null;
-  userEmail: string | null;
+  userLoginCredential: string | null;
   login: (employeeLoginResponse: EmployeeLoginResponse) => void;
   logout: () => void;
 }
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     user?.[
       "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
     ] || null;
-  const userEmail =
+  const userLoginCredential =
     user?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] ||
     null;
 
@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         user,
         isAuthenticated: !!user,
         userId,
-        userEmail,
+        userLoginCredential,
         login,
         logout,
       }}
