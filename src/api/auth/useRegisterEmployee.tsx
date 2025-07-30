@@ -4,10 +4,10 @@ import { useApiClient } from "../useApi";
 export interface EmployeeRegister {
   firstName: string;
   lastName: string;
-  birthday: string;
-  phoneNumber: string;
-  email: string;
-  password: string;
+  birthday: string | null;
+  phoneNumber: string | null;
+  email: string | null;
+  password: string | null;
 }
 
 export const useRegisterEmployee = () => {

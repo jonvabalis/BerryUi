@@ -77,7 +77,9 @@ function App() {
           <Route
             path="/sale"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute
+                allowedRoles={["SuperAdmin", "Admin", "Employee"]}
+              >
                 <Sale />
               </ProtectedRoute>
             }
@@ -85,7 +87,9 @@ function App() {
           <Route
             path="/collection"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute
+                allowedRoles={["SuperAdmin", "Admin", "Employee"]}
+              >
                 <Collection />
               </ProtectedRoute>
             }
@@ -93,7 +97,7 @@ function App() {
           <Route
             path="/costs"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["SuperAdmin", "Admin"]}>
                 <Costs />
               </ProtectedRoute>
             }
@@ -149,9 +153,9 @@ function App() {
           <Route
             path="/register"
             element={
-              <AuthRoute>
+              <ProtectedRoute allowedRoles={["SuperAdmin"]}>
                 <Register />
-              </AuthRoute>
+              </ProtectedRoute>
             }
           />
           <Route

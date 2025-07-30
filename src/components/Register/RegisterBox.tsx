@@ -31,9 +31,9 @@ export default function RegisterBox() {
       {
         firstName: firstName,
         lastName: lastName,
-        birthday: birthday,
-        phoneNumber: phoneNumber,
-        email: email,
+        birthday: birthday === "" ? null : birthday,
+        phoneNumber: phoneNumber === "" ? null : phoneNumber,
+        email: email === "" ? null : email,
         password: password,
       },
       {
@@ -176,12 +176,12 @@ export default function RegisterBox() {
           onClick={handleEmployeeRegister}
           disabled={
             registerEmployeeMutation.isPending ||
-            emailError ||
-            passwordError ||
-            passwordError ||
+            // emailError ||
+            // passwordError ||
+            // passwordError ||
             firstName.length < 1 ||
-            lastName.length < 1 ||
-            birthday.length < 1
+            lastName.length < 1
+            // || birthday.length < 1
           }
         >
           {registerEmployeeMutation.isPending ? `Registering...` : `Register`}

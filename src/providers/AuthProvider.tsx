@@ -5,6 +5,7 @@ import { EmployeeLoginResponse } from "../api/auth/useLoginEmployee";
 interface JwtPayload {
   "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": string;
   "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": string;
+  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string[];
   exp: number;
   iss: string;
   aud: string;
@@ -15,6 +16,7 @@ interface AuthContextInterface {
   isAuthenticated: boolean;
   userId: string | null;
   userLoginCredential: string | null;
+  roles: string[];
   login: (employeeLoginResponse: EmployeeLoginResponse) => void;
   logout: () => void;
 }
@@ -60,6 +62,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const userLoginCredential =
     user?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"] ||
     null;
+  const roles =
+    user?.["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] ||
+    [];
 
   return (
     <AuthContext.Provider
@@ -68,6 +73,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         isAuthenticated: !!user,
         userId,
         userLoginCredential,
+        roles,
         login,
         logout,
       }}

@@ -19,6 +19,7 @@ export interface SidebarItem {
   isProtected: boolean;
 }
 
+//TODO: refactor is protected to use roles from jwt instead. showOnlyForTheseRoles: ["Role1", "..."]
 export const UPPER_SIDEBAR_DATA: SidebarItem[] = [
   {
     id: 0,
@@ -98,7 +99,7 @@ export const LOWER_SIDEBAR_DATA: SidebarItem[] = [
     icon: <AppRegistrationIcon />,
     text: "Register",
     link: "register",
-    isProtected: false,
+    isProtected: true,
   },
   {
     id: 4,
